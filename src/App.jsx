@@ -1,10 +1,13 @@
 import "./App.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import database from "./firebase";
 import { ref, set } from "firebase/database";
 
 function App() {
   const endpoint = "https://dinder-2-default-rtdb.firebaseio.com/";
+  const [form, setForm] = useState({
+    name: "",
+  });
 
   useEffect(() => {
     // const firebaseConfig = {
@@ -25,7 +28,36 @@ function App() {
     });
   }, []);
 
-  return <div className="App"></div>;
+  const onSubmit = () => {
+    const user = {
+      98979798389289: {
+        name: "Michael Batrakov",
+        className: "Physics 4A",
+        professor: "Megan Ulbricht",
+        preferredGroupSize: "1-4",
+        department: "Physics",
+      },
+    };
+    set(ref(database, "users"), user);
+  };
+
+  return (
+    <div className="App">
+      <input
+        value={form.name}
+        onChange={(e) => setForm({ ...form, name: e.value })}
+      />
+      <button onClick={onSubmit}>Log</button>
+    </div>
+  );
 }
 
+/**
+ *
+ * Student ID
+ * Name (last, first)
+ * Department
+ * Specific Class | Professor
+ * Preferred Group Size (ranges)
+ */
 export default App;
