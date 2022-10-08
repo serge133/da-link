@@ -1,4 +1,4 @@
-const relevancy = (
+export const relevancy = (
   arr,
   filters, // Object with filters
   userName,
@@ -24,20 +24,12 @@ const relevancy = (
 
   let filteredArr = arr.filter(checkIfYou);
 
-  const filtFunc = {
-    group: (a) => {
-      return a.filter(checkGroupSize);
-    },
-    class: (a) => {
-      return a.filter(checkClassname);
-    },
-    professor: (a) => {
-      return a.filter(checkProfessor);
-    },
-  };
-
-  for (let filt in ["group", "class", "professor"]) {
-    filteredArr = filtFunc[filt](filteredArr);
+  if (filters["group"]) {
+    filteredArr = filteredArr.filter(checkGroupSize);
+  } else if (filters["class"]) {
+    filteredArr = filteredArr.filter(checkClassname);
+  } else if (filters["professor"]) {
+    filteredArr = filteredArr.filter(checkProfessor);
   }
 
   return filteredArr;

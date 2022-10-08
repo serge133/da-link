@@ -1,6 +1,4 @@
-import { getDatabase, ref, onValue } from "firebase/database";
-import { useEffect, useState } from "react";
-import { get_student, get_students } from "../database/actions";
+import { relevancy } from "../functions/sorter";
 
 export default (props) => {
   // useEffect(() => {

@@ -2,10 +2,13 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import Header from "./Components/Header";
 import ResultsPage from "./page/ResultsPage";
-import { save_professor, save_student, get_students } from "./database/actions";
+import { save_student, get_students } from "./database/actions";
 import { onValue } from "firebase/database";
 import { uuidv4 } from "@firebase/util";
 import SearchableTextField from "./Components/SearchableTextField/SearchableTextField";
+import Button from "react-bootstrap/Button";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { relevancy } from "./functions/sorter";
 
 const defaultForm = {
   name: "",
@@ -71,6 +74,10 @@ function App() {
     getStudentData(form.department);
   };
 
+  const onToggleFilter = (filt) => {
+    setSameFilters((prevState) => ({ ...prevState, [filt]: !prevState[filt] }));
+  };
+
   return (
     <div className="App">
       <Header />
@@ -123,7 +130,37 @@ function App() {
       />
       <button onClick={onSubmit}>Post</button>
       <button onClick={onSearch}>Search</button>
-      <ResultsPage results={results} />
+      <div className="row-filters">
+        <Button
+          onClick={() => onToggleFilter("class")}
+          variant={sameFilters["class"] ? "primary" : "secondary"}
+        >
+          Same Class
+        </Button>
+        <Button
+          onClick={() => onToggleFilter("professor")}
+          variant={sameFilters["professor"] ? "primary" : "secondary"}
+        >
+          Same Professor
+        </Button>
+        <Button
+          onClick={() => onToggleFilter("group")}
+          variant={sameFilters["group"] ? "primary" : "secondary"}
+        >
+          Same Group Size
+        </Button>
+      </div>
+      <ResultsPage
+        filters={sameFilters}
+        results={relevancy(
+          results,
+          sameFilters,
+          form.name,
+          form.professor,
+          form.className,
+          form.maxGroupSize
+        )}
+      />
     </div>
   );
 }
