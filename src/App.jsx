@@ -59,28 +59,32 @@ function App() {
           value={form.name}
           placeholder="Name"
           onChange={(e) => setForm({ ...form, name: e.target.value })}
-          className=""
+          className="input"
         />
         <input
           value={form.className}
           placeholder="Class Name"
           onChange={(e) => setForm({ ...form, className: e.target.value })}
+          className="input"
         />
         <input
           value={form.professor}
           placeholder="Professor"
           onChange={(e) => setForm({ ...form, professor: e.target.value })}
+          className="input"
         />
         <input
           value={form.maxGroupSize}
           placeholder="Max Group Size"
           type="number"
           onChange={(e) => setForm({ ...form, maxGroupSize: e.target.value })}
+          className="input"
         />
         <input
           value={form.department}
           placeholder="Department"
           onChange={(e) => setForm({ ...form, department: e.target.value })}
+          className="input"
         />
         <button onClick={onSubmit}>Log</button>
 
