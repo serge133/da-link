@@ -1,5 +1,6 @@
-import { getDatabase, ref, set } from "firebase/database";
+import { child, getDatabase, push, ref, set, update } from "firebase/database";
 import app from "./firebase";
+import { uuidv4 } from "@firebase/util";
 
 export const save_student = (
   id,
@@ -34,10 +35,7 @@ export const get_student = (department, id) => {
 
 export const save_professor = (professor_name, department) => {
   const db = getDatabase(app);
-  set(ref(db, department + "/professors"), {
-    [professor_name]: {
-      id: 38403,
-      students: [20203, 408093],
-    },
+  set(ref(db, department + "/professors/" + professor_name), {
+    id: uuidv4(),
   });
 };

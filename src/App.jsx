@@ -1,69 +1,83 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-<<<<<<< HEAD
-
-import app from "./database/firebase";
-
-import { ref, set, getDatabase } from "firebase/database";
-
+import Header from "./Components/Header";
 import ResultsPage from "./page/ResultsPage";
-
 import { save_professor, save_student } from "./database/actions";
-
+import app from "./database/firebase";
 const DEPARTMENTS = ["PHYS", "ART", "CIS", "MATH"];
+import { uuidv4 } from "@firebase/util";
 
 const defaultForm = {
   name: "",
   className: "",
   professor: "",
-  maxGroupSize: 0,
+  maxGroupSize: 1,
   department: "",
 };
 
-const defaultFilters = {
+const defaultSameFilters = {
   all: true,
   group: true,
   class: true,
-  group: true,
+  professor: true,
 };
 
-=======
-import database from "./firebase";
-import { ref, set } from "firebase/database";
-import Header from "./Components/Header";
->>>>>>> dc0327a96814c4d67479798d7325a25cbc5d3971
 function App() {
   const [form, setForm] = useState(defaultForm);
-  const [filters, setFilters] = useState(defaultFilters);
+  const [sameFilters, setSameFilters] = useState(defaultSameFilters);
 
-  useEffect(() => {
-    set(ref(getDatabase(app), "test"), {
-      msg: "I Love World",
-    });
-  }, []);
+  useEffect(() => {}, []);
 
   const onSubmit = () => {
-    // save_professor("Test Ulb", "Math");
-    save_student("djkaf92992988998", "m8", "test", "sdkl", 4, "PHYS");
-    // const user = {
-    //   98979798389289: {
-    //     id: "98979798389289",
-    //     name: "Michael Batrakov",
-    //     className: "Physics 4A",
-    //     professor: "Megan Ulbricht",
-    //     maxGroupSize: 3,
-    //     department: "Physics",
-    //   },
-    // };
-    // set(ref(getDatabase(app), DEPARTMENTS[0] + "/users"), user);
+    // save_professor(form.professor, form.department);
+    save_student(
+      uuidv4(),
+      form.name,
+      form.className,
+      form.professor,
+      form.maxGroupSize,
+      form.department
+    );
+    // const db = getDatabase(app);
+    // set(ref(db, `${form.department}/students/${form.id}`), {
+    //   id,
+    //   userName,
+    //   className,
+    //   professor,
+    //   maxGroupSize,
+    //   department,
+    // });
+    setForm(defaultForm);
   };
 
   return (
     <div className="App">
-      <Header/>
+      <Header />
       <input
         value={form.name}
-        onChange={(e) => setForm({ ...form, name: e.value })}
+        placeholder="Name"
+        onChange={(e) => setForm({ ...form, name: e.target.value })}
+      />
+      <input
+        value={form.className}
+        placeholder="Class Name"
+        onChange={(e) => setForm({ ...form, className: e.target.value })}
+      />
+      <input
+        value={form.professor}
+        placeholder="Professor"
+        onChange={(e) => setForm({ ...form, professor: e.target.value })}
+      />
+      <input
+        value={form.maxGroupSize}
+        placeholder="Max Group Size"
+        type="number"
+        onChange={(e) => setForm({ ...form, maxGroupSize: e.target.value })}
+      />
+      <input
+        value={form.department}
+        placeholder="Department"
+        onChange={(e) => setForm({ ...form, department: e.target.value })}
       />
       <button onClick={onSubmit}>Log</button>
       <ResultsPage />
