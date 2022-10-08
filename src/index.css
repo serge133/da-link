@@ -63,19 +63,30 @@ header {
 /* form container  */
 
 .form__container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  text-align: left;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  /* align-items: center; */
   max-width: 600px;
   margin: 16px auto;
   padding: 16px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
+.form__container h5 {
+  margin-top: 10px;
+  color: #555555;
+}
+
+.form__container .button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .input {
   width: 100%;
-  margin: 16px 0;
   height: 50px;
   border-radius: 7px;
   border: 1px solid lightgrey;

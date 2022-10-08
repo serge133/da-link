@@ -13,6 +13,8 @@ import { relevancy } from "./functions/sorter";
 const defaultForm = {
   name: "",
   description: "",
+  phoneNumber: "",
+  discord: "",
   className: "",
   professor: "",
   maxGroupSize: 1,
@@ -21,7 +23,7 @@ const defaultForm = {
 
 const defaultSameFilters = {
   all: true,
-  group: true,
+  group: false,
   class: true,
   professor: true,
 };
@@ -58,7 +60,9 @@ function App() {
       form.className,
       form.professor,
       form.maxGroupSize,
-      form.department
+      form.department,
+      form.phoneNumber,
+      form.discord
     );
     // getStudentData(form.department);
     // const db = getDatabase(app);
@@ -100,12 +104,14 @@ function App() {
         </div>
         {isPosting ? (
           <>
+            <h5>Your Name</h5>
             <input
               value={form.name}
               placeholder="Name"
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               className="input"
             />
+            <h5>Max Group Size Preferred</h5>
             <input
               value={form.maxGroupSize}
               type="number"
@@ -115,6 +121,8 @@ function App() {
               }
               className="input"
             />
+
+            <h5>Describe Yourself and Meeting Times</h5>
             <textarea
               value={form.description}
               placeholder="Describe Yourself"
@@ -122,6 +130,7 @@ function App() {
                 setForm({ ...form, description: e.target.value })
               }
             />
+            <h5>Department (Required)</h5>
             <SearchableTextField
               value={form.department}
               onChange={(e) => setForm({ ...form, department: e.target.value })}
@@ -129,6 +138,7 @@ function App() {
               data={DEPARTMENTS}
               placeholder="Department"
             />
+            <h5>Professor You Are Taking</h5>
             <SearchableTextField
               value={form.professor}
               onChange={(e) => setForm({ ...form, professor: e.target.value })}
@@ -136,6 +146,7 @@ function App() {
               data={PROFESSORS}
               placeholder="Professor Name"
             />
+            <h5>Class Name</h5>
             <SearchableTextField
               value={form.className}
               onChange={(e) => setForm({ ...form, className: e.target.value })}
@@ -143,7 +154,28 @@ function App() {
               data={CLASSES}
               placeholder="Class Name"
             />
-            <button onClick={onSubmit}>Post</button>
+            <h5>Ways to Contact You</h5>
+            <input
+              value={form.phoneNumber}
+              type="number"
+              placeholder="Phone Number"
+              onChange={(e) =>
+                setForm({ ...form, phoneNumber: e.target.value })
+              }
+              className="input"
+            />
+            <input
+              value={form.discord}
+              type="text"
+              placeholder="Discord Link"
+              onChange={(e) => setForm({ ...form, discord: e.target.value })}
+              className="input"
+            />
+            <div className="button-container">
+              <Button variant="success" onClick={onSubmit}>
+                Submit My App
+              </Button>
+            </div>
           </>
         ) : (
           <>
@@ -173,8 +205,9 @@ function App() {
         placeholder="Department"
         onChange={(e) => setForm({ ...form, department: e.target.value })}
       /> */}
-
-            <button onClick={onSearch}>Search</button>
+            <div className="button-container">
+              <button onClick={onSearch}>Search</button>
+            </div>
           </>
         )}
       </div>
@@ -197,6 +230,17 @@ function App() {
           variant={sameFilters["group"] ? "primary" : "secondary"}
         >
           Same Group Size
+        </Button>
+        <Button
+          variant={
+            sameFilters["professor"] &&
+            sameFilters["group"] &&
+            sameFilters["class"]
+              ? "primary"
+              : "secondary"
+          }
+        >
+          All
         </Button>
       </div>
       <ResultsPage

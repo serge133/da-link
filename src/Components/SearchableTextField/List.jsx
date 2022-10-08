@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 function List(props) {
   //create a new array by filtering the original array
   const filteredData = props.data.filter((el) => {
@@ -10,6 +12,12 @@ function List(props) {
       return el.toLowerCase().includes(props.input.toLowerCase());
     }
   });
+
+  useEffect(() => {
+    if (filteredData.length == 1) {
+      props.onClick(filteredData[0]);
+    }
+  }, [filteredData]);
   return (
     <ul>
       {filteredData.map((item) => (

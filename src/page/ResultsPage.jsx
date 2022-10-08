@@ -26,6 +26,12 @@ export default (props) => {
   //     }
   //   });
   // };
+  const handleMessage = (user) => {
+    console.log(user);
+    alert(
+      `Phone Number: ${user["phoneNumber"]} | Discord Link: ${user["discord"]} `
+    );
+  };
   console.log(props.results);
   return (
     <div className="student-carousel">
@@ -46,8 +52,14 @@ export default (props) => {
             <Card.Text>{u["description"]}</Card.Text>
           </Card.Body>
           <div className="button-container">
-            <Button variant="primary">Message</Button>
+            <Button onClick={() => handleMessage(u)} variant="primary">
+              Message
+            </Button>
+            <Button variant="secondary">Enroll</Button>
           </div>
+          <Card.Footer>
+            {u["maxGroupSize"]} {u["maxGroupSize"] > 1 ? "People" : "Person"}
+          </Card.Footer>
         </Card>
       ))}
       {/* <button onClick={onGetStudent}>Get MB student</button> */}

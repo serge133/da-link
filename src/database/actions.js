@@ -9,7 +9,9 @@ export const save_student = (
   className,
   professor,
   maxGroupSize,
-  department
+  department,
+  phoneNumber,
+  discord
 ) => {
   const db = getDatabase(app);
   set(ref(db, `${department}/students/${id}`), {
@@ -20,6 +22,8 @@ export const save_student = (
     professor,
     maxGroupSize,
     department,
+    phoneNumber,
+    discord,
   });
 };
 
