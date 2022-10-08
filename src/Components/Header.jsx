@@ -11,8 +11,9 @@ export default function Header(){
         <div className="logo-right">
           <a><h1>Create User</h1></a>
           <a><h1>About Us</h1></a>
+          <a><h1>Contact Us</h1></a>
           
-          
+    
         </div>
     </header>
        
