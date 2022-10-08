@@ -9,5 +9,24 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-app.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyC85MEK9p9ki8uerRal7aMkHrK3p1IfzmE",
+        authDomain: "dinder-2.firebaseapp.com",
+        projectId: "dinder-2",
+        storageBucket: "dinder-2.appspot.com",
+        messagingSenderId: "637508758390",
+        appId: "1:637508758390:web:f0fdcc074e028a6ef06857",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+    </script>
   </body>
 </html>
