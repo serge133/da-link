@@ -5,8 +5,32 @@
   text-align: center;
 }
 
+.toggle-posting {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
 .row-filters {
   width: 100%;
   display: flex;
   justify-content: space-around;
+}
+
+.student-carousel {
+  width: 100%;
+  /* background-color: black; */
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.student-carousel .card {
+  margin-top: 10px;
+}
+
+.student-carousel .button-container {
+  width: 100%;
+  text-align: center;
+  padding-bottom: 10px;
 }

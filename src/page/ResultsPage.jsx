@@ -1,4 +1,5 @@
-import { relevancy } from "../functions/sorter";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 
 export default (props) => {
   // useEffect(() => {
@@ -27,9 +28,27 @@ export default (props) => {
   // };
   console.log(props.results);
   return (
-    <div>
+    <div className="student-carousel">
       {props.results?.map((u) => (
-        <div key={u["id"]}>{u["userName"]}</div>
+        <Card
+          style={{ width: "18rem", height: 300, textAlign: "left" }}
+          key={u["id"]}
+        >
+          {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
+          <Card.Body>
+            <Card.Title>{u["userName"]}</Card.Title>
+            <Card.Subtitle style={{ marginBottom: 5 }}>
+              {u["className"]} |{" "}
+              <span style={{ color: "#171717", fontWeight: 200 }}>
+                {u["professor"]}
+              </span>
+            </Card.Subtitle>
+            <Card.Text>{u["description"]}</Card.Text>
+          </Card.Body>
+          <div className="button-container">
+            <Button variant="primary">Message</Button>
+          </div>
+        </Card>
       ))}
       {/* <button onClick={onGetStudent}>Get MB student</button> */}
     </div>

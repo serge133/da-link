@@ -12,6 +12,7 @@ import { relevancy } from "./functions/sorter";
 
 const defaultForm = {
   name: "",
+  description: "",
   className: "",
   professor: "",
   maxGroupSize: 1,
@@ -53,6 +54,7 @@ function App() {
     save_student(
       uuidv4(),
       form.name,
+      form.description,
       form.className,
       form.professor,
       form.maxGroupSize,
@@ -87,7 +89,7 @@ function App() {
             onClick={() => setIsPosting(true)}
             variant={isPosting ? "primary" : "secondary"}
           >
-            Application
+            Submit Application
           </Button>
           <Button
             onClick={() => setIsPosting(false)}
@@ -104,6 +106,29 @@ function App() {
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               className="input"
             />
+            <input
+              value={form.maxGroupSize}
+              type="number"
+              placeholder="Looking for group size (max)"
+              onChange={(e) =>
+                setForm({ ...form, maxGroupSize: e.target.value })
+              }
+              className="input"
+            />
+            <textarea
+              value={form.description}
+              placeholder="Describe Yourself"
+              onChange={(e) =>
+                setForm({ ...form, description: e.target.value })
+              }
+            />
+            <SearchableTextField
+              value={form.department}
+              onChange={(e) => setForm({ ...form, department: e.target.value })}
+              onClick={(txt) => setForm({ ...form, department: txt })}
+              data={DEPARTMENTS}
+              placeholder="Department"
+            />
             <SearchableTextField
               value={form.professor}
               onChange={(e) => setForm({ ...form, professor: e.target.value })}
@@ -117,28 +142,17 @@ function App() {
               onClick={(txt) => setForm({ ...form, className: txt })}
               data={CLASSES}
               placeholder="Class Name"
-            />
-            {/* <input
-        value={form.department}
-        placeholder="Department"
-        onChange={(e) => setForm({ ...form, department: e.target.value })}
-      /> */}
-            <SearchableTextField
-              value={form.department}
-              onChange={(e) => setForm({ ...form, department: e.target.value })}
-              onClick={(txt) => setForm({ ...form, department: txt })}
-              data={DEPARTMENTS}
-              placeholder="Department"
             />
             <button onClick={onSubmit}>Post</button>
           </>
         ) : (
           <>
-            <input
-              value={form.name}
-              placeholder="Name"
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="input"
+            <SearchableTextField
+              value={form.department}
+              onChange={(e) => setForm({ ...form, department: e.target.value })}
+              onClick={(txt) => setForm({ ...form, department: txt })}
+              data={DEPARTMENTS}
+              placeholder="Department"
             />
             <SearchableTextField
               value={form.professor}
@@ -159,34 +173,12 @@ function App() {
         placeholder="Department"
         onChange={(e) => setForm({ ...form, department: e.target.value })}
       /> */}
-            <SearchableTextField
-              value={form.department}
-              onChange={(e) => setForm({ ...form, department: e.target.value })}
-              onClick={(txt) => setForm({ ...form, department: txt })}
-              data={DEPARTMENTS}
-              placeholder="Department"
-            />
 
             <button onClick={onSearch}>Search</button>
           </>
         )}
       </div>
       <ResultsPage />
-      <input
-        value={form.name}
-        placeholder="Name"
-        onChange={(e) => setForm({ ...form, name: e.target.value })}
-      />
-      {/* <input
-        value={form.className}
-        placeholder="Class Name"
-        onChange={(e) => setForm({ ...form, className: e.target.value })}
-      /> */}
-      {/* <input
-        value={form.professor}
-        placeholder="Professor"
-        onChange={(e) => setForm({ ...form, professor: e.target.value })}
-      /> */}
       <div className="row-filters">
         <Button
           onClick={() => onToggleFilter("class")}

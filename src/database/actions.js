@@ -5,6 +5,7 @@ import { uuidv4 } from "@firebase/util";
 export const save_student = (
   id,
   userName,
+  description,
   className,
   professor,
   maxGroupSize,
@@ -14,6 +15,7 @@ export const save_student = (
   set(ref(db, `${department}/students/${id}`), {
     id,
     userName,
+    description,
     className,
     professor,
     maxGroupSize,
