@@ -1,5 +1,6 @@
 import "./App.css";
 import { useEffect, useState } from "react";
+<<<<<<< HEAD
 
 import app from "./database/firebase";
 
@@ -26,6 +27,11 @@ const defaultFilters = {
   group: true,
 };
 
+=======
+import database from "./firebase";
+import { ref, set } from "firebase/database";
+import Header from "./Components/Header";
+>>>>>>> dc0327a96814c4d67479798d7325a25cbc5d3971
 function App() {
   const [form, setForm] = useState(defaultForm);
   const [filters, setFilters] = useState(defaultFilters);
@@ -54,6 +60,7 @@ function App() {
 
   return (
     <div className="App">
+      <Header/>
       <input
         value={form.name}
         onChange={(e) => setForm({ ...form, name: e.value })}
