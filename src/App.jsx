@@ -2,7 +2,7 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import database from "./firebase";
 import { ref, set } from "firebase/database";
-
+import Header from "./Components/Header";
 function App() {
   const endpoint = "https://dinder-2-default-rtdb.firebaseio.com/";
   const [form, setForm] = useState({
@@ -43,6 +43,7 @@ function App() {
 
   return (
     <div className="App">
+      <Header/>
       <input
         value={form.name}
         onChange={(e) => setForm({ ...form, name: e.value })}
