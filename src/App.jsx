@@ -9,6 +9,8 @@ import SearchableTextField from "./Components/SearchableTextField/SearchableText
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { relevancy } from "./functions/sorter";
+import { Image } from "react-bootstrap";
+import DALogo from "./assets/DAC_Logo_Black.png";
 
 const defaultForm = {
   name: "",
@@ -35,7 +37,17 @@ function App() {
   const [isPosting, setIsPosting] = useState(false);
 
   useEffect(() => {}, []);
-  const DEPARTMENTS = ["PHYS", "ART", "CIS", "MATH"];
+  const DEPARTMENTS = [
+    "PHYS",
+    "CIS",
+    "MATH",
+    "BIOL",
+    "CHEM",
+    "ENGR",
+    "COMM",
+    "PSYC",
+    "BUS",
+  ];
   const PROFESSORS = ["Megan Ulbricht", "Taylor Lawrence", "Another Name"];
   const CLASSES = ["PHYS 4A", "MATH 02A", "CIS22C", "MATH 01D"];
 
@@ -87,6 +99,7 @@ function App() {
 
   return (
     <div className="App">
+      <Image src={DALogo} style={{ height: 50 }} />
       <div className="form__container">
         <div className="toggle-posting">
           <Button
@@ -154,7 +167,7 @@ function App() {
               data={CLASSES}
               placeholder="Class Name"
             />
-            <h5>Ways to Contact You</h5>
+            <h5>Phone Number</h5>
             <input
               value={form.phoneNumber}
               type="number"
@@ -164,6 +177,7 @@ function App() {
               }
               className="input"
             />
+            <h5>Discord</h5>
             <input
               value={form.discord}
               type="text"
@@ -206,54 +220,59 @@ function App() {
         onChange={(e) => setForm({ ...form, department: e.target.value })}
       /> */}
             <div className="button-container">
-              <button onClick={onSearch}>Search</button>
+              <Button variant="success" onClick={onSearch}>
+                Search
+              </Button>
             </div>
           </>
         )}
       </div>
-      <ResultsPage />
-      <div className="row-filters">
-        <Button
-          onClick={() => onToggleFilter("class")}
-          variant={sameFilters["class"] ? "primary" : "secondary"}
-        >
-          Same Class
-        </Button>
-        <Button
-          onClick={() => onToggleFilter("professor")}
-          variant={sameFilters["professor"] ? "primary" : "secondary"}
-        >
-          Same Professor
-        </Button>
-        <Button
-          onClick={() => onToggleFilter("group")}
-          variant={sameFilters["group"] ? "primary" : "secondary"}
-        >
-          Same Group Size
-        </Button>
-        <Button
-          variant={
-            sameFilters["professor"] &&
-            sameFilters["group"] &&
-            sameFilters["class"]
-              ? "primary"
-              : "secondary"
-          }
-        >
-          All
-        </Button>
-      </div>
-      <ResultsPage
-        filters={sameFilters}
-        results={relevancy(
-          results,
-          sameFilters,
-          form.name,
-          form.professor,
-          form.className,
-          form.maxGroupSize
-        )}
-      />
+      {!isPosting && (
+        <>
+          <div className="row-filters">
+            <Button
+              onClick={() => onToggleFilter("class")}
+              variant={sameFilters["class"] ? "primary" : "secondary"}
+            >
+              Same Class
+            </Button>
+            <Button
+              onClick={() => onToggleFilter("professor")}
+              variant={sameFilters["professor"] ? "primary" : "secondary"}
+            >
+              Same Professor
+            </Button>
+            <Button
+              onClick={() => onToggleFilter("group")}
+              variant={sameFilters["group"] ? "primary" : "secondary"}
+            >
+              Same Group Size
+            </Button>
+            <Button
+              variant={
+                sameFilters["professor"] &&
+                sameFilters["group"] &&
+                sameFilters["class"]
+                  ? "primary"
+                  : "secondary"
+              }
+            >
+              All
+            </Button>
+          </div>
+          <ResultsPage
+            filters={sameFilters}
+            results={relevancy(
+              results,
+              sameFilters,
+              form.name,
+              form.professor,
+              form.className,
+              form.maxGroupSize
+            )}
+          />
+        </>
+      )}
     </div>
   );
 }
