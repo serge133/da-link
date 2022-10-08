@@ -1,8 +1,12 @@
 import "./App.css";
 import { useEffect, useState } from "react";
+
 import app from "./database/firebase";
+
 import { ref, set, getDatabase } from "firebase/database";
+
 import ResultsPage from "./page/ResultsPage";
+
 import { save_professor, save_student } from "./database/actions";
 
 const DEPARTMENTS = ["PHYS", "ART", "CIS", "MATH"];
