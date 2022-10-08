@@ -1,8 +1,9 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import app from "./firebase";
+import app from "./database/firebase";
 import { ref, set, getDatabase } from "firebase/database";
 import ResultsPage from "./page/ResultsPage";
+import { save_professor, save_student } from "./database/actions";
 
 const DEPARTMENTS = ["PHYS", "ART", "CIS", "MATH"];
 
@@ -14,8 +15,16 @@ const defaultForm = {
   department: "",
 };
 
+const defaultFilters = {
+  all: true,
+  group: true,
+  class: true,
+  group: true,
+};
+
 function App() {
   const [form, setForm] = useState(defaultForm);
+  const [filters, setFilters] = useState(defaultFilters);
 
   useEffect(() => {
     set(ref(getDatabase(app), "test"), {
@@ -24,17 +33,19 @@ function App() {
   }, []);
 
   const onSubmit = () => {
-    const user = {
-      98979798389289: {
-        id: "98979798389289",
-        name: "Michael Batrakov",
-        className: "Physics 4A",
-        professor: "Megan Ulbricht",
-        maxGroupSize: 3,
-        department: "Physics",
-      },
-    };
-    set(ref(getDatabase(app), DEPARTMENTS[0] + "/users"), user);
+    // save_professor("Test Ulb", "Math");
+    save_student("djkaf92992988998", "m8", "test", "sdkl", 4, "PHYS");
+    // const user = {
+    //   98979798389289: {
+    //     id: "98979798389289",
+    //     name: "Michael Batrakov",
+    //     className: "Physics 4A",
+    //     professor: "Megan Ulbricht",
+    //     maxGroupSize: 3,
+    //     department: "Physics",
+    //   },
+    // };
+    // set(ref(getDatabase(app), DEPARTMENTS[0] + "/users"), user);
   };
 
   return (

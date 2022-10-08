@@ -1,23 +1,41 @@
 import { getDatabase, ref, onValue } from "firebase/database";
 import { useEffect, useState } from "react";
-import app from "../firebase";
+import { get_student, get_students } from "../database/actions";
 
 export default (props) => {
   const [results, setResults] = useState([]);
+
   useEffect(() => {
-    const db = getDatabase(app);
-    const results = ref(db, "PHYS/users/");
-    onValue(results, (snapshot) => {
+    // const db = getDatabase(app);
+    // const results = ref(db, "PHYS/users/");
+    console.log("hhklkl");
+    const users = get_students("PHYS");
+    onValue(users, (snapshot) => {
       const data = snapshot.val();
-      setResults(Object.values(data));
-      console.log(data);
+      if (data) {
+        const res = Object.values(data);
+        setResults(res);
+        console.log(data);
+      }
     });
   }, []);
+
+  const onGetStudent = () => {
+    const student = get_student("PHYS", "bullshi");
+    onValue(student, (snapshot) => {
+      const data = snapshot.val();
+      console.log(data);
+      if (data) {
+        console.log(data);
+      }
+    });
+  };
   return (
     <div>
       {results.map((u) => (
-        <div key={u["id"]}>{u["name"]}</div>
+        <div key={u["id"]}>{u["userName"]}</div>
       ))}
+      <button onClick={onGetStudent}>Get MB student</button>
     </div>
   );
 };
