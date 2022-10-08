@@ -2,8 +2,8 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import Header from "./Components/Header";
 import ResultsPage from "./page/ResultsPage";
-import { save_professor, save_student } from "./database/actions";
-import app from "./database/firebase";
+import { save_professor, save_student, get_students } from "./database/actions";
+import { onValue } from "firebase/database";
 import { uuidv4 } from "@firebase/util";
 import SearchableTextField from "./Components/SearchableTextField/SearchableTextField";
 
@@ -24,12 +24,25 @@ const defaultSameFilters = {
 
 function App() {
   const [form, setForm] = useState(defaultForm);
+  const [results, setResults] = useState([]);
   const [sameFilters, setSameFilters] = useState(defaultSameFilters);
 
   useEffect(() => {}, []);
   const DEPARTMENTS = ["PHYS", "ART", "CIS", "MATH"];
   const PROFESSORS = ["Megan Ulbricht", "Taylor Lawrence", "Another Name"];
   const CLASSES = ["PHYS 4A", "MATH 02A", "CIS22C", "MATH 01D"];
+
+  const getStudentData = (department) => {
+    const users = get_students(department);
+    onValue(users, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const res = Object.values(data);
+        setResults(res);
+        console.log(data);
+      }
+    });
+  };
 
   const onSubmit = () => {
     // save_professor(form.professor, form.department);
@@ -41,6 +54,7 @@ function App() {
       form.maxGroupSize,
       form.department
     );
+    // getStudentData(form.department);
     // const db = getDatabase(app);
     // set(ref(db, `${form.department}/students/${form.id}`), {
     //   id,
@@ -51,6 +65,10 @@ function App() {
     //   department,
     // });
     setForm(defaultForm);
+  };
+
+  const onSearch = () => {
+    getStudentData(form.department);
   };
 
   return (
@@ -103,8 +121,9 @@ function App() {
         data={DEPARTMENTS}
         placeholder="Department"
       />
-      <button onClick={onSubmit}>Log</button>
-      <ResultsPage />
+      <button onClick={onSubmit}>Post</button>
+      <button onClick={onSearch}>Search</button>
+      <ResultsPage results={results} />
     </div>
   );
 }
