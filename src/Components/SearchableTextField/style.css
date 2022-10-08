@@ -1,0 +1,24 @@
+.searchable-text-container {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.searchable-text-container input {
+  width: 100%;
+}
+.searchable-text-container ul {
+  margin: 0;
+  padding-inline-start: 0;
+  list-style: none;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.searchable-text-container ul li {
+  text-align: center;
+}
+
+.searchable-text-container li:hover {
+  background-color: grey;
+}
