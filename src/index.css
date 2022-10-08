@@ -57,10 +57,18 @@ header {
 }
 
 
-
-/*  */
-
 .list-drop {
   display: flex;
   flex-direction: column;
 }
+
+/* form container  */
+
+.form__container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+}
+
