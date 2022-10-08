@@ -67,8 +67,21 @@ header {
 .form__container{
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 800px;
-  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 600px;
+  margin: 16px auto;
+  padding: 16px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
+
+
+
+.input{
+  width: 100%;
+  margin: 16px 0;
+  height: 50px;
+  border-radius: 5px;
+  text-align: center;
+}

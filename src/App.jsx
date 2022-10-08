@@ -1,4 +1,5 @@
 import "./App.css";
+import "./index.css"
 import { useEffect, useState } from "react";
 import Header from "./Components/Header";
 import ResultsPage from "./page/ResultsPage";
@@ -53,33 +54,37 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <input
-        value={form.name}
-        placeholder="Name"
-        onChange={(e) => setForm({ ...form, name: e.target.value })}
-      />
-      <input
-        value={form.className}
-        placeholder="Class Name"
-        onChange={(e) => setForm({ ...form, className: e.target.value })}
-      />
-      <input
-        value={form.professor}
-        placeholder="Professor"
-        onChange={(e) => setForm({ ...form, professor: e.target.value })}
-      />
-      <input
-        value={form.maxGroupSize}
-        placeholder="Max Group Size"
-        type="number"
-        onChange={(e) => setForm({ ...form, maxGroupSize: e.target.value })}
-      />
-      <input
-        value={form.department}
-        placeholder="Department"
-        onChange={(e) => setForm({ ...form, department: e.target.value })}
-      />
-      <button onClick={onSubmit}>Log</button>
+      <div className="form__container">
+        <input
+          value={form.name}
+          placeholder="Name"
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          className=""
+        />
+        <input
+          value={form.className}
+          placeholder="Class Name"
+          onChange={(e) => setForm({ ...form, className: e.target.value })}
+        />
+        <input
+          value={form.professor}
+          placeholder="Professor"
+          onChange={(e) => setForm({ ...form, professor: e.target.value })}
+        />
+        <input
+          value={form.maxGroupSize}
+          placeholder="Max Group Size"
+          type="number"
+          onChange={(e) => setForm({ ...form, maxGroupSize: e.target.value })}
+        />
+        <input
+          value={form.department}
+          placeholder="Department"
+          onChange={(e) => setForm({ ...form, department: e.target.value })}
+        />
+        <button onClick={onSubmit}>Log</button>
+
+      </div>
       <ResultsPage />
     </div>
   );
