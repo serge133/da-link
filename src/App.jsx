@@ -12,7 +12,7 @@ import { relevancy } from "./functions/sorter";
 import { DEPARTMENTS, CLASSES, PROFESSORS } from "./database/schoolShit";
 import { Image } from "react-bootstrap";
 import DALogo from "./assets/DAC_Logo_Black.png";
-
+import LINKlogo from "./assets/link-logo.png"
 const defaultForm = {
   name: "",
   description: "",
@@ -73,7 +73,10 @@ function App() {
 
   return (
     <div className="App">
-      <Image src={DALogo} style={{ height: 50 }} />
+    <div className="logo__wrapper">
+      <Image src={DALogo} style={{ height: 65 }} />
+      <Image src={LINKlogo} style={{height:65}}/>
+    </div>
       <div className="form__container">
         <div className="toggle-posting">
           <Button
