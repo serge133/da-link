@@ -24,13 +24,13 @@ export const relevancy = (
 
   let filteredArr = arr.filter(checkIfYou);
 
-  if (filters["group"]) {
-    filteredArr = filteredArr.filter(checkGroupSize);
-  }
-  if (filters["class"]) {
+  // if (filters["group"]) {
+  //   filteredArr = filteredArr.filter(checkGroupSize);
+  // }
+  if (filters["class"] && className.trim().length > 0) {
     filteredArr = filteredArr.filter(checkClassname);
   }
-  if (filters["professor"]) {
+  if (filters["professor"] && professor.trim().length > 0) {
     filteredArr = filteredArr.filter(checkProfessor);
   }
 
