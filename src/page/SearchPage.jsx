@@ -1,4 +1,5 @@
 import SearchableTextField from "../Components/SearchableTextField/SearchableTextField";
+import Button from "react-bootstrap/Button";
 export default function (props) {
   return (
     <>
@@ -30,7 +31,11 @@ export default function (props) {
         data={DEPARTMENTS}
         placeholder="Department"
       />
-      <button onClick={onSearch}>Search</button>
+      <div>
+        <Button variant="success" onClick={onSearch}>
+          Search
+        </Button>
+      </div>
     </>
   );
 }
