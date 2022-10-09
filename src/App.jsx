@@ -9,6 +9,7 @@ import SearchableTextField from "./Components/SearchableTextField/SearchableText
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { relevancy } from "./functions/sorter";
+import { DEPARTMENTS, CLASSES, PROFESSORS } from './database/schoolShit';
 
 const defaultForm = {
   name: "",
@@ -33,42 +34,8 @@ function App() {
   const [results, setResults] = useState([]);
   const [sameFilters, setSameFilters] = useState(defaultSameFilters);
   const [isPosting, setIsPosting] = useState(false);
-
-  useEffect(() => {}, []);
-  const DEPARTMENTS = ["PHYS", "CIS", "MATH", "BIOL", "CHEM", "ENGR",
-                       "COMM", "PSYC", "BUS"];
-  const PROFESSORS = ["Ronald Francis","Eduardo Luna","Zuleyha Yuksek",
-"Juming Jiao","Peter Ho","Kasra Khazeni","Shirin Jamali", "James Mailhot","Sundararajan Arabhi","Charles De Vogelaere",
-"Hassan Bourgoub","Doli Bambhania","Mohamad Rezvani","Richard Lopez",
-"Hemendra Shah","Ducq Nguyen","Misako Van Der Poel","Usha Ganeshalingam",
-"Fatemeh Yarahmadi","Lisa Markus","Nahrin Rashid","Vadim Von Brzeski",
-"Renuka Kapur","Nguyen,Vinh Kha","Neelam Shukla","Sithparran Vanniasegaram",
-"Millia Ison","Harman Dhaliwal","Nahrin Rashid","John Jiminez",
-"Rodreric Taylor","Zack Judson","Jian Yu","Paul Du","Salvador Guerrero",
-"Mehrdad Khosravi","Cheryl Balm","Kejian Shi","William Wilson","Reza Shariatmadari",
-"Kelley Liu", "Xiao Wang", "Margarete Leclerc", "John Cihonski",
-  "Cinzia Muzzi", "Jimmy Li", "David Gray", "James Maxwell", "Samere Bairu",
-  "Saied Rafati", "Ali Saeidi Ashtiyani", "Anna Hawes", "Shagundeep Kaur", 
-  "kathleen Raiff", "Alex Kramer", "Soo Choi", "Constance Cole", "Russell Hong",
-  "Royce Cano", "Brandon Gainer", "Stephanie Anderson", "Nick Chivers", "Mark Healy",
-  "Joshua Avera", "Derrick Feltion", "Susan Thomas", "Marie Chelberg", "James Cifford Jr",
-  "Daniel Bunce", "Jeanette Tucker", "Sandra Trafalis", "Melissa Tamas", "Chris Olsen", 
-  "Manisha Karia", "Gary Niedermier", "Dan Salah", "Sandra Spencer", "Byron Lilly", "Mary Hiland",
-  "Brian Bennett", "Felix Amoruwa","Linyun Yu","Ronald Kleinman",
-"Hussein Al-Hussein","Mirsaeid Abolghasemi","Manish Goel","Kamran Eftekhari",
-"Mary Pape","Tuan Nguyen","Alexandre Stoykov","Justin Read",
-"Edward Ahrens","Ira Oldham", "Abeer Alameer","Hoang Nguyen",
-"Kamran Eftekhari","Yau Lau","Anita Whitehill","Ira Oldham",
-"Clare Nguyen","Mirsaeid Abolghasemi","Grant Larkin","Linyu Yu",
-"Felix Amoruwa"];
-  const CLASSES = ["CHEM 1A", "CHEM 1B", "CHEM 1C", "CHEM 25", "CHEM 30A",
-                  "CHEM 30B", "ENGR 10", "ENGR 37", "COMM 1", "COMM 7",
-                  "COMM 8", "COMM 9", "COMM 10", "COMM 15", "COMM 16", 
-                  "COMM 70", "PSYC 1", "PSYC 2", "PSYC 3", "PSYC 4", "PSYC 5",
-                  "PSYC 8", "PSYC 12", "PSYC 14", "PSYC 15", "BUS 10", "BUS 18",
-                  "BUS 21", "BUS 50", "BUS 54", "BUS 55","CIS 36A","CIS 36B","CIS 22C","CIS 22A","CIS 22B",
-                  "CIS 40","CIS 41A","CIS 41B","CIS 21JA","CIS 35A","MATH 1A","MATH 1B","MATH 1C","MATH 1D","MATH 2A",
-                  "MATH 2B","MATH 22"];
+  
+  
 
   const getStudentData = (department) => {
     const users = get_students(department);
