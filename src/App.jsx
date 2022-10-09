@@ -9,7 +9,7 @@ import SearchableTextField from "./Components/SearchableTextField/SearchableText
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { relevancy } from "./functions/sorter";
-import { DEPARTMENTS, CLASSES, PROFESSORS } from './database/schoolShit';
+import { DEPARTMENTS, CLASSES, PROFESSORS } from "./database/schoolShit";
 import { Image } from "react-bootstrap";
 import DALogo from "./assets/DAC_Logo_Black.png";
 
@@ -24,20 +24,10 @@ const defaultForm = {
   department: "",
 };
 
-const defaultSameFilters = {
-  all: true,
-  group: false,
-  class: true,
-  professor: true,
-};
-
 function App() {
   const [form, setForm] = useState(defaultForm);
   const [results, setResults] = useState([]);
-  const [sameFilters, setSameFilters] = useState(defaultSameFilters);
   const [isPosting, setIsPosting] = useState(false);
-  
-  
 
   const getStudentData = (department) => {
     const users = get_students(department);
@@ -79,10 +69,6 @@ function App() {
 
   const onSearch = () => {
     getStudentData(form.department);
-  };
-
-  const onToggleFilter = (filt) => {
-    setSameFilters((prevState) => ({ ...prevState, [filt]: !prevState[filt] }));
   };
 
   return (
@@ -216,50 +202,16 @@ function App() {
         )}
       </div>
       {!isPosting && (
-        <>
-          <div className="row-filters">
-            <Button
-              onClick={() => onToggleFilter("class")}
-              variant={sameFilters["class"] ? "primary" : "secondary"}
-            >
-              Same Class
-            </Button>
-            <Button
-              onClick={() => onToggleFilter("professor")}
-              variant={sameFilters["professor"] ? "primary" : "secondary"}
-            >
-              Same Professor
-            </Button>
-            <Button
-              onClick={() => onToggleFilter("group")}
-              variant={sameFilters["group"] ? "primary" : "secondary"}
-            >
-              Same Group Size
-            </Button>
-            <Button
-              variant={
-                sameFilters["professor"] &&
-                sameFilters["group"] &&
-                sameFilters["class"]
-                  ? "primary"
-                  : "secondary"
-              }
-            >
-              All
-            </Button>
-          </div>
-          <ResultsPage
-            filters={sameFilters}
-            results={relevancy(
-              results,
-              sameFilters,
-              form.name,
-              form.professor,
-              form.className,
-              form.maxGroupSize
-            )}
-          />
-        </>
+        <ResultsPage
+          results={relevancy(
+            results,
+            // sameFilters,
+            form.name,
+            form.professor,
+            form.className,
+            form.maxGroupSize
+          )}
+        />
       )}
     </div>
   );

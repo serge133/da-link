@@ -1,6 +1,6 @@
 export const relevancy = (
   arr,
-  filters, // Object with filters
+  // filters, // Object with filters
   userName,
   professor,
   className,
@@ -27,10 +27,10 @@ export const relevancy = (
   // if (filters["group"]) {
   //   filteredArr = filteredArr.filter(checkGroupSize);
   // }
-  if (filters["class"] && className.trim().length > 0) {
+  if (className.trim().length > 0) {
     filteredArr = filteredArr.filter(checkClassname);
   }
-  if (filters["professor"] && professor.trim().length > 0) {
+  if (professor.trim().length > 0) {
     filteredArr = filteredArr.filter(checkProfessor);
   }
 
