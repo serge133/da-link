@@ -1,24 +1,26 @@
+import { Student } from "../database/models";
+
 export const relevancy = (
-  arr,
+  arr: Student[],
   // filters, // Object with filters
-  userName,
-  professor,
-  className,
-  maxGroupSize
+  userName: string,
+  professor: string,
+  className: string,
+  maxGroupSize: number
 ) => {
-  const checkIfYou = (el) => {
+  const checkIfYou = (el: Student) => {
     return el["userName"] !== userName;
   };
 
-  const checkGroupSize = (el) => {
+  const checkGroupSize = (el: Student) => {
     return el["maxGroupSize"] <= maxGroupSize;
   };
 
-  const checkClassname = (el) => {
+  const checkClassname = (el: Student) => {
     return el["className"] === className;
   };
 
-  const checkProfessor = (el) => {
+  const checkProfessor = (el: Student) => {
     return el["professor"] === professor;
   };
 
