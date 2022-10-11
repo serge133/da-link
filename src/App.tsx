@@ -12,11 +12,14 @@ import { relevancy } from "./functions/sorter";
 import { DEPARTMENTS, CLASSES, PROFESSORS } from "./database/schoolShit";
 import { Image } from "react-bootstrap";
 import DALogo from "./assets/DAC_Logo_Black.png";
-import LINKlogo from "./assets/link-logo.png"
-const defaultForm = {
-  name: "",
+import LINKlogo from "./assets/link-logo.png";
+import { Student } from "./database/models";
+
+const defaultForm: Student = {
+  id: "",
+  userName: "",
   description: "",
-  phoneNumber: "",
+  phoneNumber: 0,
   discord: "",
   className: "",
   professor: "",
@@ -26,13 +29,13 @@ const defaultForm = {
 
 function App() {
   const [form, setForm] = useState(defaultForm);
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<Student[]>([]);
   const [isPosting, setIsPosting] = useState(false);
 
-  const getStudentData = (department) => {
+  const getStudentData = (department: string) => {
     const users = get_students(department);
     onValue(users, (snapshot) => {
-      const data = snapshot.val();
+      const data = snapshot.val() as Student[] | undefined;
       if (data) {
         const res = Object.values(data);
         setResults(res);
@@ -45,7 +48,7 @@ function App() {
     // save_professor(form.professor, form.department);
     save_student(
       uuidv4(),
-      form.name,
+      form.userName,
       form.description,
       form.className,
       form.professor,
@@ -96,9 +99,9 @@ function App() {
           <>
             <h5>Your Name</h5>
             <input
-              value={form.name}
+              value={form.userName}
               placeholder="Name"
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              onChange={(e) => setForm({ ...form, userName: e.target.value })}
               className="input"
             />
             <h5>Max Group Size Preferred</h5>
@@ -107,7 +110,7 @@ function App() {
               type="number"
               placeholder="Looking for group size (max)"
               onChange={(e) =>
-                setForm({ ...form, maxGroupSize: e.target.value })
+                setForm({ ...form, maxGroupSize: parseInt(e.target.value) })
               }
               className="input"
             />
@@ -150,7 +153,7 @@ function App() {
               type="number"
               placeholder="Phone Number"
               onChange={(e) =>
-                setForm({ ...form, phoneNumber: e.target.value })
+                setForm({ ...form, phoneNumber: parseInt(e.target.value) })
               }
               className="input"
             />
@@ -209,7 +212,7 @@ function App() {
           results={relevancy(
             results,
             // sameFilters,
-            form.name,
+            form.userName,
             form.professor,
             form.className,
             form.maxGroupSize

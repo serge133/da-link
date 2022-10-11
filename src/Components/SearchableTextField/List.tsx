@@ -1,6 +1,12 @@
 import { useEffect } from "react";
 
-function List(props) {
+interface Props {
+  data: string[],
+  input: string,
+  onClick: (e: string) => void
+}
+
+function List(props: Props) {
   //create a new array by filtering the original array
   const filteredData = props.data.filter((el) => {
     //if no input the return the original

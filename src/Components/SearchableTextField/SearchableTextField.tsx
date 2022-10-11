@@ -2,9 +2,17 @@ import List from "./List";
 import { useState } from "react";
 import "./style.css";
 
-export default function (props) {
+interface Props {
+  onClick: (txt: string) => void,
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  value: string,
+  placeholder: string,
+  data: string[]
+}
+
+export default function (props: Props) {
   const [showList, setShowList] = useState(false);
-  const handleClick = (txt) => {
+  const handleClick = (txt: string) => {
     setShowList(false);
     props.onClick(txt);
   };

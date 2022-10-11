@@ -1,7 +1,12 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import { Student } from "../database/models";
 
-export default (props) => {
+interface Props {
+  results?: Student[]
+}
+
+export default (props: Props) => {
   // useEffect(() => {
   //   // const db = getDatabase(app);
   //   // const results = ref(db, "PHYS/users/");
@@ -26,7 +31,7 @@ export default (props) => {
   //     }
   //   });
   // };
-  const handleMessage = (user) => {
+  const handleMessage = (user: Student) => {
     console.log(user);
     alert(
       `Phone Number: ${user["phoneNumber"]} | Discord Link: ${user["discord"]} `
