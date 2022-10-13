@@ -7,6 +7,7 @@ import {
 import {
   createContext,
   ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -107,7 +108,9 @@ export const AuthProvider = ({
 
   // Call the logout endpoint and then remove the user
   // from the state.
-  function logout() {}
+  function logout() {
+    setUser(undefined);
+  }
 
   // Make the provider update only when it should.
   // We only want to force re-renders if the user,
@@ -142,3 +145,21 @@ export const AuthProvider = ({
 export default function useAuth() {
   return useContext(AuthContext);
 }
+
+export const AuthWrapper = ({
+  children,
+}: {
+  children: JSX.Element;
+}): JSX.Element => {
+  const navigate = useNavigate();
+  const goToLogin = useCallback(() => navigate("/login"), []);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (!user) {
+      goToLogin();
+    }
+  }, [user, goToLogin]);
+
+  return children;
+};

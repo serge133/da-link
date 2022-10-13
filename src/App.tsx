@@ -2,17 +2,16 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  useNavigate,
   RouteProps,
-  Navigate,
 } from "react-router-dom";
 import Main from "./pages/Main/Main";
 import LoginPage from "./pages/Login/Login";
 import SignupPage from "./pages/Signup/Signup";
 import useAuth, { AuthProvider } from "./useAuth";
+import { useCallback, useEffect } from "react";
 
 function App() {
-  const { user } = useAuth();
-
   return (
     <Router>
       <AuthProvider>

@@ -1,5 +1,5 @@
 import "./Main.css";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ResultsPage from "../../page/ResultsPage";
 import { save_student, get_students } from "../../database/actions";
 import { onValue } from "firebase/database";
@@ -13,7 +13,8 @@ import { Image } from "react-bootstrap";
 import DALogo from "../../assets/DAC_Logo_Black.png";
 import LINKlogo from "../../assets/link-logo.png";
 import { Student } from "../../database/models";
-import useAuth from "../../useAuth";
+import useAuth, { AuthWrapper } from "../../useAuth";
+import { useNavigate } from "react-router";
 
 const defaultForm: Student = {
   id: "",
@@ -31,7 +32,16 @@ const Main = () => {
   const [form, setForm] = useState(defaultForm);
   const [results, setResults] = useState<Student[]>([]);
   const [isPosting, setIsPosting] = useState(false);
-  const { user } = useAuth();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const goToLogin = useCallback(() => navigate("/login"), []);
+
+  // useEffect(() => {
+  //   if (!user) {
+  //     goToLogin();
+  //   }
+  // }, [user, goToLogin]);
 
   const getStudentData = (department: string) => {
     const users = get_students(department);
@@ -76,151 +86,168 @@ const Main = () => {
   };
 
   return (
-    <div className="App">
-      <div className="logo__wrapper">
-        <Image src={DALogo} style={{ height: 65 }} />
-        <Image src={LINKlogo} style={{ height: 65 }} />
-      </div>
-      <div className="form__container">
-        <div className="toggle-posting">
-          <Button
-            onClick={() => setIsPosting(true)}
-            variant={isPosting ? "primary" : "secondary"}
-          >
-            Submit Application
-          </Button>
-          <Button
-            onClick={() => setIsPosting(false)}
-            variant={!isPosting ? "primary" : "secondary"}
-          >
-            Search Groups
-          </Button>
+    <AuthWrapper>
+      <div className="App">
+        <div className="logo__wrapper">
+          <Image src={DALogo} style={{ height: 65 }} />
+          <Image src={LINKlogo} style={{ height: 65 }} />
         </div>
-        {isPosting ? (
-          <>
-            <h5>Your Name</h5>
-            <input
-              value={form.userName}
-              placeholder="Name"
-              onChange={(e) => setForm({ ...form, userName: e.target.value })}
-              className="input"
-            />
-            <h5>Max Group Size Preferred</h5>
-            <input
-              value={form.maxGroupSize}
-              type="number"
-              placeholder="Looking for group size (max)"
-              onChange={(e) =>
-                setForm({ ...form, maxGroupSize: parseInt(e.target.value) })
-              }
-              className="input"
-            />
+        <div className="form__container">
+          <div className="toggle-posting">
+            <Button
+              onClick={() => setIsPosting(true)}
+              variant={isPosting ? "primary" : "secondary"}
+            >
+              Submit Application
+            </Button>
+            <Button
+              onClick={() => setIsPosting(false)}
+              variant={!isPosting ? "primary" : "secondary"}
+            >
+              Search Groups
+            </Button>
+          </div>
+          {isPosting ? (
+            <>
+              <h5>Your Name</h5>
+              <input
+                value={form.userName}
+                placeholder="Name"
+                onChange={(e) => setForm({ ...form, userName: e.target.value })}
+                className="input"
+              />
+              <h5>Max Group Size Preferred</h5>
+              <input
+                value={form.maxGroupSize}
+                type="number"
+                placeholder="Looking for group size (max)"
+                onChange={(e) =>
+                  setForm({ ...form, maxGroupSize: parseInt(e.target.value) })
+                }
+                className="input"
+              />
 
-            <h5>Describe Yourself and Meeting Times</h5>
-            <textarea
-              value={form.description}
-              placeholder="Describe Yourself"
-              onChange={(e) =>
-                setForm({ ...form, description: e.target.value })
-              }
-            />
-            <h5>Department (Required)</h5>
-            <SearchableTextField
-              value={form.department}
-              onChange={(e) => setForm({ ...form, department: e.target.value })}
-              onClick={(txt) => setForm({ ...form, department: txt })}
-              data={DEPARTMENTS}
-              placeholder="Department"
-            />
-            <h5>Professor You Are Taking</h5>
-            <SearchableTextField
-              value={form.professor}
-              onChange={(e) => setForm({ ...form, professor: e.target.value })}
-              onClick={(txt) => setForm({ ...form, professor: txt })}
-              data={PROFESSORS}
-              placeholder="Professor Name"
-            />
-            <h5>Class Name</h5>
-            <SearchableTextField
-              value={form.className}
-              onChange={(e) => setForm({ ...form, className: e.target.value })}
-              onClick={(txt) => setForm({ ...form, className: txt })}
-              data={CLASSES}
-              placeholder="Class Name"
-            />
-            <h5>Phone Number</h5>
-            <input
-              value={form.phoneNumber}
-              type="number"
-              placeholder="Phone Number"
-              onChange={(e) =>
-                setForm({ ...form, phoneNumber: parseInt(e.target.value) })
-              }
-              className="input"
-            />
-            <h5>Discord</h5>
-            <input
-              value={form.discord}
-              type="text"
-              placeholder="Discord Link"
-              onChange={(e) => setForm({ ...form, discord: e.target.value })}
-              className="input"
-            />
-            <div className="button-container">
-              <Button variant="success" onClick={onSubmit}>
-                Submit My App
-              </Button>
-            </div>
-          </>
-        ) : (
-          <>
-            <SearchableTextField
-              value={form.department}
-              onChange={(e) => setForm({ ...form, department: e.target.value })}
-              onClick={(txt) => setForm({ ...form, department: txt })}
-              data={DEPARTMENTS}
-              placeholder="Department"
-            />
-            <SearchableTextField
-              value={form.professor}
-              onChange={(e) => setForm({ ...form, professor: e.target.value })}
-              onClick={(txt) => setForm({ ...form, professor: txt })}
-              data={PROFESSORS}
-              placeholder="Professor Name"
-            />
-            <SearchableTextField
-              value={form.className}
-              onChange={(e) => setForm({ ...form, className: e.target.value })}
-              onClick={(txt) => setForm({ ...form, className: txt })}
-              data={CLASSES}
-              placeholder="Class Name"
-            />
-            {/* <input
+              <h5>Describe Yourself and Meeting Times</h5>
+              <textarea
+                value={form.description}
+                placeholder="Describe Yourself"
+                onChange={(e) =>
+                  setForm({ ...form, description: e.target.value })
+                }
+              />
+              <h5>Department (Required)</h5>
+              <SearchableTextField
+                value={form.department}
+                onChange={(e) =>
+                  setForm({ ...form, department: e.target.value })
+                }
+                onClick={(txt) => setForm({ ...form, department: txt })}
+                data={DEPARTMENTS}
+                placeholder="Department"
+              />
+              <h5>Professor You Are Taking</h5>
+              <SearchableTextField
+                value={form.professor}
+                onChange={(e) =>
+                  setForm({ ...form, professor: e.target.value })
+                }
+                onClick={(txt) => setForm({ ...form, professor: txt })}
+                data={PROFESSORS}
+                placeholder="Professor Name"
+              />
+              <h5>Class Name</h5>
+              <SearchableTextField
+                value={form.className}
+                onChange={(e) =>
+                  setForm({ ...form, className: e.target.value })
+                }
+                onClick={(txt) => setForm({ ...form, className: txt })}
+                data={CLASSES}
+                placeholder="Class Name"
+              />
+              <h5>Phone Number</h5>
+              <input
+                value={form.phoneNumber}
+                type="number"
+                placeholder="Phone Number"
+                onChange={(e) =>
+                  setForm({ ...form, phoneNumber: parseInt(e.target.value) })
+                }
+                className="input"
+              />
+              <h5>Discord</h5>
+              <input
+                value={form.discord}
+                type="text"
+                placeholder="Discord Link"
+                onChange={(e) => setForm({ ...form, discord: e.target.value })}
+                className="input"
+              />
+              <div className="button-container">
+                <Button variant="success" onClick={onSubmit}>
+                  Submit My App
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <SearchableTextField
+                value={form.department}
+                onChange={(e) =>
+                  setForm({ ...form, department: e.target.value })
+                }
+                onClick={(txt) => setForm({ ...form, department: txt })}
+                data={DEPARTMENTS}
+                placeholder="Department"
+              />
+              <SearchableTextField
+                value={form.professor}
+                onChange={(e) =>
+                  setForm({ ...form, professor: e.target.value })
+                }
+                onClick={(txt) => setForm({ ...form, professor: txt })}
+                data={PROFESSORS}
+                placeholder="Professor Name"
+              />
+              <SearchableTextField
+                value={form.className}
+                onChange={(e) =>
+                  setForm({ ...form, className: e.target.value })
+                }
+                onClick={(txt) => setForm({ ...form, className: txt })}
+                data={CLASSES}
+                placeholder="Class Name"
+              />
+              {/* <input
         value={form.department}
         placeholder="Department"
         onChange={(e) => setForm({ ...form, department: e.target.value })}
       /> */}
-            <div className="button-container">
-              <Button variant="success" onClick={onSearch}>
-                Search
-              </Button>
-            </div>
-          </>
+              <div className="button-container">
+                <Button variant="success" onClick={onSearch}>
+                  Search
+                </Button>
+                <Button variant="secondary" onClick={logout}>
+                  Logout
+                </Button>
+              </div>
+            </>
+          )}
+        </div>
+        {!isPosting && (
+          <ResultsPage
+            results={relevancy(
+              results,
+              // sameFilters,
+              form.userName,
+              form.professor,
+              form.className,
+              form.maxGroupSize
+            )}
+          />
         )}
       </div>
-      {!isPosting && (
-        <ResultsPage
-          results={relevancy(
-            results,
-            // sameFilters,
-            form.userName,
-            form.professor,
-            form.className,
-            form.maxGroupSize
-          )}
-        />
-      )}
-    </div>
+    </AuthWrapper>
   );
 };
 
