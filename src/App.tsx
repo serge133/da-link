@@ -1,27 +1,28 @@
-import "./App.css";
 import {
-    BrowserRouter as Router, 
-    Switch,
-    Route
-} from 'react-router-dom';
-import Main from "./pages/main";
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  RouteProps,
+  Navigate,
+} from "react-router-dom";
+import Main from "./pages/Main/Main";
+import LoginPage from "./pages/Login/Login";
+import SignupPage from "./pages/Signup/Signup";
+import useAuth, { AuthProvider } from "./useAuth";
 
 function App() {
+  const { user } = useAuth();
 
   return (
     <Router>
-        <h1>test</h1>
-        <Switch>
-            <Route path="/">
-                <h1>test</h1>
-            </Route>
-            <Route path="/dashboard" >
-                <Main />
-            </Route>
-            <Route path="/log-in">
-                <div><h1>Log IN</h1></div>
-            </Route>
-        </Switch>
+      <AuthProvider>
+        <Routes>
+          <Route path="/app" element={<Main />} />
+          <Route path="/" element={<h1>Test</h1>} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }

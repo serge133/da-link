@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set } from "firebase/database";
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyC85MEK9p9ki8uerRal7aMkHrK3p1IfzmE",
   authDomain: "dinder-2.firebaseapp.com",
   projectId: "dinder-2",

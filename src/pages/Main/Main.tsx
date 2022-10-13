@@ -1,4 +1,4 @@
-import './Main.css';
+import "./Main.css";
 import { useState } from "react";
 import ResultsPage from "../../page/ResultsPage";
 import { save_student, get_students } from "../../database/actions";
@@ -13,6 +13,7 @@ import { Image } from "react-bootstrap";
 import DALogo from "../../assets/DAC_Logo_Black.png";
 import LINKlogo from "../../assets/link-logo.png";
 import { Student } from "../../database/models";
+import useAuth from "../../useAuth";
 
 const defaultForm: Student = {
   id: "",
@@ -30,6 +31,7 @@ const Main = () => {
   const [form, setForm] = useState(defaultForm);
   const [results, setResults] = useState<Student[]>([]);
   const [isPosting, setIsPosting] = useState(false);
+  const { user } = useAuth();
 
   const getStudentData = (department: string) => {
     const users = get_students(department);
@@ -73,12 +75,12 @@ const Main = () => {
     getStudentData(form.department);
   };
 
-    return (
+  return (
     <div className="App">
-    <div className="logo__wrapper">
-      <Image src={DALogo} style={{ height: 65 }} />
-      <Image src={LINKlogo} style={{height:65}}/>
-    </div>
+      <div className="logo__wrapper">
+        <Image src={DALogo} style={{ height: 65 }} />
+        <Image src={LINKlogo} style={{ height: 65 }} />
+      </div>
       <div className="form__container">
         <div className="toggle-posting">
           <Button
@@ -219,7 +221,7 @@ const Main = () => {
         />
       )}
     </div>
-    );
-}
+  );
+};
 
 export default Main;

@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 import { Student } from "../database/models";
 
 interface Props {
-  results?: Student[]
+  results?: Student[];
 }
 
 export default (props: Props) => {
@@ -37,7 +37,7 @@ export default (props: Props) => {
       `Phone Number: ${user["phoneNumber"]} | Discord Link: ${user["discord"]} `
     );
   };
-  console.log(props.results);
+
   return (
     <div className="student-carousel">
       {props.results?.map((u) => (
