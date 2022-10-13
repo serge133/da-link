@@ -1,5 +1,5 @@
 import "./Main.css";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import ResultsPage from "../../page/ResultsPage";
 import { save_student, get_students } from "../../database/actions";
 import { onValue } from "firebase/database";

@@ -2,7 +2,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  User,
+  User as FirebaseUser,
 } from "firebase/auth";
 import {
   createContext,
@@ -13,16 +13,23 @@ import {
   useMemo,
   useState,
 } from "react";
-import { redirect, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import app from "./database/firebase";
+
+type User = {
+  uid: string;
+  refreshToken: string;
+};
 
 interface AuthContextType {
   user?: User;
   loading: boolean;
+  authenticated: boolean;
   error?: any;
   login: (email: string, password: string) => void;
   signUp: (email: string, studentId: string, password: string) => void;
   logout: () => void;
+  getLoginState: () => boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -32,9 +39,11 @@ export const AuthProvider = ({
 }: {
   children: ReactNode;
 }): JSX.Element => {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | undefined>();
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [authenticated, setAuthenticated] = useState(false);
+
   const [loadingInitial, setLoadingInitial] = useState<boolean>(true);
   const navigate = useNavigate();
   // We are using `react-router` for this example,
@@ -68,6 +77,25 @@ export const AuthProvider = ({
   // An error means that the email/password combination is
   // not valid.
   //
+
+  // Even if you refresh it persists the login state
+  function getLoginState(): boolean {
+    const uid: string | null = localStorage.getItem("uid");
+    const refreshToken: string | null = localStorage.getItem("refreshToken");
+
+    if (uid && refreshToken) {
+      console.log(uid, refreshToken);
+      setAuthenticated(true);
+      setUser({
+        uid,
+        refreshToken,
+      });
+      console.log(user);
+      return true;
+    }
+    return false;
+  }
+
   // Finally, just signal the component that loading the
   // loading state is over.
   function login(email: string, password: string) {
@@ -76,14 +104,21 @@ export const AuthProvider = ({
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        const user: User = userCredential.user;
-        setUser(user);
+        const user: FirebaseUser = userCredential.user;
+        localStorage.setItem("uid", user.uid);
+        localStorage.setItem("refreshToken", user.refreshToken);
+        setAuthenticated(true);
+        setUser({
+          uid: user.uid,
+          refreshToken: user.refreshToken,
+        });
         navigate("/app");
         setLoading(false);
       })
       .catch((err: { code: string; message: string }) => {
         console.log(err.code, err.message);
         setLoading(false);
+        setAuthenticated(false);
       });
   }
 
@@ -96,6 +131,8 @@ export const AuthProvider = ({
       .then((userCredential) => {
         const user: User = userCredential.user;
         setUser(user);
+        localStorage.setItem("uid", user.uid);
+        localStorage.setItem("refreshToken", user.refreshToken);
         // console.log("Success signed up: ", user);
         navigate("/app");
         setLoading(false);
@@ -109,6 +146,9 @@ export const AuthProvider = ({
   // Call the logout endpoint and then remove the user
   // from the state.
   function logout() {
+    localStorage.removeItem("uid");
+    localStorage.removeItem("refreshToken");
+    setAuthenticated(false);
     setUser(undefined);
   }
 
@@ -125,6 +165,8 @@ export const AuthProvider = ({
     () => ({
       user,
       loading,
+      authenticated,
+      getLoginState,
       error,
       login,
       signUp,
@@ -151,15 +193,17 @@ export const AuthWrapper = ({
 }: {
   children: JSX.Element;
 }): JSX.Element => {
+  const { authenticated, getLoginState } = useAuth();
   const navigate = useNavigate();
   const goToLogin = useCallback(() => navigate("/login"), []);
-  const { user } = useAuth();
+  const getAuthState = useCallback(getLoginState, []);
 
   useEffect(() => {
-    if (!user) {
+    const loggedIn = getAuthState();
+    if (!loggedIn) {
       goToLogin();
     }
-  }, [user, goToLogin]);
+  }, [goToLogin, getAuthState, authenticated]);
 
   return children;
 };
