@@ -1,14 +1,14 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set } from "firebase/database";
+// import { getDatabase, ref, set } from "firebase/database";
 
-export const firebaseConfig = {
-  apiKey: "AIzaSyC85MEK9p9ki8uerRal7aMkHrK3p1IfzmE",
-  authDomain: "dinder-2.firebaseapp.com",
-  projectId: "dinder-2",
-  storageBucket: "dinder-2.appspot.com",
-  messagingSenderId: "637508758390",
-  appId: "1:637508758390:web:f0fdcc074e028a6ef06857",
-  databaseUrl: "https://dinder-2-default-rtdb.firebaseio.com/",
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECTID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGE_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
+  databaseUrl: import.meta.env.VITE_DB_URL,
 };
 
 const app = initializeApp(firebaseConfig);

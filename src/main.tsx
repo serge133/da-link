@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 // import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
-import { AuthProvider } from "./useAuth";
 // const router = createBrowserRouter([
 //   {
 //     path: "/login",
@@ -17,7 +16,7 @@ import { AuthProvider } from "./useAuth";
 //     element: <Main />,
 //   },
 // ]);
-
+// console.log(import.meta.env.VITE_API_KEY);
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     {/* <RouterProvider router={router} /> */}
