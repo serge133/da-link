@@ -2,6 +2,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  onAuthStateChanged,
   User as FirebaseUser,
 } from "firebase/auth";
 import {
@@ -13,6 +14,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { unstable_batchedUpdates } from "react-dom";
 import { useNavigate } from "react-router";
 import app from "./database/firebase";
 
@@ -24,6 +26,7 @@ type User = {
 interface AuthContextType {
   user?: User;
   loading: boolean;
+  loadingInitial: boolean;
   authenticated: boolean;
   error?: any;
   login: (email: string, password: string) => void;
@@ -79,21 +82,46 @@ export const AuthProvider = ({
   //
 
   // Even if you refresh it persists the login state
-  function getLoginState(): boolean {
+  function getLoginState() {
     const uid: string | null = localStorage.getItem("uid");
     const refreshToken: string | null = localStorage.getItem("refreshToken");
+    const auth = getAuth(app);
+    console.log(authenticated);
 
-    if (uid && refreshToken) {
-      console.log(uid, refreshToken);
-      setAuthenticated(true);
-      setUser({
-        uid,
-        refreshToken,
-      });
-      console.log(user);
-      return true;
-    }
-    return false;
+    // if (uid && refreshToken) {
+    //   setUser({
+    //     uid: uid,
+    //     refreshToken: refreshToken,
+    //   });
+    //   setAuthenticated(true);
+    // }
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        setAuthenticated(false);
+        setLoadingInitial(false);
+        setUser(undefined);
+      } else {
+        setAuthenticated(true);
+        setLoadingInitial(false);
+        setUser({
+          uid: user.uid,
+          refreshToken: user.refreshToken,
+        });
+      }
+    });
+
+    // if (uid && refreshToken) {
+    //   console.log(uid, refreshToken);
+    //   setAuthenticated(true);
+    //   setUser({
+    //     uid,
+    //     refreshToken,
+    //   });
+    //   console.log(user);
+    //   return true;
+    // }
+    // return false;
   }
 
   // Finally, just signal the component that loading the
@@ -148,6 +176,8 @@ export const AuthProvider = ({
   function logout() {
     localStorage.removeItem("uid");
     localStorage.removeItem("refreshToken");
+    const auth = getAuth();
+    auth.signOut();
     setAuthenticated(false);
     setUser(undefined);
   }
@@ -165,6 +195,7 @@ export const AuthProvider = ({
     () => ({
       user,
       loading,
+      loadingInitial,
       authenticated,
       getLoginState,
       error,
@@ -172,7 +203,7 @@ export const AuthProvider = ({
       signUp,
       logout,
     }),
-    [user, loading, error]
+    [user, authenticated, loading, loadingInitial, error]
   );
 
   // We only want to render the underlying app after we
@@ -193,17 +224,23 @@ export const AuthWrapper = ({
 }: {
   children: JSX.Element;
 }): JSX.Element => {
-  const { authenticated, getLoginState } = useAuth();
+  const { authenticated, loadingInitial, getLoginState } = useAuth();
   const navigate = useNavigate();
   const goToLogin = useCallback(() => navigate("/login"), []);
   const getAuthState = useCallback(getLoginState, []);
 
   useEffect(() => {
-    const loggedIn = getAuthState();
-    if (!loggedIn) {
+    getAuthState();
+  }, [getAuthState]);
+
+  useEffect(() => {
+    if (loadingInitial) {
+      return;
+    }
+    if (!authenticated) {
       goToLogin();
     }
-  }, [goToLogin, getAuthState, authenticated]);
+  }, [goToLogin, authenticated, loadingInitial]);
 
-  return children;
+  return loadingInitial ? <h1>Loading...</h1> : children;
 };

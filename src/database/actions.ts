@@ -14,7 +14,7 @@ export const save_student = (
   discord: string
 ) => {
   const db = getDatabase(app);
-  set(ref(db, `${department}/students/${id}`), {
+  set(ref(db, `groups/${department}/students/${id}`), {
     id,
     userName,
     description,
@@ -29,13 +29,13 @@ export const save_student = (
 
 export const get_students = (department: string) => {
   const db = getDatabase(app);
-  const users = ref(db, `${department}/students/`);
+  const users = ref(db, `groups/${department}/students/`);
   return users; // User Reference
 };
 
 export const get_student = (department: string, id: string) => {
   const db = getDatabase(app);
-  const student = ref(db, `${department}/students/${id}`);
+  const student = ref(db, `groups/${department}/students/${id}`);
   return student;
 };
 
