@@ -1,39 +1,37 @@
-import { Student } from "../database/models";
+import { Class } from "../Containers/ClassesDisplay/ClassesDisplay";
 
 export const relevancy = (
-  arr: Student[],
+  arr: Class[],
   // filters, // Object with filters
-  userName: string,
-  professor: string,
-  className: string,
-  maxGroupSize: number
+  search: string
 ) => {
-  const checkIfYou = (el: Student) => {
-    return el["userName"] !== userName;
+  const query = (el: Class) => {
+    const keyMatch = (
+      key: "className" | "professor" | "crn" | "id",
+      match: string
+    ) => {
+      return el[key].toLowerCase().includes(match);
+    };
+
+    const searchWords = search.toLowerCase().split(" ");
+
+    let contains: boolean = true;
+    for (const word of searchWords) {
+      const trimmedWord = word.trim();
+      const c1 = keyMatch("className", trimmedWord);
+      const c2 = keyMatch("professor", trimmedWord);
+      const c3 = keyMatch("crn", trimmedWord);
+      const c4 = keyMatch("id", trimmedWord);
+
+      contains = (c1 || c2 || c3 || c4) && contains;
+    }
+    return contains;
   };
 
-  const checkGroupSize = (el: Student) => {
-    return el["maxGroupSize"] <= maxGroupSize;
-  };
+  let filteredArr = arr;
 
-  const checkClassname = (el: Student) => {
-    return el["className"] === className;
-  };
-
-  const checkProfessor = (el: Student) => {
-    return el["professor"] === professor;
-  };
-
-  let filteredArr = arr.filter(checkIfYou);
-
-  // if (filters["group"]) {
-  //   filteredArr = filteredArr.filter(checkGroupSize);
-  // }
-  if (className.trim().length > 0) {
-    filteredArr = filteredArr.filter(checkClassname);
-  }
-  if (professor.trim().length > 0) {
-    filteredArr = filteredArr.filter(checkProfessor);
+  if (search.trim().length > 0) {
+    filteredArr = filteredArr.filter(query);
   }
 
   return filteredArr;

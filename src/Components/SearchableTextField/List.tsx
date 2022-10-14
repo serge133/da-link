@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 
 interface Props {
-  data: string[],
-  input: string,
-  onClick: (e: string) => void
+  data: string[];
+  input: string;
+  hideList: () => void;
+  onClick: (e: string) => void;
 }
 
 function List(props: Props) {
@@ -20,8 +21,8 @@ function List(props: Props) {
   });
 
   useEffect(() => {
-    if (filteredData.length == 1) {
-      props.onClick(filteredData[0]);
+    if (filteredData.length == 1 && filteredData[0] === props.input) {
+      props.hideList();
     }
   }, [filteredData]);
   return (

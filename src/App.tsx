@@ -2,14 +2,12 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useNavigate,
-  RouteProps,
+  Navigate,
 } from "react-router-dom";
 import Main from "./pages/Main/Main";
 import LoginPage from "./pages/Login/Login";
 import SignupPage from "./pages/Signup/Signup";
-import useAuth, { AuthProvider } from "./useAuth";
-import { useCallback, useEffect } from "react";
+import { AuthProvider } from "./useAuth";
 
 function App() {
   return (
@@ -17,7 +15,7 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/app" element={<Main />} />
-          <Route path="/" element={<h1>Test</h1>} />
+          <Route path="/" element={<Navigate to="/app" />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
         </Routes>

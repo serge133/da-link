@@ -1,0 +1,19 @@
+.class-carousel {
+  width: 100%;
+  /* background-color: black; */
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.class-carousel .card {
+  margin-top: 10px;
+}
+
+.class-carousel .button-container {
+  width: 100%;
+  text-align: center;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: space-around;
+}
