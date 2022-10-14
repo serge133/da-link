@@ -16,7 +16,7 @@ const ClassSearch = (props: ClassSearchProps) => {
     <Card className="class-search-card">
       <Form>
         <Form.Group className="mb-3">
-          <Form.Label>Department</Form.Label>
+          <Form.Label>Department (Required)</Form.Label>
           <SearchableTextField
             onClick={(txt) => props.onChangeDepartment(txt)}
             onChange={(txt: string) => props.onChangeDepartment(txt)}
@@ -32,7 +32,7 @@ const ClassSearch = (props: ClassSearchProps) => {
             onChange={(e) => props.onChangeSearch(e.target.value)}
             value={props.search}
             type="text"
-            placeholder="Class Name"
+            placeholder="Class Name, CRN, Professor, Class ID, Anything..."
           />
         </Form.Group>
 
