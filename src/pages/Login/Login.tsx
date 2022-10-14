@@ -6,6 +6,7 @@ import DALogo from "../../assets/DAC_Logo_Black.png";
 import DALinkLogo from "../../assets/link-logo.png";
 import useAuth from "../../useAuth";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 type LoginProps = {};
 
@@ -20,10 +21,14 @@ const LoginPage = (props: LoginProps) => {
     password: "",
   });
   const { login, loading } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
     login(form.email, form.password);
   };
+
+  const redirectSignup = () => navigate("/signup");
+
   return (
     <Card className="login-card">
       <div className="logo-container">
@@ -40,9 +45,9 @@ const LoginPage = (props: LoginProps) => {
             value={form.email}
             placeholder="Enter Email"
           />
-          <Form.Text className="text-muted">
+          {/* <Form.Text className="text-muted">
             We'll never share your Email Address with anyone else.
-          </Form.Text>
+          </Form.Text> */}
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
@@ -56,9 +61,19 @@ const LoginPage = (props: LoginProps) => {
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
           <Form.Check type="checkbox" label="Check me out" />
         </Form.Group>
-        <Button disabled={loading} onClick={handleSubmit} variant="primary">
-          Log-In
-        </Button>
+        <div className="row-buttons">
+          <Button disabled={loading} onClick={handleSubmit} variant="primary">
+            Log-In
+          </Button>
+          <Button
+            className="ms-3"
+            disabled={loading}
+            onClick={redirectSignup}
+            variant="light"
+          >
+            New User?
+          </Button>
+        </div>
       </Form>
     </Card>
   );

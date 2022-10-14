@@ -21,22 +21,14 @@ const signupForm = {
 
 const SignupPage = (props: SignupProps) => {
   const [form, setForm] = useState(signupForm);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
-  const { signUp, loading, user } = useAuth();
+  const { signUp, loading } = useAuth();
   const handleSubmit = () => {
     signUp(form.email, form.studentId, form.password);
-    // const auth = getAuth(app);
-    // createUserWithEmailAndPassword(auth, form.email, form.password)
-    //   .then((userCredential) => {
-    //     const user = userCredential.user;
-    //     console.log("Success signed up: ", user);
-    //     setIsLoggedIn(true);
-    //   })
-    //   .catch((err: { code: string; message: string }) => {
-    //     console.log(err.code, err.message);
-    //   });
   };
+
+  const redirectLogin = () => navigate("/login");
 
   return (
     <Card className="login-card">
@@ -95,9 +87,19 @@ const SignupPage = (props: SignupProps) => {
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
           <Form.Check type="checkbox" label="Check me out" />
         </Form.Group>
-        <Button disabled={loading} onClick={handleSubmit} variant="primary">
-          Sign-Up
-        </Button>
+        <div className="row-buttons">
+          <Button disabled={loading} onClick={handleSubmit} variant="primary">
+            Sign-Up
+          </Button>
+          <Button
+            className="ms-3"
+            disabled={loading}
+            onClick={redirectLogin}
+            variant="light"
+          >
+            Already a User?
+          </Button>
+        </div>
       </Form>
     </Card>
   );
