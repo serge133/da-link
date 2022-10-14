@@ -34,59 +34,49 @@ const defaultForm = {
 const Main = () => {
   const [form, setForm] = useState(defaultForm);
   const [results, setResults] = useState<Student[]>([]);
-  const [isPosting, setIsPosting] = useState(false);
   const { logout } = useAuth();
-  const navigate = useNavigate();
 
-  const goToLogin = useCallback(() => navigate("/login"), []);
+  // const getStudentData = (department: string) => {
+  //   const users = get_students(department);
+  //   onValue(users, (snapshot) => {
+  //     const data = snapshot.val() as Student[] | undefined;
+  //     if (data) {
+  //       const res = Object.values(data);
+  //       setResults(res);
+  //       console.log(data);
+  //     }
+  //   });
+  // };
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     goToLogin();
-  //   }
-  // }, [user, goToLogin]);
+  // const onSubmit = () => {
+  //   // save_professor(form.professor, form.department);
+  //   save_student(
+  //     uuidv4(),
+  //     form.userName,
+  //     form.description,
+  //     form.className,
+  //     form.professor,
+  //     form.maxGroupSize,
+  //     form.department,
+  //     form.phoneNumber,
+  //     form.discord
+  //   );
+  //   // getStudentData(form.department);
+  //   // const db = getDatabase(app);
+  //   // set(ref(db, `${form.department}/students/${form.id}`), {
+  //   //   id,
+  //   //   userName,
+  //   //   className,
+  //   //   professor,
+  //   //   maxGroupSize,
+  //   //   department,
+  //   // });
+  //   setForm(defaultForm);
+  // };
 
-  const getStudentData = (department: string) => {
-    const users = get_students(department);
-    onValue(users, (snapshot) => {
-      const data = snapshot.val() as Student[] | undefined;
-      if (data) {
-        const res = Object.values(data);
-        setResults(res);
-        console.log(data);
-      }
-    });
-  };
-
-  const onSubmit = () => {
-    // save_professor(form.professor, form.department);
-    save_student(
-      uuidv4(),
-      form.userName,
-      form.description,
-      form.className,
-      form.professor,
-      form.maxGroupSize,
-      form.department,
-      form.phoneNumber,
-      form.discord
-    );
-    // getStudentData(form.department);
-    // const db = getDatabase(app);
-    // set(ref(db, `${form.department}/students/${form.id}`), {
-    //   id,
-    //   userName,
-    //   className,
-    //   professor,
-    //   maxGroupSize,
-    //   department,
-    // });
-    setForm(defaultForm);
-  };
-
-  const onSearch = () => {
-    getStudentData(form.department);
-  };
+  // const onSearch = () => {
+  //   getStudentData(form.department);
+  // };
 
   return (
     <AuthWrapper>
@@ -96,21 +86,6 @@ const Main = () => {
           <Image src={LINKlogo} style={{ height: 65 }} />
         </div>
         <div className="form__container">
-          <div className="toggle-posting">
-            <Button
-              onClick={() => setIsPosting(true)}
-              variant={isPosting ? "primary" : "secondary"}
-            >
-              Submit Application
-            </Button>
-            <Button
-              onClick={() => setIsPosting(false)}
-              variant={!isPosting ? "primary" : "secondary"}
-            >
-              Search Groups
-            </Button>
-          </div>
-
           <ClassSearch
             department={form.department}
             search={form.search}
@@ -125,9 +100,6 @@ const Main = () => {
             }
           />
           <div className="button-container">
-            <Button variant="success" onClick={onSearch}>
-              Search
-            </Button>
             <Button variant="secondary" onClick={logout}>
               Logout
             </Button>
