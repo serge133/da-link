@@ -1,6 +1,5 @@
 import "./Main.css";
 import { ChangeEvent, useState } from "react";
-import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Image } from "react-bootstrap";
 import DALogo from "../../assets/DAC_Logo_Black.png";
@@ -9,11 +8,7 @@ import useAuth, { AuthWrapper } from "../../useAuth";
 import ClassSearch from "../../Containers/ClassSearch/ClassSearch";
 import ClassesDisplay from "../../Containers/ClassesDisplay/ClassesDisplay";
 import { useParams } from "react-router";
-
-const defaultForm = {
-  department: "",
-  search: "",
-};
+import NavigationBar from "../../Components/Navbar/Navbar";
 
 const Main = () => {
   const { department, search } = useParams();
@@ -40,6 +35,7 @@ const Main = () => {
   return (
     <AuthWrapper>
       <div className="App">
+        <NavigationBar />
         <div className="logo__wrapper">
           <Image src={DALogo} style={{ height: 65 }} />
           <Image src={LINKlogo} style={{ height: 65 }} />
@@ -52,9 +48,8 @@ const Main = () => {
             onClickList={onClickList}
           />
           <div className="button-container">
-            <Button variant="secondary" onClick={logout}>
-              Logout
-            </Button>
+            {/* <Button variant="secondary" onClick={logout}>
+            </Button> */}
           </div>
         </div>
         <ClassesDisplay search={form.search} department={form.department} />

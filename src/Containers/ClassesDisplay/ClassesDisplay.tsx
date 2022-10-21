@@ -38,7 +38,7 @@ const ClassesDisplay = (props: ClassesDisplayProps) => {
   }, [department, search, search]);
 
   const openClass = (c: Class) => {
-    const url = `/class/${c.crn}/${department}`;
+    const url = `/class/${c.crn}/${department}/${search}`;
     navigate(url);
   };
 
