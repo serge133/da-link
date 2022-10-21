@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Main from "./pages/Main/Main";
 import LoginPage from "./pages/Login/Login";
 import SignupPage from "./pages/Signup/Signup";
@@ -16,7 +21,7 @@ function App() {
             <Route path=":department" element={<Main />} />
             <Route path=":department/:search" element={<Main />} />
           </Route>
-          <Route path="/" element={<NavigationBar />} />
+          <Route path="/" element={<Navigate to="/app" />} />
           <Route path="class">
             <Route path="/class/:crn/:department" element={<ClassPage />} />
             <Route
