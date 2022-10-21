@@ -17,10 +17,13 @@ function App() {
             <Route path=":department/:search" element={<Main />} />
           </Route>
           <Route path="/" element={<NavigationBar />} />
-          <Route
-            path="/class/:crn/:department/:search"
-            element={<ClassPage />}
-          />
+          <Route path="class">
+            <Route path="/class/:crn/:department" element={<ClassPage />} />
+            <Route
+              path="/class/:crn/:department/:search"
+              element={<ClassPage />}
+            />
+          </Route>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
         </Routes>

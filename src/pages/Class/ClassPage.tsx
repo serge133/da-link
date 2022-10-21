@@ -20,7 +20,9 @@ const ClassPage = (props: Props) => {
   return (
     <AuthWrapper>
       <div className="App">
-        <NavigationBar goBack={`/app/${department}/${search}`} />
+        <NavigationBar
+          goBack={`/app/${department}${search ? "/" + search : ""}`}
+        />
         <div>
           <h1>{classData?.crn}</h1>
           <h1>{classData?.professor}</h1>
