@@ -8,6 +8,8 @@ import { useNavigate } from "react-router";
 type ClassesDisplayProps = {
   department: string;
   search: string;
+  toggleFavoriteClass: (crn: string) => void;
+  me: { favorites: { [crn: string]: boolean } };
 };
 
 export type Class = {
@@ -46,7 +48,13 @@ const ClassesDisplay = (props: ClassesDisplayProps) => {
     <div className="class-carousel">
       {data.map((c) => (
         <Card
-          style={{ width: "18rem", height: 300, textAlign: "left" }}
+          style={{
+            width: "18rem",
+            height: 300,
+            textAlign: "left",
+
+            border: c.crn in props.me.favorites ? "2px solid gold" : "",
+          }}
           key={c.crn}
         >
           {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
@@ -63,6 +71,12 @@ const ClassesDisplay = (props: ClassesDisplayProps) => {
           <div className="button-container">
             <Button variant="primary" onClick={() => openClass(c)}>
               Details
+            </Button>
+            <Button
+              variant={c.crn in props.me.favorites ? "warning" : "secondary"}
+              onClick={() => props.toggleFavoriteClass(c.crn)}
+            >
+              Favorite
             </Button>
           </div>
           <Card.Footer>20 Students 4 Groups</Card.Footer>

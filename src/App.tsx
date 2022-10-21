@@ -9,7 +9,6 @@ import LoginPage from "./pages/Login/Login";
 import SignupPage from "./pages/Signup/Signup";
 import { AuthProvider } from "./useAuth";
 import ClassPage from "./pages/Class/ClassPage";
-import NavigationBar from "./Components/Navbar/Navbar";
 
 function App() {
   return (

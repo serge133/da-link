@@ -1,6 +1,7 @@
 import { child, getDatabase, push, ref, set, update } from "firebase/database";
 import app from "./firebase";
 import { uuidv4 } from "@firebase/util";
+import useAuth from "../useAuth";
 
 export const save_student = (
   id: string,
@@ -33,10 +34,10 @@ export const get_students = (department: string) => {
   return users; // User Reference
 };
 
-export const get_student = (department: string, id: string) => {
+export const get_student = (uid: string) => {
   const db = getDatabase(app);
-  const student = ref(db, `groups/${department}/students/${id}`);
-  return student;
+  const studentRef = ref(db, `users/${uid}`);
+  return studentRef;
 };
 
 export const save_professor = (professor_name: string, department: string) => {
