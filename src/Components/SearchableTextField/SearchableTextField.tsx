@@ -4,28 +4,31 @@ import "./style.css";
 import { Form, FormControlProps } from "react-bootstrap";
 
 interface Props {
-  onClick: (txt: string) => void;
-  onChange: (txt: string) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onClickList: (listValue: string) => void;
   value: string;
   placeholder: string;
+  name: string;
   data: string[];
 }
 
 export default function (props: Props) {
   const [showList, setShowList] = useState(false);
-  const handleClick = (txt: string) => {
+
+  const handleClick = (listValue: string) => {
     setShowList(false);
-    props.onClick(txt);
+    props.onClickList(listValue);
   };
-  const handleChange = (txt: string) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setShowList(true);
-    props.onChange(txt);
+    props.onChange(e);
   };
   return (
     <div className="searchable-text-container">
       <Form.Control
         onFocus={() => setShowList(true)}
-        onChange={(e) => handleChange(e.target.value)}
+        onChange={handleChange}
+        name={props.name}
         value={props.value}
         placeholder={props.placeholder}
       />

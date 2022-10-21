@@ -1,5 +1,5 @@
 import "./Main.css";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Image } from "react-bootstrap";
@@ -10,14 +10,6 @@ import ClassSearch from "../../Containers/ClassSearch/ClassSearch";
 import ClassesDisplay from "../../Containers/ClassesDisplay/ClassesDisplay";
 
 const defaultForm = {
-  id: "",
-  userName: "",
-  description: "",
-  phoneNumber: 0,
-  discord: "",
-  className: "",
-  professor: "",
-  maxGroupSize: 1,
   department: "",
   search: "",
 };
@@ -25,6 +17,20 @@ const defaultForm = {
 const Main = () => {
   const [form, setForm] = useState(defaultForm);
   const { logout } = useAuth();
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setForm((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value.toUpperCase(),
+    }));
+  };
+
+  const onClickList = (listValue: string) => {
+    setForm((prevState) => ({
+      ...prevState,
+      department: listValue,
+    }));
+  };
 
   return (
     <AuthWrapper>
@@ -37,15 +43,8 @@ const Main = () => {
           <ClassSearch
             department={form.department}
             search={form.search}
-            onChangeSearch={(search: string) =>
-              setForm((prevState) => ({ ...prevState, search: search }))
-            }
-            onChangeDepartment={(dept: string) =>
-              setForm((prevState) => ({
-                ...prevState,
-                department: dept,
-              }))
-            }
+            handleChange={handleChange}
+            onClickList={onClickList}
           />
           <div className="button-container">
             <Button variant="secondary" onClick={logout}>

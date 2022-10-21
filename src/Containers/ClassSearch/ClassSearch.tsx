@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import SearchableTextField from "../../Components/SearchableTextField/SearchableTextField";
 import "./ClassSearch.css";
@@ -7,8 +7,8 @@ import { DEPARTMENTS } from "../../database/schoolData";
 type ClassSearchProps = {
   department: string;
   search: string;
-  onChangeDepartment: (department: string) => void;
-  onChangeSearch: (search: string) => void;
+  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onClickList: (listValue: string) => void;
 };
 
 const ClassSearch = (props: ClassSearchProps) => {
@@ -18,8 +18,9 @@ const ClassSearch = (props: ClassSearchProps) => {
         <Form.Group className="mb-3">
           <Form.Label>Department (Required)</Form.Label>
           <SearchableTextField
-            onClick={(txt) => props.onChangeDepartment(txt)}
-            onChange={(txt: string) => props.onChangeDepartment(txt)}
+            name="department"
+            onClickList={props.onClickList}
+            onChange={props.handleChange}
             value={props.department}
             placeholder="Department"
             data={DEPARTMENTS}
@@ -29,7 +30,8 @@ const ClassSearch = (props: ClassSearchProps) => {
         <Form.Group className="mb-3" controlId="className">
           <Form.Label>Search Anything</Form.Label>
           <Form.Control
-            onChange={(e) => props.onChangeSearch(e.target.value)}
+            name="search"
+            onChange={props.handleChange}
             value={props.search}
             type="text"
             placeholder="Class Name, CRN, Professor, Class ID, Anything..."
