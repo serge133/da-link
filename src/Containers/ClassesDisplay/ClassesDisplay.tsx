@@ -3,6 +3,7 @@ import { classes } from "../../database/schoolData";
 import { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { relevancy } from "../../functions/sorter";
+import { useNavigate } from "react-router";
 
 type ClassesDisplayProps = {
   department: string;
@@ -24,6 +25,7 @@ const ClassesDisplay = (props: ClassesDisplayProps) => {
   const { department, search } = props;
   console.log(department);
   const [data, setData] = useState<Class[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (department in classes) {
@@ -34,6 +36,11 @@ const ClassesDisplay = (props: ClassesDisplayProps) => {
       setData(filteredData);
     }
   }, [department, search, search]);
+
+  const openClass = (c: Class) => {
+    const url = `/class/${c.crn}/${department}`;
+    navigate(url);
+  };
 
   return (
     <div className="class-carousel">
@@ -54,8 +61,9 @@ const ClassesDisplay = (props: ClassesDisplayProps) => {
             <Card.Text>{c.classStatus}</Card.Text>
           </Card.Body>
           <div className="button-container">
-            <Button variant="primary">Message</Button>
-            <Button variant="secondary">Enroll</Button>
+            <Button variant="primary" onClick={() => openClass(c)}>
+              Details
+            </Button>
           </div>
           <Card.Footer>20 Students 4 Groups</Card.Footer>
         </Card>

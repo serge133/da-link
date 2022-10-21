@@ -8,6 +8,7 @@ import LINKlogo from "../../assets/link-logo.png";
 import useAuth, { AuthWrapper } from "../../useAuth";
 import ClassSearch from "../../Containers/ClassSearch/ClassSearch";
 import ClassesDisplay from "../../Containers/ClassesDisplay/ClassesDisplay";
+import { useParams } from "react-router";
 
 const defaultForm = {
   department: "",
@@ -15,7 +16,11 @@ const defaultForm = {
 };
 
 const Main = () => {
-  const [form, setForm] = useState(defaultForm);
+  const { department, search } = useParams();
+  const [form, setForm] = useState({
+    department: department ? department : "",
+    search: search ? search : "",
+  });
   const { logout } = useAuth();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
