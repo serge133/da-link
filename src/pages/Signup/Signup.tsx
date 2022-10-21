@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import DALogo from "../../assets/DAC_Logo_Black.png";
 import DALinkLogo from "../../assets/link-logo.png";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 // import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 // import app from "../../database/firebase";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -24,6 +24,14 @@ const SignupPage = (props: SignupProps) => {
   const navigate = useNavigate();
 
   const { signUp, loading } = useAuth();
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setForm((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
   const handleSubmit = () => {
     signUp(form.email, form.studentId, form.password);
   };
@@ -41,8 +49,9 @@ const SignupPage = (props: SignupProps) => {
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email Address</Form.Label>
           <Form.Control
+            name="email"
             type="email"
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            onChange={handleChange}
             value={form.email}
             placeholder="Enter Email"
           />
@@ -54,7 +63,8 @@ const SignupPage = (props: SignupProps) => {
         <Form.Group className="mb-3" controlId="formBasicID">
           <Form.Label>De Anza Student ID</Form.Label>
           <Form.Control
-            onChange={(e) => setForm({ ...form, studentId: e.target.value })}
+            name="studentId"
+            onChange={handleChange}
             value={form.studentId}
             type="username"
             placeholder="Student ID"
@@ -67,7 +77,8 @@ const SignupPage = (props: SignupProps) => {
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
+            name="password"
+            onChange={handleChange}
             value={form.password}
             type="password"
             placeholder="Password"
@@ -76,9 +87,8 @@ const SignupPage = (props: SignupProps) => {
         <Form.Group className="mb-3" controlId="reenterPass">
           <Form.Label>Re-Enter Password</Form.Label>
           <Form.Control
-            onChange={(e) =>
-              setForm({ ...form, confirmPassword: e.target.value })
-            }
+            name="confirmPassword"
+            onChange={handleChange}
             value={form.confirmPassword}
             type="password"
             placeholder="Re-Enter Password"

@@ -5,7 +5,7 @@ import "./Login.css";
 import DALogo from "../../assets/DAC_Logo_Black.png";
 import DALinkLogo from "../../assets/link-logo.png";
 import useAuth from "../../useAuth";
-import { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router";
 
 type LoginProps = {};
@@ -27,6 +27,13 @@ const LoginPage = (props: LoginProps) => {
     login(form.email, form.password);
   };
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setForm((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
   const redirectSignup = () => navigate("/signup");
 
   return (
@@ -41,20 +48,19 @@ const LoginPage = (props: LoginProps) => {
           <Form.Label>Email Address</Form.Label>
           <Form.Control
             type="email"
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            name="email"
+            onChange={handleChange}
             value={form.email}
             placeholder="Enter Email"
           />
-          {/* <Form.Text className="text-muted">
-            We'll never share your Email Address with anyone else.
-          </Form.Text> */}
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            value={form.password}
+            name="password"
             type="password"
+            onChange={handleChange}
+            value={form.password}
             placeholder="Password"
           />
         </Form.Group>

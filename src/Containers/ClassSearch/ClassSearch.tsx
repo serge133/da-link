@@ -35,8 +35,6 @@ const ClassSearch = (props: ClassSearchProps) => {
             placeholder="Class Name, CRN, Professor, Class ID, Anything..."
           />
         </Form.Group>
-
-        <Button variant="primary">Search</Button>
       </Form>
     </Card>
   );
