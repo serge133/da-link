@@ -1,5 +1,12 @@
 .App {
-  margin-top: 30px;
+  margin-top: 25px;
+  width: 100%;
+  text-align: left;
+}
+
+.logo__wrapper {
+  width: 100%;
+  text-align: center;
 }
 
 * {

@@ -1,0 +1,22 @@
+.class-information {
+  padding-top: 10px;
+}
+
+.class-information span {
+  font-size: 2rem;
+}
+.class-information .crn {
+  background-color: rgb(32, 178, 170, 0.3);
+  color: rgb(46, 139, 87);
+  border-radius: 10px;
+  padding: 0 10px;
+  display: inline;
+}
+
+.accordion .button-container {
+  border-radius: 0.375rem;
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  width: 200px;
+}
