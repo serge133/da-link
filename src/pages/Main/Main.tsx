@@ -13,10 +13,6 @@ import { get_student } from "../../database/actions";
 import { getDatabase, onValue, ref, set } from "firebase/database";
 import app from "../../database/firebase";
 
-interface Favorites {
-  [crn: string]: boolean;
-}
-
 const Main = () => {
   const { department, search } = useParams();
   const { user } = useAuth();
@@ -26,7 +22,7 @@ const Main = () => {
   });
 
   const [me, setMe] = useState({
-    favorites: {} as Favorites,
+    myClasses: {} as { [crn: string]: boolean },
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -55,23 +51,23 @@ const Main = () => {
     }
   }, [user]);
 
-  const toggleFavoriteClass = (crn: string) => {
+  const toggleMyClass = (crn: string) => {
     const db = getDatabase(app);
-    const copyFavorites = { ...me.favorites };
-    if (crn in copyFavorites) {
-      delete copyFavorites[crn];
+    const copyMyClasses = { ...me.myClasses };
+    if (crn in copyMyClasses) {
+      delete copyMyClasses[crn];
       setMe((prevState) => ({
         ...prevState,
-        favorites: copyFavorites,
+        myClasses: copyMyClasses,
       }));
     } else {
-      copyFavorites[crn] = true;
+      copyMyClasses[crn] = true;
       setMe((prevState) => ({
         ...prevState,
-        favorites: copyFavorites,
+        myClasses: copyMyClasses,
       }));
     }
-    set(ref(db, `users/${user?.uid}/favorites`), copyFavorites);
+    set(ref(db, `users/${user?.uid}/myClasses`), copyMyClasses);
   };
 
   return (
@@ -96,7 +92,7 @@ const Main = () => {
         </div>
         <ClassesDisplay
           me={me}
-          toggleFavoriteClass={toggleFavoriteClass}
+          toggleMyClass={toggleMyClass}
           search={form.search}
           department={form.department}
         />

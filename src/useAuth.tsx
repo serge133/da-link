@@ -86,7 +86,6 @@ export const AuthProvider = ({
     const uid: string | null = localStorage.getItem("uid");
     const refreshToken: string | null = localStorage.getItem("refreshToken");
     const auth = getAuth(app);
-    console.log(authenticated);
 
     // if (uid && refreshToken) {
     //   setUser({
@@ -144,7 +143,6 @@ export const AuthProvider = ({
         setLoading(false);
       })
       .catch((err: { code: string; message: string }) => {
-        console.log(err.code, err.message);
         setLoading(false);
         setAuthenticated(false);
       });
@@ -166,7 +164,6 @@ export const AuthProvider = ({
         setLoading(false);
       })
       .catch((err: { code: string; message: string }) => {
-        console.log(err.code, err.message);
         setLoading(false);
       });
   }

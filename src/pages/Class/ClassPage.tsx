@@ -35,6 +35,11 @@ const ClassPage = (props: Props) => {
           <h6>{classData?.className}</h6>
           <h6>{classData?.section}</h6>
         </section>
+        <section className="studygroup-controls">
+          <Button variant="dark">Create Studygroup</Button>
+          <Button variant="dark">Message All</Button>
+          <Button variant="dark">Post Announcement</Button>
+        </section>
         <Accordion defaultActiveKey="0">
           <Accordion.Item eventKey="0">
             <Accordion.Header>Study Group 1</Accordion.Header>

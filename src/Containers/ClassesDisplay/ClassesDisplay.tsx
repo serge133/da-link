@@ -8,8 +8,8 @@ import { useNavigate } from "react-router";
 type ClassesDisplayProps = {
   department: string;
   search: string;
-  toggleFavoriteClass: (crn: string) => void;
-  me: { favorites: { [crn: string]: boolean } };
+  toggleMyClass: (crn: string) => void;
+  me: { myClasses: { [crn: string]: boolean } };
 };
 
 export type Class = {
@@ -25,7 +25,6 @@ export type Class = {
 
 const ClassesDisplay = (props: ClassesDisplayProps) => {
   const { department, search } = props;
-  console.log(department);
   const [data, setData] = useState<Class[]>([]);
   const navigate = useNavigate();
 
@@ -33,8 +32,6 @@ const ClassesDisplay = (props: ClassesDisplayProps) => {
     if (department in classes) {
       const rawdata: Class[] = classes[department];
       const filteredData = relevancy(rawdata, search);
-
-      console.log(filteredData);
       setData(filteredData);
     }
   }, [department, search, search]);
@@ -43,6 +40,8 @@ const ClassesDisplay = (props: ClassesDisplayProps) => {
     const url = `/class/${c.crn}/${department}/${search}`;
     navigate(url);
   };
+
+  const isMyClass = (c: Class) => c.crn in props.me.myClasses;
 
   return (
     <div className="class-carousel">
@@ -53,7 +52,7 @@ const ClassesDisplay = (props: ClassesDisplayProps) => {
             height: 300,
             textAlign: "left",
 
-            border: c.crn in props.me.favorites ? "2px solid gold" : "",
+            border: c.crn in props.me.myClasses ? "2px solid gold" : "",
           }}
           key={c.crn}
         >
@@ -73,10 +72,10 @@ const ClassesDisplay = (props: ClassesDisplayProps) => {
               Details
             </Button>
             <Button
-              variant={c.crn in props.me.favorites ? "warning" : "secondary"}
-              onClick={() => props.toggleFavoriteClass(c.crn)}
+              variant={isMyClass(c) ? "warning" : "secondary"}
+              onClick={() => props.toggleMyClass(c.crn)}
             >
-              Favorite
+              {isMyClass(c) ? "Joined" : "Join"}
             </Button>
           </div>
           <Card.Footer>20 Students 4 Groups</Card.Footer>
