@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Accordion, Button, Table } from "react-bootstrap";
+import { Accordion, Button, ButtonGroup, Dropdown } from "react-bootstrap";
 import { useParams } from "react-router";
 import NavigationBar from "../../Components/Navbar/Navbar";
 import { Class } from "../../Containers/ClassesDisplay/ClassesDisplay";
@@ -36,9 +36,18 @@ const ClassPage = (props: Props) => {
           <h6>{classData?.section}</h6>
         </section>
         <section className="studygroup-controls">
-          <Button variant="dark">Create Studygroup</Button>
-          <Button variant="dark">Message All</Button>
-          <Button variant="dark">Post Announcement</Button>
+          <Dropdown>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+              Actions
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item>Create Studygroup</Dropdown.Item>
+              <Dropdown.Item>Message All</Dropdown.Item>
+              <Dropdown.Item>Post Announcement</Dropdown.Item>
+              <Dropdown.Item>Search</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </section>
         <Accordion defaultActiveKey="0">
           <Accordion.Item eventKey="0">
