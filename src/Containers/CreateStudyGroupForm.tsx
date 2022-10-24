@@ -19,7 +19,7 @@ const CreateStudyGroupForm = (props: Props) => {
         <Modal.Title>Create Studygroup</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form onSubmit={(e) => e.preventDefault()}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Study Group Name</Form.Label>
             <Form.Control

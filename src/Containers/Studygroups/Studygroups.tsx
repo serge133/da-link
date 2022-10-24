@@ -10,7 +10,7 @@ const Studygroups = (props: Props) => {
   return (
     <Accordion defaultActiveKey="0">
       {props.studygroups.map((sg, i) => (
-        <Accordion.Item eventKey={i} key={sg.id}>
+        <Accordion.Item eventKey={i.toString()} key={sg.id}>
           <Accordion.Header>{sg.name}</Accordion.Header>
           <Accordion.Body>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
