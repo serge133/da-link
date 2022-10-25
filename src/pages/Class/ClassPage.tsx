@@ -11,6 +11,7 @@ import { getDatabase, onValue, ref, set } from "firebase/database";
 import app from "../../database/firebase";
 import { uuidv4 } from "@firebase/util";
 import Studygroups from "../../Containers/Studygroups/Studygroups";
+import ErrorHandler from "../../Containers/ErrorHandler/ErrorHandler";
 
 type Props = {};
 
@@ -33,13 +34,21 @@ const ClassPage = (props: Props) => {
   const [showStudyGroupModal, setShowStudyGroupModal] = useState(false);
   const [studyGroupForm, setStudyGroupForm] = useState(defaultStudyGroupForm);
   const [studyGroups, setStudyGroups] = useState<StudyGroupType[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const { user } = useAuth();
 
   // Finds the class based on the crn given through the route params, then finds the class and renders the class
   useEffect(() => {
-    const c: Class = classes[department].filter((c: Class) => c.crn === crn)[0];
-    setClassData(c);
+    setLoading(true);
+    if (department !== undefined && department in classes) {
+      // @ts-ignore
+      const c: Class = classes[department].filter(
+        (c: Class) => c.crn === crn
+      )[0];
+      setClassData(c);
+      setLoading(false);
+    }
   }, [department, crn, setClassData]); // Gauranteed to not change
 
   // Fetches the studygroups
@@ -82,6 +91,13 @@ const ClassPage = (props: Props) => {
     }));
   };
 
+  const ClassDoesNotExist = (
+    <div>
+      Sorry this class does not exist with crn: {crn} and of department:{" "}
+      {department}
+    </div>
+  );
+
   return (
     <AuthWrapper>
       <div className="App">
@@ -97,31 +113,37 @@ const ClassPage = (props: Props) => {
             onSubmit={createStudyGroup}
           />
         )}
-        <section className="class-information">
-          <h4 className="crn">{classData?.crn}</h4>
-          <h4>{classData?.professor}</h4>
-          <h6>{classData?.times}</h6>
-          <h6>{classData?.type}</h6>
-          <h6>{classData?.id}</h6>
-          <h6>{classData?.className}</h6>
-          <h6>{classData?.section}</h6>
-        </section>
-        <section className="studygroup-controls">
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Actions
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={showCreateStudyGroupModal}>
-                Create Studygroup
-              </Dropdown.Item>
-              <Dropdown.Item>Message All</Dropdown.Item>
-              <Dropdown.Item>Post Announcement</Dropdown.Item>
-              <Dropdown.Item>Search</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </section>
-        <Studygroups studygroups={studyGroups} />
+        <ErrorHandler
+          errMessage="Class Does Not Exist :("
+          allHasToBeTrueOrElseFail={[!loading, classData !== undefined]}
+        >
+          <section className="class-information">
+            <h4 className="crn">{classData?.crn}</h4>
+            <h4>{classData?.professor}</h4>
+            <h6>{classData?.times}</h6>
+            <h6>{classData?.type}</h6>
+            <h6>{classData?.id}</h6>
+            <h6>{classData?.className}</h6>
+            <h6>{classData?.section}</h6>
+          </section>
+          <section className="studygroup-controls">
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                Actions
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={showCreateStudyGroupModal}>
+                  Create Studygroup
+                </Dropdown.Item>
+                <Dropdown.Item>Message All</Dropdown.Item>
+                <Dropdown.Item>Post Announcement</Dropdown.Item>
+                <Dropdown.Item>Search</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </section>
+          <Studygroups studygroups={studyGroups} />
+        </ErrorHandler>
+        {/* {!loading && classData ? <></> : <h1>Sorry Class does not exist</h1>} */}
       </div>
     </AuthWrapper>
   );
