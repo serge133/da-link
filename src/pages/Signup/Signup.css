@@ -1,17 +1,19 @@
-.login-card {
-    width: 75%;
-    margin: 0 auto;
-    padding: 30px;
-    text-align: left;
+.signup-page {
+  padding: 2rem;
+}
+.signup-page .login-card {
+  width: 75%;
+  margin: 0 auto;
+  padding: 30px;
+  text-align: left;
 }
 
-.login-card .logo-container {
-    width: 100%;
-    text-align: center;
+.signup-page .login-card .logo-container {
+  width: 100%;
+  text-align: center;
 }
 
-.login-card .logo-container img {
-    height: 70px;
-    margin: 0 auto;
+.signup-page .login-card .logo-container img {
+  height: 70px;
+  margin: 0 auto;
 }
-

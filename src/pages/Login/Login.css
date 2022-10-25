@@ -1,17 +1,19 @@
+.login-page {
+  padding: 2rem;
+}
 .login-card {
-    width: 75%;
-    margin: 0 auto;
-    padding: 30px;
-    text-align: left;
+  width: 75%;
+  margin: 0 auto;
+  padding: 30px;
+  text-align: left;
 }
 
 .login-card .logo-container {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 .login-card .logo-container img {
-    height: 70px;
-    margin: 0 auto;
+  height: 70px;
+  margin: 0 auto;
 }
-

@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import NavigationBar from "../../Components/Navbar/Navbar";
+import NavigationBar from "../../Components/Navbar";
 import { AuthWrapper } from "../../useAuth";
 import "./StudygroupDashboard.css";
 
@@ -17,8 +17,9 @@ const StudygroupDashboard = (props: Props) => {
 
   return (
     <AuthWrapper>
-      <div className="App">
+      <div className="App studygroup-dashboard">
         <NavigationBar goBack={`/class/${crn}/${department}`} />
+        <section className="side-bar"></section>
         <div>
           StudygroupDashboard {crn} {department} {studygroupID}
         </div>

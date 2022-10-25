@@ -3,7 +3,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useNavigate } from "react-router";
-import useAuth from "../../useAuth";
+import useAuth from "../useAuth";
 
 type Props = {
   goBack?: string;
@@ -23,7 +23,7 @@ const NavigationBar = (props: Props) => {
     <Navbar
       bg="light"
       expand="lg"
-      style={{ position: "absolute", top: 0, left: 0, width: "100vw" }}
+      style={{ position: "absolute", top: 0, left: 0, width: "100%" }}
     >
       <Container>
         <Navbar.Brand onClick={() => navigate("/")}>De Anza Link</Navbar.Brand>

@@ -1,7 +1,14 @@
 .App {
-  margin-top: 25px;
-  width: 100%;
-  text-align: left;
+  margin-top: 56px;
+  /* width: 100%; */
+  /* text-align: left; */
+  /* padding: 0 2rem; */
+}
+
+#root {
+  margin: 0 auto;
+  text-align: center;
+  overflow: hidden;
 }
 
 .logo__wrapper {

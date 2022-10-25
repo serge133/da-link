@@ -8,7 +8,7 @@ import useAuth, { AuthWrapper } from "../../useAuth";
 import ClassSearch from "../../Containers/ClassSearch/ClassSearch";
 import ClassesDisplay from "../../Containers/ClassesDisplay/ClassesDisplay";
 import { useParams } from "react-router";
-import NavigationBar from "../../Components/Navbar/Navbar";
+import NavigationBar from "../../Components/Navbar";
 import { get_student } from "../../database/actions";
 import { getDatabase, onValue, ref, set } from "firebase/database";
 import app from "../../database/firebase";

@@ -45,14 +45,15 @@ const Studygroups = (props: Props) => {
     navigate(`/studygroups/${props.crn}/${props.department}/${studygroupID}`);
 
   return (
-    <Accordion defaultActiveKey="0">
-      {props.studygroups.map((sg, i) => (
-        <Studygroup
-          index={i}
-          id={sg.id}
-          key={sg.id}
-          name={sg.name}
-          description="
+    <div className="accordion-container">
+      <Accordion defaultActiveKey="0">
+        {props.studygroups.map((sg, i) => (
+          <Studygroup
+            index={i}
+            id={sg.id}
+            key={sg.id}
+            name={sg.name}
+            description="
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
         veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
@@ -60,10 +61,11 @@ const Studygroups = (props: Props) => {
         velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
         occaecat cupidatat non proident, sunt in culpa qui officia deserunt
         mollit anim id est laborum."
-          goToDashboard={goToStudygroupDashboard}
-        />
-      ))}
-    </Accordion>
+            goToDashboard={goToStudygroupDashboard}
+          />
+        ))}
+      </Accordion>
+    </div>
   );
 };
 

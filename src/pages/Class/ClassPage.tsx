@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Accordion, Button, Dropdown } from "react-bootstrap";
 import { useParams } from "react-router";
-import NavigationBar from "../../Components/Navbar/Navbar";
+import NavigationBar from "../../Components/Navbar";
 import { Class } from "../../Containers/ClassesDisplay/ClassesDisplay";
 import { classes } from "../../database/schoolData";
 import useAuth, { AuthWrapper } from "../../useAuth";
@@ -91,16 +91,9 @@ const ClassPage = (props: Props) => {
     }));
   };
 
-  const ClassDoesNotExist = (
-    <div>
-      Sorry this class does not exist with crn: {crn} and of department:{" "}
-      {department}
-    </div>
-  );
-
   return (
     <AuthWrapper>
-      <div className="App">
+      <div className="App class-page">
         <NavigationBar
           goBack={`/app/${department}${search ? "/" + search : ""}`}
         />
