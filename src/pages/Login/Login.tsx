@@ -5,7 +5,7 @@ import "./Login.css";
 import DALogo from "../../assets/DAC_Logo_Black.png";
 import DALinkLogo from "../../assets/link-logo.png";
 import useAuth from "../../useAuth";
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router";
 
 type LoginProps = {};
@@ -20,7 +20,7 @@ const LoginPage = (props: LoginProps) => {
     email: "",
     password: "",
   });
-  const { login, loading } = useAuth();
+  const { login, loading, error } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = () => {
@@ -67,6 +67,7 @@ const LoginPage = (props: LoginProps) => {
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
           <Form.Check type="checkbox" label="Check me out" />
         </Form.Group>
+        {error.error && <h6 className="danger">{error.message}</h6>}
         <div className="row-buttons">
           <Button disabled={loading} onClick={handleSubmit} variant="primary">
             Log-In

@@ -15,7 +15,6 @@ import {
   useState,
 } from "react";
 import { Spinner } from "react-bootstrap";
-import { unstable_batchedUpdates } from "react-dom";
 import { useNavigate } from "react-router";
 import app from "./database/firebase";
 
@@ -38,13 +37,23 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
+type AuthError = {
+  message: string;
+  code: string;
+  error: boolean;
+};
+
 export const AuthProvider = ({
   children,
 }: {
   children: ReactNode;
 }): JSX.Element => {
   const [user, setUser] = useState<User | undefined>();
-  const [error, setError] = useState<any>();
+  const [error, setError] = useState<AuthError>({
+    message: "",
+    code: "",
+    error: false,
+  });
   const [loading, setLoading] = useState<boolean>(false);
   const [authenticated, setAuthenticated] = useState(false);
 
@@ -84,8 +93,6 @@ export const AuthProvider = ({
 
   // Even if you refresh it persists the login state
   function getLoginState() {
-    const uid: string | null = localStorage.getItem("uid");
-    const refreshToken: string | null = localStorage.getItem("refreshToken");
     const auth = getAuth(app);
 
     // if (uid && refreshToken) {
@@ -133,8 +140,6 @@ export const AuthProvider = ({
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user: FirebaseUser = userCredential.user;
-        localStorage.setItem("uid", user.uid);
-        localStorage.setItem("refreshToken", user.refreshToken);
         setAuthenticated(true);
         setUser({
           uid: user.uid,
@@ -142,10 +147,16 @@ export const AuthProvider = ({
         });
         navigate("/app");
         setLoading(false);
+        setError({ message: "", code: "", error: false });
       })
-      .catch((err: { code: string; message: string }) => {
+      .catch(({ code, message }: { code: string; message: string }) => {
         setLoading(false);
         setAuthenticated(false);
+        setError({
+          message,
+          code,
+          error: true,
+        });
       });
   }
 
@@ -158,13 +169,16 @@ export const AuthProvider = ({
       .then((userCredential) => {
         const user: User = userCredential.user;
         setUser(user);
-        localStorage.setItem("uid", user.uid);
-        localStorage.setItem("refreshToken", user.refreshToken);
-        // console.log("Success signed up: ", user);
         navigate("/app");
         setLoading(false);
+        setError({ message: "", code: "", error: false });
       })
-      .catch((err: { code: string; message: string }) => {
+      .catch(({ code, message }: { code: string; message: string }) => {
+        setError({
+          message,
+          code,
+          error: true,
+        });
         setLoading(false);
       });
   }
@@ -172,8 +186,6 @@ export const AuthProvider = ({
   // Call the logout endpoint and then remove the user
   // from the state.
   function logout() {
-    localStorage.removeItem("uid");
-    localStorage.removeItem("refreshToken");
     const auth = getAuth();
     auth.signOut();
     setAuthenticated(false);

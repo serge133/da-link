@@ -23,7 +23,7 @@ const SignupPage = (props: SignupProps) => {
   const [form, setForm] = useState(signupForm);
   const navigate = useNavigate();
 
-  const { signUp, loading } = useAuth();
+  const { signUp, loading, error } = useAuth();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForm((prevState) => ({
@@ -33,6 +33,7 @@ const SignupPage = (props: SignupProps) => {
   };
 
   const handleSubmit = () => {
+    if (form.confirmPassword !== form.password) return;
     signUp(form.email, form.studentId, form.password);
   };
 
@@ -97,6 +98,7 @@ const SignupPage = (props: SignupProps) => {
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
           <Form.Check type="checkbox" label="Check me out" />
         </Form.Group>
+        {error.error && <h6 className="danger">{error.message}</h6>}
         <div className="row-buttons">
           <Button disabled={loading} onClick={handleSubmit} variant="primary">
             Sign-Up
