@@ -9,6 +9,7 @@ import LoginPage from "./pages/Login/Login";
 import SignupPage from "./pages/Signup/Signup";
 import { AuthProvider } from "./useAuth";
 import ClassPage from "./pages/Class/ClassPage";
+import StudygroupDashboard from "./pages/StudygroupDashboard/StudygroupDashboard";
 
 function App() {
   return (
@@ -28,6 +29,12 @@ function App() {
               element={<ClassPage />}
             />
           </Route>
+
+          <Route
+            path="/studygroups/:crn/:department/:studygroupID"
+            element={<StudygroupDashboard />}
+          />
+          {/* Auth not required for paths below */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
         </Routes>

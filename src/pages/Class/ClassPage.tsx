@@ -141,7 +141,11 @@ const ClassPage = (props: Props) => {
               </Dropdown.Menu>
             </Dropdown>
           </section>
-          <Studygroups studygroups={studyGroups} />
+          <Studygroups
+            crn={crn}
+            department={department}
+            studygroups={studyGroups}
+          />
         </ErrorHandler>
         {/* {!loading && classData ? <></> : <h1>Sorry Class does not exist</h1>} */}
       </div>

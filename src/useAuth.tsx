@@ -14,6 +14,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { Spinner } from "react-bootstrap";
 import { unstable_batchedUpdates } from "react-dom";
 import { useNavigate } from "react-router";
 import app from "./database/firebase";
@@ -239,5 +240,5 @@ export const AuthWrapper = ({
     }
   }, [goToLogin, authenticated, loadingInitial]);
 
-  return loadingInitial ? <h1>Loading...</h1> : children;
+  return loadingInitial ? <Spinner animation="grow" /> : children;
 };
