@@ -8,7 +8,8 @@
 #root {
   margin: 0 auto;
   text-align: center;
-  overflow: hidden;
+  overflow-x: hidden;
+  height: 100vh;
 }
 
 .logo__wrapper {

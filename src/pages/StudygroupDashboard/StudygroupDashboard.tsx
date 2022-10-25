@@ -20,9 +20,9 @@ const StudygroupDashboard = (props: Props) => {
       <div className="App studygroup-dashboard">
         <NavigationBar goBack={`/class/${crn}/${department}`} />
         <section className="side-bar"></section>
-        <div>
+        <section className="main">
           StudygroupDashboard {crn} {department} {studygroupID}
-        </div>
+        </section>
       </div>
     </AuthWrapper>
   );

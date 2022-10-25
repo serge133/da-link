@@ -23,7 +23,13 @@ const NavigationBar = (props: Props) => {
     <Navbar
       bg="light"
       expand="lg"
-      style={{ position: "absolute", top: 0, left: 0, width: "100%" }}
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        zIndex: 100,
+      }}
     >
       <Container>
         <Navbar.Brand onClick={() => navigate("/")}>De Anza Link</Navbar.Brand>
