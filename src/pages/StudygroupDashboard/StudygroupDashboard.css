@@ -11,10 +11,37 @@
   /* left: 0; */
   height: 100%;
   width: 300px;
-  background-color: lightseagreen;
+  padding: 10px;
+  text-align: left;
 }
 
 .studygroup-dashboard .main {
   height: 100%;
   flex-grow: 1;
+  padding-top: 10px;
+}
+
+.studygroup-dashboard .side-bar li {
+  cursor: pointer;
+}
+
+.studygroup-dashboard .side-bar li:hover {
+  /* background-color: aliceblue; */
+}
+
+.studygroup-dashboard .card {
+  width: 300px;
+}
+.studygroup-dashboard .card .ratings {
+  width: 300px;
+  padding: 10px;
+}
+.studygroup-dashboard .card .rating {
+  text-align: left;
+  margin-bottom: 10px;
+}
+.studygroup-dashboard .card .rate-control {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-around;
 }
