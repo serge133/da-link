@@ -74,11 +74,7 @@ const Main = () => {
     <AuthWrapper>
       <div className="App">
         <NavigationBar />
-        <div className="logo__wrapper">
-          <Image src={DALogo} style={{ height: 65 }} />
-          <Image src={LINKlogo} style={{ height: 65 }} />
-        </div>
-        <div className="form__container">
+        <div className="form__container class-search">
           <ClassSearch
             department={form.department}
             search={form.search}

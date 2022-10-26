@@ -4,6 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useNavigate } from "react-router";
 import useAuth from "../useAuth";
+import Logo from "./Logo";
 
 type Props = {
   goBack?: string;
@@ -32,7 +33,10 @@ const NavigationBar = (props: Props) => {
       }}
     >
       <Container>
-        <Navbar.Brand onClick={() => navigate("/")}>De Anza Link</Navbar.Brand>
+        <Navbar.Brand onClick={() => navigate("/")}>
+          {/* <Logo height={30} /> */}
+          De Anza Link
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
