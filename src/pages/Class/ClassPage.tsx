@@ -66,6 +66,13 @@ const ClassPage = (props: Props) => {
   }, [crn]);
 
   const createStudyGroup = () => {
+    if (!user) return;
+    // One study group per user
+    if (studyGroups.findIndex((el) => el.author === user.uid) >= 0) {
+      console.log("already one study group");
+      return;
+    }
+
     const db = getDatabase(app);
     const studyGroupID = uuidv4();
     const studyGroupRef = ref(db, `/studygroups/${crn}/${studyGroupID}`);
@@ -74,7 +81,7 @@ const ClassPage = (props: Props) => {
     set(studyGroupRef, {
       ...studyGroupForm,
       id: studyGroupID,
-      author: user?.uid,
+      author: user.uid,
     });
     setStudyGroupForm(defaultStudyGroupForm);
     setShowStudyGroupModal(false);
@@ -120,7 +127,7 @@ const ClassPage = (props: Props) => {
             <h6>{classData?.section}</h6>
           </section>
           <section className="studygroup-controls">
-            <Dropdown>
+            <Dropdown drop="end">
               <Dropdown.Toggle variant="success" id="dropdown-basic">
                 Actions
               </Dropdown.Toggle>

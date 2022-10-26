@@ -12,6 +12,10 @@
   height: 100vh;
 }
 
+.navbar .container {
+  margin-left: 0;
+}
+
 .logo__wrapper {
   width: 100%;
   text-align: center;

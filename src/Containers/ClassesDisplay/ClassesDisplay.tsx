@@ -29,7 +29,8 @@ const ClassesDisplay = (props: ClassesDisplayProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (department in classes) {
+    if (department !== undefined && department in classes) {
+      // @ts-ignore
       const rawdata: Class[] = classes[department];
       const filteredData = relevancy(rawdata, search);
       setData(filteredData);
