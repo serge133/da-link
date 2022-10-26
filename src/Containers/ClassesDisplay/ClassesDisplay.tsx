@@ -1,5 +1,5 @@
 import "./ClassesDisplay.css";
-import { classes } from "../../database/schoolData";
+import classes from "../../database/raw/classes.json";
 import { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { relevancy } from "../../functions/sorter";
@@ -25,17 +25,7 @@ export type Class = {
 
 const ClassesDisplay = (props: ClassesDisplayProps) => {
   const { department, search } = props;
-  const [data, setData] = useState<Class[]>([]);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (department !== undefined && department in classes) {
-      // @ts-ignore
-      const rawdata: Class[] = classes[department];
-      const filteredData = relevancy(rawdata, search);
-      setData(filteredData);
-    }
-  }, [department, search, search]);
 
   const openClass = (c: Class) => {
     const url = `/class/${c.crn}/${department}/${search}`;
@@ -44,9 +34,13 @@ const ClassesDisplay = (props: ClassesDisplayProps) => {
 
   const isMyClass = (c: Class) => c.crn in props.me.myClasses;
 
+  const rawdata: Class[] =
+    // @ts-ignore
+    classes && department in classes ? classes[department] : [];
+  const filteredData: Class[] = relevancy(rawdata, search);
   return (
     <div className="class-carousel">
-      {data.map((c) => (
+      {filteredData.map((c) => (
         <Card
           style={{
             width: "18rem",

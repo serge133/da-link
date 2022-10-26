@@ -45,7 +45,7 @@ const Main = () => {
       onValue(studentRef, (snapshot) => {
         const data = snapshot.val();
         if (data) {
-          setMe(data);
+          setMe((prevState) => ({ ...prevState, ...data }));
         }
       });
     }

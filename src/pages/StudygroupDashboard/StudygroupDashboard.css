@@ -10,7 +10,7 @@
   /* bottom: 0; */
   /* left: 0; */
   height: 100%;
-  width: 300px;
+  min-width: 200px;
   padding: 10px;
   text-align: left;
 }
@@ -19,6 +19,10 @@
   height: 100%;
   flex-grow: 1;
   padding-top: 10px;
+  flex-direction: row;
+  margin-right: 10px;
+  overflow-y: auto;
+  /* overflow-x: hidden; */
 }
 
 .studygroup-dashboard .side-bar li {
@@ -30,10 +34,11 @@
 }
 
 .studygroup-dashboard .card {
-  width: 300px;
+  /* width: 300px; */
+  margin-bottom: 10px;
 }
 .studygroup-dashboard .card .ratings {
-  width: 300px;
+  /* width: 300px; */
   padding: 10px;
 }
 .studygroup-dashboard .card .rating {

@@ -3,7 +3,7 @@ import { Accordion, Button, Dropdown } from "react-bootstrap";
 import { useParams } from "react-router";
 import NavigationBar from "../../Components/Navbar";
 import { Class } from "../../Containers/ClassesDisplay/ClassesDisplay";
-import { classes } from "../../database/schoolData";
+import classes from "../../database/raw/classes.json";
 import useAuth, { AuthWrapper } from "../../useAuth";
 import CreateStudyGroupForm from "../../Containers/CreateStudyGroupForm";
 import "./ClassPage.css";
@@ -25,6 +25,11 @@ export type StudyGroupType = {
   name: string;
   author: string;
   private: boolean;
+  workhardVotes: number;
+  socializingVotes: number;
+  totalPeople: number;
+  totalLikes: number;
+  totalDislikes: number;
 };
 
 const ClassPage = (props: Props) => {
@@ -44,26 +49,29 @@ const ClassPage = (props: Props) => {
     if (department !== undefined && department in classes) {
       // @ts-ignore
       const c: Class = classes[department].filter(
-        (c: Class) => c.crn === crn
+        (el: Class) => el.crn === crn
       )[0];
       setClassData(c);
       setLoading(false);
     }
-  }, [department, crn, setClassData]); // Gauranteed to not change
+  }, [department, crn]); // Gauranteed to not change
 
   // Fetches the studygroups
   useEffect(() => {
     const db = getDatabase(app);
     const studygroupRef = ref(db, `/studygroups/${crn}`);
 
+    // This is an observer so it activates when data is being written to the data base
+    // that is why i do not need to put a set state to createStudyGroup()
     onValue(studygroupRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
         const response: StudyGroupType[] = Object.values(data);
+        console.log("rendered");
         setStudyGroups(response);
       }
     });
-  }, [crn]);
+  }, []);
 
   const createStudyGroup = () => {
     if (!user) return;
@@ -77,12 +85,18 @@ const ClassPage = (props: Props) => {
     const studyGroupID = uuidv4();
     const studyGroupRef = ref(db, `/studygroups/${crn}/${studyGroupID}`);
 
-    // An author is added
-    set(studyGroupRef, {
+    const studygroup: StudyGroupType = {
       ...studyGroupForm,
       id: studyGroupID,
       author: user.uid,
-    });
+      workhardVotes: 0,
+      socializingVotes: 0,
+      totalPeople: 1,
+      totalLikes: 0,
+      totalDislikes: 0,
+    };
+    // An author is added
+    set(studyGroupRef, studygroup);
     setStudyGroupForm(defaultStudyGroupForm);
     setShowStudyGroupModal(false);
   };
