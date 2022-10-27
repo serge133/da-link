@@ -15,8 +15,8 @@ type GroupCharacteristicsProps = {
   handleVoteChange: {
     handleLike: () => void;
     handleDislike: () => void;
-    handleWorkhard: () => void;
-    handleSocialize: () => void;
+    // handleWorkhard: () => void;
+    // handleSocialize: () => void;
   };
 };
 

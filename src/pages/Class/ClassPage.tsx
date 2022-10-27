@@ -25,11 +25,14 @@ export type StudyGroupType = {
   name: string;
   author: string;
   private: boolean;
-  workhardVotes: number;
-  socializingVotes: number;
-  totalPeople: number;
-  totalLikes: number;
-  totalDislikes: number;
+  likes: { [uid: string]: true };
+  dislikes: { [uid: string]: true };
+  workhardVotes: { [uid: string]: true };
+  socializeVotes: { [uid: string]: true };
+  // socializingVotes: number;
+  // totalPeople: number;
+  // totalLikes: number;
+  // totalDislikes: number;
 };
 
 const ClassPage = (props: Props) => {
@@ -89,12 +92,12 @@ const ClassPage = (props: Props) => {
       ...studyGroupForm,
       id: studyGroupID,
       author: user.uid,
-      workhardVotes: 0,
-      socializingVotes: 0,
-      totalPeople: 1,
-      totalLikes: 0,
-      totalDislikes: 0,
+      likes: {},
+      dislikes: {},
+      workhardVotes: {},
+      socializeVotes: {},
     };
+    console.log(studygroup);
     // An author is added
     set(studyGroupRef, studygroup);
     setStudyGroupForm(defaultStudyGroupForm);
