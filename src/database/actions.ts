@@ -1,7 +1,7 @@
 import { child, getDatabase, push, ref, set, update } from "firebase/database";
 import app from "./firebase";
 import { uuidv4 } from "@firebase/util";
-import useAuth from "../useAuth";
+import useAuth from "../Contexts/useAuth";
 
 export const save_student = (
   id: string,

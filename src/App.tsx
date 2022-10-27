@@ -7,7 +7,7 @@ import {
 import Main from "./pages/Main/Main";
 import LoginPage from "./pages/Login/Login";
 import SignupPage from "./pages/Signup/Signup";
-import { AuthProvider } from "./useAuth";
+import { AuthProvider } from "./Contexts/useAuth";
 import ClassPage from "./pages/Class/ClassPage";
 import StudygroupDashboard from "./pages/StudygroupDashboard/StudygroupDashboard";
 

@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import NavigationBar from "../../Components/Navbar";
 import { Class } from "../../Containers/ClassesDisplay/ClassesDisplay";
 import classes from "../../database/raw/classes.json";
-import useAuth, { AuthWrapper } from "../../useAuth";
+import useAuth, { AuthWrapper } from "../../Contexts/useAuth";
 import CreateStudyGroupForm from "../../Containers/CreateStudyGroupForm";
 import "./ClassPage.css";
 import { getDatabase, onValue, ref, set } from "firebase/database";
@@ -12,27 +12,13 @@ import app from "../../database/firebase";
 import { uuidv4 } from "@firebase/util";
 import Studygroups from "../../Containers/Studygroups/Studygroups";
 import ErrorHandler from "../../Containers/ErrorHandler/ErrorHandler";
+import { StudyGroupType } from "../../database/models";
 
 type Props = {};
 
 const defaultStudyGroupForm = {
   name: "",
   private: false,
-};
-
-export type StudyGroupType = {
-  id: string;
-  name: string;
-  author: string;
-  private: boolean;
-  likes: { [uid: string]: true };
-  dislikes: { [uid: string]: true };
-  workhardVotes: { [uid: string]: true };
-  socializeVotes: { [uid: string]: true };
-  // socializingVotes: number;
-  // totalPeople: number;
-  // totalLikes: number;
-  // totalDislikes: number;
 };
 
 const ClassPage = (props: Props) => {

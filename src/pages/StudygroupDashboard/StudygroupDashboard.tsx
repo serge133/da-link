@@ -1,13 +1,13 @@
-import { getDatabase, onValue, ref, remove, set } from "firebase/database";
+import { getDatabase, onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { Card, ListGroup } from "react-bootstrap";
 import { useParams } from "react-router";
-import GroupCharacteristics from "../../Components/GroupCharacteristics";
 import NavigationBar from "../../Components/Navbar";
 import app from "../../database/firebase";
-import useAuth, { AuthWrapper } from "../../useAuth";
-import { StudyGroupType } from "../Class/ClassPage";
+import { StudyGroupType, StudyGroupVote } from "../../database/models";
+import { AuthWrapper } from "../../Contexts/useAuth";
 import "./StudygroupDashboard.css";
+import GroupCharacteristicsContainer from "../../Containers/GroupCharacteristicsContainer";
 
 type Props = {};
 
@@ -42,13 +42,6 @@ const Description = () => (
   </Card>
 );
 
-export type StudyGroupVoteType = {
-  liked: boolean;
-  disliked: boolean;
-  workhard: boolean;
-  socialize: boolean;
-};
-
 const EMPTY_STUDYGROUP = {
   id: "",
   name: "",
@@ -62,188 +55,30 @@ const EMPTY_STUDYGROUP = {
 
 const StudygroupDashboard = (props: Props) => {
   const { crn, department, studygroupID } = useParams();
-  const { user } = useAuth();
-  const [state, setState] = useState(EMPTY_STUDYGROUP);
+  const [state, setState] = useState<StudyGroupType>(EMPTY_STUDYGROUP);
 
   // Fetches once
   useEffect(() => {
     const db = getDatabase(app);
     const studygroupRef = ref(db, `/studygroups/${crn}/${studygroupID}`);
-    // const userStudyGroupRef = ref(
-    //   db,
-    //   `/users/${user?.uid}/studygroups/${studygroupID}/votes`
-    // );
 
     onValue(studygroupRef, (snapshot) => {
-      const data = snapshot.val();
+      const data: StudyGroupType = snapshot.val();
+
       if (data) {
-        const response: StudyGroupType = data;
-        setState((prevState: any) => ({ ...prevState, ...response }));
-        // setStudyGroups(response);
+        setState((prevState) => ({ ...prevState, ...data }));
       }
     });
-    // onValue(userStudyGroupRef, (snapshot) => {
-    //   const data = snapshot.val();
-    //   if (data) {
-    //     const response: StudyGroupVoteType = data;
-    //     setState((prevState: any) => ({ ...prevState, ...response }));
-    //     // setStudyGroups(response);
-    //   }
-    // });
   }, []);
 
-  const handleVoteChange = {
-    setDislike: () => {
-      if (!user) return;
-      const db = getDatabase(app);
-      // const [userStudyGroupRef, studygroupRef] = getRef(db);
-      // const likeRef = ref(db, `/studygroups/${crn}/${studygroupID}/likes/${user?.uid}`);
-      const dislikeRef = ref(
-        db,
-        `/studygroups/${crn}/${studygroupID}/dislikes/${user.uid}`
-      );
-
-      if (user.uid in state.dislikes) {
-        // Remove does not change state
-        remove(dislikeRef);
-        setState((prevState) => {
-          const copyDislikes: { [uid: string]: true } = {
-            ...prevState.dislikes,
-          };
-          delete copyDislikes[user.uid];
-
-          return { ...prevState, dislikes: copyDislikes };
-        });
-      } else {
-        set(dislikeRef, true);
-      }
-    },
-    setLike: () => {
-      if (!user) return;
-      const db = getDatabase(app);
-      // const [userStudyGroupRef, studygroupRef] = getRef(db);
-      const likeRef = ref(
-        db,
-        `/studygroups/${crn}/${studygroupID}/likes/${user.uid}`
-      );
-
-      if (user.uid in state.likes) {
-        remove(likeRef);
-        setState((prevState) => {
-          const copyLikes: { [uid: string]: true } = { ...prevState.likes };
-          delete copyLikes[user.uid];
-
-          return { ...prevState, likes: copyLikes };
-        });
-      } else {
-        set(likeRef, true);
-      }
-    },
-    handleLike: () => {
-      if (!user) return;
-      if (user.uid in state.dislikes) {
-        handleVoteChange.setLike();
-        handleVoteChange.setDislike();
-      }
-      handleVoteChange.setLike();
-    },
-    handleDislike: () => {
-      if (!user) return;
-      if (user.uid in state.likes) {
-        handleVoteChange.setDislike();
-        handleVoteChange.setLike();
-      }
-      handleVoteChange.setDislike();
-    },
-    setWorkhard: () => {
-      if (!user) return;
-      const db = getDatabase(app);
-      // const [userStudyGroupRef, studygroupRef] = getRef(db);
-      const workhardRef = ref(
-        db,
-        `/studygroups/${crn}/${studygroupID}/workhardVotes/${user.uid}`
-      );
-
-      if (user.uid in state.workhardVotes) {
-        remove(workhardRef);
-        setState((prevState) => {
-          const copyWorkhardVotes: { [uid: string]: true } = {
-            ...prevState.workhardVotes,
-          };
-          delete copyWorkhardVotes[user.uid];
-
-          return { ...prevState, workhardVotes: copyWorkhardVotes };
-        });
-      } else {
-        set(workhardRef, true);
-      }
-    },
-    setSocialize: () => {
-      if (!user) return;
-      const db = getDatabase(app);
-      // const [userStudyGroupRef, studygroupRef] = getRef(db);
-      const socializeRef = ref(
-        db,
-        `/studygroups/${crn}/${studygroupID}/socializeVotes/${user.uid}`
-      );
-
-      if (user.uid in state.socializeVotes) {
-        remove(socializeRef);
-        setState((prevState) => {
-          const copySocializeVotes: { [uid: string]: true } = {
-            ...prevState.socializeVotes,
-          };
-          delete copySocializeVotes[user.uid];
-
-          return { ...prevState, socializeVotes: copySocializeVotes };
-        });
-      } else {
-        set(socializeRef, true);
-      }
-    },
-    // setSocialize: () => {
-    // const db = getDatabase(app);
-    //   const [userStudyGroupRef, studygroupRef] = getRef(db);
-    //   update(studygroupRef, {
-    //     socializingVotes: state.socialize
-    //       ? state.socializingVotes - 1
-    //       : state.socializingVotes + 1,
-    //   });
-    //   update(userStudyGroupRef, {
-    //     socialize: !state.socialize,
-    //   });
-    // },
-    // setWorkhard: () => {
-    //   const db = getDatabase(app);
-    //   const [userStudyGroupRef, studygroupRef] = getRef(db);
-    //   update(studygroupRef, {
-    //     workhardVotes: state.workhard
-    //       ? state.workhardVotes - 1
-    //       : state.workhardVotes + 1,
-    //   });
-    //   update(userStudyGroupRef, {
-    //     workhard: !state.workhard,
-    //   });
-    // },
-    handleSocialize: () => {
-      if (!user) return;
-      if (user.uid in state.workhardVotes) {
-        handleVoteChange.setSocialize();
-        handleVoteChange.setWorkhard();
-      }
-      handleVoteChange.setSocialize();
-    },
-    handleWorkhard: () => {
-      if (!user) return;
-      if (user.uid in state.socializeVotes) {
-        handleVoteChange.setWorkhard();
-        handleVoteChange.setSocialize();
-      }
-      handleVoteChange.setWorkhard();
-    },
+  const setVoteState = (newVoteState: {
+    likes?: StudyGroupVote;
+    dislikes?: StudyGroupVote;
+    workhardVotes?: StudyGroupVote;
+    socializeVotes?: StudyGroupVote;
+  }) => {
+    setState((prevState) => ({ ...prevState, ...newVoteState }));
   };
-
-  const getLen = (obj: Object): number => Object.values(obj).length;
 
   return (
     <AuthWrapper>
@@ -263,19 +98,12 @@ const StudygroupDashboard = (props: Props) => {
         </section>
         <section className="main">
           <Description />
-          {user && (
-            <GroupCharacteristics
-              workhardVotes={getLen(state.workhardVotes)}
-              socializingVotes={getLen(state.socializeVotes)}
-              totalDislikes={getLen(state.dislikes)}
-              totalLikes={getLen(state.likes)}
-              userLiked={user.uid in state.likes}
-              userDisliked={user.uid in state.dislikes}
-              userSocialize={user.uid in state.socializeVotes}
-              userWorkhard={user.uid in state.workhardVotes}
-              handleVoteChange={handleVoteChange}
-            />
-          )}
+          <GroupCharacteristicsContainer
+            voteState={state}
+            setVoteState={setVoteState}
+            studygroupID={studygroupID ? studygroupID : ""}
+            crn={crn ? crn : ""}
+          />
         </section>
       </div>
     </AuthWrapper>

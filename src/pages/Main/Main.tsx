@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Image } from "react-bootstrap";
 import DALogo from "../../assets/DAC_Logo_Black.png";
 import LINKlogo from "../../assets/link-logo.png";
-import useAuth, { AuthWrapper } from "../../useAuth";
+import useAuth, { AuthWrapper } from "../../Contexts/useAuth";
 import ClassSearch from "../../Containers/ClassSearch/ClassSearch";
 import ClassesDisplay from "../../Containers/ClassesDisplay/ClassesDisplay";
 import { useParams } from "react-router";

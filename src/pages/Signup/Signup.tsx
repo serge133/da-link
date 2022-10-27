@@ -8,7 +8,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 // import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 // import app from "../../database/firebase";
 import { Navigate, useNavigate } from "react-router-dom";
-import useAuth from "../../useAuth";
+import useAuth from "../../Contexts/useAuth";
 import Logo from "../../Components/Logo";
 
 type SignupProps = {};

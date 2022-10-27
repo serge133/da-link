@@ -16,7 +16,7 @@ import {
 } from "react";
 import { Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router";
-import app from "./database/firebase";
+import app from "../database/firebase";
 
 type User = {
   uid: string;
@@ -59,49 +59,10 @@ export const AuthProvider = ({
 
   const [loadingInitial, setLoadingInitial] = useState<boolean>(true);
   const navigate = useNavigate();
-  // We are using `react-router` for this example,
-  // but feel free to omit this or use the
-  // router of your choice.
-  // const history = useHistory();
-  // const location = useLocation();
-
-  // If we change page, reset the error state.
-  // useEffect(() => {
-  //   if (error) setError(null);
-  // }, [location.pathname]);
-
-  // Check if there is a currently active session
-  // when the provider is mounted for the first time.
-  //
-  // If there is an error, it means there is no session.
-  //
-  // Finally, just signal the component that the initial load
-  // is over.
-  // useEffect(() => {
-  //   usersApi.getCurrentUser()
-  //     .then((user) => setUser(user))
-  //     .catch((_error) => {})
-  //     .finally(() => setLoadingInitial(false));
-  // }, []);
-
-  // Flags the component loading state and posts the login
-  // data to the server.
-  //
-  // An error means that the email/password combination is
-  // not valid.
-  //
 
   // Even if you refresh it persists the login state
   function getLoginState() {
     const auth = getAuth(app);
-
-    // if (uid && refreshToken) {
-    //   setUser({
-    //     uid: uid,
-    //     refreshToken: refreshToken,
-    //   });
-    //   setAuthenticated(true);
-    // }
 
     onAuthStateChanged(auth, (user) => {
       if (!user) {
@@ -117,20 +78,7 @@ export const AuthProvider = ({
         });
       }
     });
-
-    // if (uid && refreshToken) {
-    //   console.log(uid, refreshToken);
-    //   setAuthenticated(true);
-    //   setUser({
-    //     uid,
-    //     refreshToken,
-    //   });
-    //   console.log(user);
-    //   return true;
-    // }
-    // return false;
   }
-
   // Finally, just signal the component that loading the
   // loading state is over.
   function login(email: string, password: string) {

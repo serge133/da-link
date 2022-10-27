@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import "./Login.css";
 import DALogo from "../../assets/DAC_Logo_Black.png";
 import DALinkLogo from "../../assets/link-logo.png";
-import useAuth from "../../useAuth";
+import useAuth from "../../Contexts/useAuth";
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router";
 import NavigationBar from "../../Components/Navbar";

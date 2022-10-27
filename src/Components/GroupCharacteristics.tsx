@@ -12,12 +12,10 @@ type GroupCharacteristicsProps = {
   userDisliked: boolean;
   userWorkhard: boolean;
   userSocialize: boolean;
-  handleVoteChange: {
-    handleLike: () => void;
-    handleDislike: () => void;
-    // handleWorkhard: () => void;
-    // handleSocialize: () => void;
-  };
+  handleLike: () => void;
+  handleDislike: () => void;
+  handleWorkhard: () => void;
+  handleSocialize: () => void;
 };
 
 const GroupCharacteristics = (props: GroupCharacteristicsProps) => {
@@ -66,7 +64,7 @@ const GroupCharacteristics = (props: GroupCharacteristicsProps) => {
               variant="outline-warning"
               name="disliked"
               checked={props.userDisliked}
-              onClick={props.handleVoteChange.handleDislike}
+              onClick={props.handleDislike}
             >
               Dislike
             </ToggleButton>
@@ -76,7 +74,7 @@ const GroupCharacteristics = (props: GroupCharacteristicsProps) => {
               variant="outline-warning"
               name="liked"
               checked={props.userLiked}
-              onClick={props.handleVoteChange.handleLike}
+              onClick={props.handleLike}
             >
               Like
             </ToggleButton>
@@ -88,7 +86,7 @@ const GroupCharacteristics = (props: GroupCharacteristicsProps) => {
               variant="outline-danger"
               name="radio"
               checked={props.userSocialize}
-              onClick={props.handleVoteChange.handleSocialize}
+              onClick={props.handleSocialize}
             >
               Socialize
             </ToggleButton>
@@ -98,7 +96,7 @@ const GroupCharacteristics = (props: GroupCharacteristicsProps) => {
               variant="outline-danger"
               name="radio"
               checked={props.userWorkhard}
-              onClick={props.handleVoteChange.handleWorkhard}
+              onClick={props.handleWorkhard}
             >
               Workhard
             </ToggleButton>
