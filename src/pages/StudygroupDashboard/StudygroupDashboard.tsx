@@ -107,7 +107,9 @@ const StudygroupDashboard = (props: Props) => {
         // Remove does not change state
         remove(dislikeRef);
         setState((prevState) => {
-          const copyDislikes = { ...prevState.dislikes };
+          const copyDislikes: { [uid: string]: true } = {
+            ...prevState.dislikes,
+          };
           delete copyDislikes[user.uid];
 
           return { ...prevState, dislikes: copyDislikes };
@@ -128,7 +130,7 @@ const StudygroupDashboard = (props: Props) => {
       if (user.uid in state.likes) {
         remove(likeRef);
         setState((prevState) => {
-          const copyLikes = { ...prevState.likes };
+          const copyLikes: { [uid: string]: true } = { ...prevState.likes };
           delete copyLikes[user.uid];
 
           return { ...prevState, likes: copyLikes };
@@ -165,7 +167,9 @@ const StudygroupDashboard = (props: Props) => {
       if (user.uid in state.workhardVotes) {
         remove(workhardRef);
         setState((prevState) => {
-          const copyWorkhardVotes = { ...prevState.workhardVotes };
+          const copyWorkhardVotes: { [uid: string]: true } = {
+            ...prevState.workhardVotes,
+          };
           delete copyWorkhardVotes[user.uid];
 
           return { ...prevState, workhardVotes: copyWorkhardVotes };
@@ -186,7 +190,9 @@ const StudygroupDashboard = (props: Props) => {
       if (user.uid in state.socializeVotes) {
         remove(socializeRef);
         setState((prevState) => {
-          const copySocializeVotes = { ...prevState.socializeVotes };
+          const copySocializeVotes: { [uid: string]: true } = {
+            ...prevState.socializeVotes,
+          };
           delete copySocializeVotes[user.uid];
 
           return { ...prevState, socializeVotes: copySocializeVotes };
