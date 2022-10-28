@@ -1,6 +1,6 @@
 import { Accordion, Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
-import { StudyGroupType } from "../../pages/Class/ClassPage";
+import { StudyGroupType } from "../../database/models";
 
 type Props = {
   studygroups: StudyGroupType[];
@@ -42,7 +42,9 @@ const Studygroups = (props: Props) => {
   const navigate = useNavigate();
 
   const goToStudygroupDashboard = (studygroupID: string) =>
-    navigate(`/studygroups/${props.crn}/${props.department}/${studygroupID}`);
+    navigate(
+      `/studygroups/${props.crn}/${props.department}/${studygroupID}/welcome`
+    );
 
   return (
     <div className="accordion-container">

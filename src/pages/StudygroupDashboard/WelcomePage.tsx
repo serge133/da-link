@@ -1,6 +1,6 @@
 import { getDatabase, onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
-import { Card, ListGroup } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { useParams } from "react-router";
 import NavigationBar from "../../Components/Navbar";
 import app from "../../database/firebase";
@@ -8,12 +8,13 @@ import { StudyGroupType, StudyGroupVote } from "../../database/models";
 import { AuthWrapper } from "../../Contexts/useAuth";
 import "./StudygroupDashboard.css";
 import GroupCharacteristicsContainer from "../../Containers/GroupCharacteristicsContainer";
+import StudygroupDashboardContainer from "../../Containers/StudygroupDashboardContainer/StudygroupDashboardContainer";
 
 type Props = {};
 
-const Description = () => (
+const Description = (props: { name: string }) => (
   <Card className="description-card">
-    <Card.Title>Welcome</Card.Title>
+    <Card.Title>Welcome to {props.name}</Card.Title>
     <Card.Body>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lacinia
       ultrices massa. Cras aliquet sed nunc in tempor. Vivamus eu massa cursus,
@@ -53,9 +54,11 @@ const EMPTY_STUDYGROUP = {
   socializeVotes: {},
 };
 
-const StudygroupDashboard = (props: Props) => {
+const WelcomePage = (props: Props) => {
   const { crn, department, studygroupID } = useParams();
-  const [state, setState] = useState<StudyGroupType>(EMPTY_STUDYGROUP);
+
+  const [studygroup, setStudygroup] =
+    useState<StudyGroupType>(EMPTY_STUDYGROUP);
 
   // Fetches once
   useEffect(() => {
@@ -66,7 +69,7 @@ const StudygroupDashboard = (props: Props) => {
       const data: StudyGroupType = snapshot.val();
 
       if (data) {
-        setState((prevState) => ({ ...prevState, ...data }));
+        setStudygroup((prevState) => ({ ...prevState, ...data }));
       }
     });
   }, []);
@@ -77,37 +80,31 @@ const StudygroupDashboard = (props: Props) => {
     workhardVotes?: StudyGroupVote;
     socializeVotes?: StudyGroupVote;
   }) => {
-    setState((prevState) => ({ ...prevState, ...newVoteState }));
+    setStudygroup((prevState) => ({ ...prevState, ...newVoteState }));
   };
 
   return (
     <AuthWrapper>
       <div className="App studygroup-dashboard">
         <NavigationBar goBack={`/class/${crn}/${department}`} />
-        <section className="side-bar">
-          <ListGroup as="ul">
-            <ListGroup.Item as="li" active>
-              Welcome
-            </ListGroup.Item>
-            <ListGroup.Item as="li">Chatroom</ListGroup.Item>
-            <ListGroup.Item as="li">Discord</ListGroup.Item>
-            <ListGroup.Item as="li">Calendar</ListGroup.Item>
-            <ListGroup.Item as="li">People</ListGroup.Item>
-            <ListGroup.Item as="li">Settings (owner)</ListGroup.Item>
-          </ListGroup>
-        </section>
-        <section className="main">
-          <Description />
+        <StudygroupDashboardContainer
+          currentPage="welcome"
+          crn={crn}
+          studygroupID={studygroupID}
+          department={department}
+          isOwner={true}
+        >
+          <Description name={studygroup.name} />
           <GroupCharacteristicsContainer
-            voteState={state}
+            voteState={studygroup}
             setVoteState={setVoteState}
             studygroupID={studygroupID ? studygroupID : ""}
             crn={crn ? crn : ""}
           />
-        </section>
+        </StudygroupDashboardContainer>
       </div>
     </AuthWrapper>
   );
 };
 
-export default StudygroupDashboard;
+export default WelcomePage;

@@ -9,7 +9,12 @@ import LoginPage from "./pages/Login/Login";
 import SignupPage from "./pages/Signup/Signup";
 import { AuthProvider } from "./Contexts/useAuth";
 import ClassPage from "./pages/Class/ClassPage";
-import StudygroupDashboard from "./pages/StudygroupDashboard/StudygroupDashboard";
+import WelcomePage from "./pages/StudygroupDashboard/WelcomePage";
+import ChatroomPage from "./pages/StudygroupDashboard/ChatroomPage";
+import DiscordPage from "./pages/StudygroupDashboard/DiscordPage";
+import CalendarPage from "./pages/StudygroupDashboard/CalendarPage";
+import PeoplePage from "./pages/StudygroupDashboard/PeoplePage";
+import SettingsPage from "./pages/StudygroupDashboard/SettingsPage";
 
 function App() {
   return (
@@ -30,10 +35,14 @@ function App() {
             />
           </Route>
 
-          <Route
-            path="/studygroups/:crn/:department/:studygroupID"
-            element={<StudygroupDashboard />}
-          />
+          <Route path="/studygroups/:crn/:department/:studygroupID">
+            <Route path="welcome" element={<WelcomePage />} />
+            <Route path="chatroom" element={<ChatroomPage />} />
+            <Route path="discord" element={<DiscordPage />} />
+            <Route path="calendar" element={<CalendarPage />} />
+            <Route path="people" element={<PeoplePage />} />
+            <Route path="settings" element={<SettingsPage />} />
+          </Route>
           {/* Auth not required for paths below */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
