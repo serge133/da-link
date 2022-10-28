@@ -71,7 +71,7 @@ const LoginPage = (props: LoginProps) => {
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
             <Form.Check type="checkbox" label="Check me out" />
           </Form.Group>
-          {error.error && <h6 className="danger">{error.message}</h6>}
+          {error.error && <h6 style={{ color: "red" }}>{error.message}</h6>}
           <div className="row-buttons">
             <Button disabled={loading} onClick={handleSubmit} variant="primary">
               Log-In

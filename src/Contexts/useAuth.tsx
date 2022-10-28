@@ -5,6 +5,7 @@ import {
   onAuthStateChanged,
   User as FirebaseUser,
 } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
 import {
   createContext,
   ReactNode,
@@ -30,7 +31,13 @@ interface AuthContextType {
   authenticated: boolean;
   error?: any;
   login: (email: string, password: string) => void;
-  signUp: (email: string, studentId: string, password: string) => void;
+  signUp: (
+    email: string,
+    password: string,
+    confirmPassword: string,
+    firstName: string,
+    lastName: string
+  ) => void;
   logout: () => void;
   getLoginState: () => boolean;
 }
@@ -110,13 +117,36 @@ export const AuthProvider = ({
 
   // Sends sign up details to the server. On success we just apply
   // the created user to the state.
-  function signUp(email: string, studentId: string, password: string) {
+  function signUp(
+    email: string,
+    password: string,
+    confirmPassword: string,
+    firstName: string,
+    lastName: string
+  ) {
     setLoading(true);
+    if (confirmPassword !== password) {
+      setError({
+        message: "Passwords do not match!",
+        code: "230",
+        error: true,
+      });
+      setLoading(false);
+      return;
+    }
     const auth = getAuth(app);
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user: User = userCredential.user;
         setUser(user);
+        const db = getDatabase(app);
+        const userRef = ref(db, `/users/${user.uid}`);
+        const userDetails = {
+          firstName,
+          lastName,
+        };
+        set(userRef, userDetails);
+
         navigate("/app");
         setLoading(false);
         setError({ message: "", code: "", error: false });

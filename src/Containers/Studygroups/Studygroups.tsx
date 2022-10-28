@@ -6,14 +6,17 @@ type Props = {
   studygroups: StudyGroupType[];
   crn?: string;
   department?: string;
+  uid?: string;
 };
 
 type StudygroupProps = {
   id: string;
   name: string;
   index: number;
-  description: string;
+  description?: string;
   goToDashboard: (studygroupID: string) => void;
+  handleClick: (studygroupID: string, isOwner: boolean) => void;
+  isOwner: boolean;
 };
 
 const Studygroup = ({
@@ -22,6 +25,8 @@ const Studygroup = ({
   index,
   description,
   goToDashboard,
+  isOwner,
+  handleClick,
 }: StudygroupProps) => {
   return (
     <Accordion.Item eventKey={index.toString()}>
@@ -29,8 +34,8 @@ const Studygroup = ({
       <Accordion.Body>
         {description}
         <div className="button-container">
-          <Button variant="primary" onClick={() => goToDashboard(id)}>
-            Open
+          <Button variant="primary" onClick={() => handleClick(id, isOwner)}>
+            {isOwner ? "Open" : "Ask To Join"}
           </Button>
         </div>
       </Accordion.Body>
@@ -46,24 +51,29 @@ const Studygroups = (props: Props) => {
       `/studygroups/${props.crn}/${props.department}/${studygroupID}/welcome`
     );
 
+  const handleClick = (studygroupID: string, isOwner: boolean) => {
+    // If you are the owner you are allowed to open
+    if (isOwner) {
+      navigate(
+        `/studygroups/${props.crn}/${props.department}/${studygroupID}/welcome`
+      );
+      return;
+    }
+  };
+
   return (
     <div className="accordion-container">
       <Accordion defaultActiveKey="0">
         {props.studygroups.map((sg, i) => (
           <Studygroup
             index={i}
+            isOwner={props.uid === sg.author}
             id={sg.id}
             key={sg.id}
             name={sg.name}
-            description="
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum."
+            description={sg.welcomeMessage}
             goToDashboard={goToStudygroupDashboard}
+            handleClick={handleClick}
           />
         ))}
       </Accordion>

@@ -15,7 +15,8 @@ type SignupProps = {};
 
 const signupForm = {
   email: "",
-  studentId: "",
+  firstName: "",
+  lastName: "",
   password: "",
   confirmPassword: "",
 };
@@ -35,7 +36,13 @@ const SignupPage = (props: SignupProps) => {
 
   const handleSubmit = () => {
     if (form.confirmPassword !== form.password) return;
-    signUp(form.email, form.studentId, form.password);
+    signUp(
+      form.email,
+      form.password,
+      form.confirmPassword,
+      form.firstName,
+      form.lastName
+    );
   };
 
   const redirectLogin = () => navigate("/login");
@@ -62,18 +69,26 @@ const SignupPage = (props: SignupProps) => {
             </Form.Text>
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicID">
-            <Form.Label>De Anza Student ID</Form.Label>
+          <Form.Group className="mb-3" controlId="firstName">
+            <Form.Label>First Name</Form.Label>
             <Form.Control
-              name="studentId"
+              name="firstName"
+              value={form.firstName}
               onChange={handleChange}
-              value={form.studentId}
               type="username"
-              placeholder="Student ID"
+              placeholder="First Name"
             />
-            <Form.Text className="text-muted">
-              We'll never share your De Anza Student ID with anyone else.
-            </Form.Text>
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="lastName">
+            <Form.Label>Last Name</Form.Label>
+            <Form.Control
+              value={form.lastName}
+              name="lastName"
+              onChange={handleChange}
+              type="username"
+              placeholder="Last Name"
+            />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -99,7 +114,7 @@ const SignupPage = (props: SignupProps) => {
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
             <Form.Check type="checkbox" label="Check me out" />
           </Form.Group>
-          {error.error && <h6 className="danger">{error.message}</h6>}
+          {error.error && <h6 style={{ color: "red" }}>{error.message}</h6>}
           <div className="row-buttons">
             <Button disabled={loading} onClick={handleSubmit} variant="primary">
               Sign-Up

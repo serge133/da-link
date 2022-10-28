@@ -19,7 +19,7 @@ const Description = (props: { name: string; children: string }) => (
   </Card>
 );
 
-const EMPTY_STUDYGROUP = {
+const EMPTY_STUDYGROUP: StudyGroupType = {
   id: "",
   name: "",
   author: "",
@@ -28,6 +28,8 @@ const EMPTY_STUDYGROUP = {
   dislikes: {},
   workhardVotes: {},
   socializeVotes: {},
+  welcomeMessage: "",
+  people: {},
 };
 
 const WelcomePage = (props: Props) => {

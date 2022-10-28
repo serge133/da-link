@@ -14,6 +14,10 @@ export type StudyGroupVote = {
   [crn: string]: true;
 };
 
+export type PeopleType = {
+  [uid: string]: true;
+};
+
 export type StudyGroupType = {
   id: string;
   name: string;
@@ -24,4 +28,5 @@ export type StudyGroupType = {
   workhardVotes: StudyGroupVote;
   socializeVotes: StudyGroupVote;
   welcomeMessage?: string;
+  people: PeopleType;
 };

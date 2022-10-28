@@ -81,6 +81,7 @@ const ClassPage = (props: Props) => {
       dislikes: {},
       workhardVotes: {},
       socializeVotes: {},
+      people: { [user.uid]: true },
     };
     console.log(studygroup);
     // An author is added
@@ -145,6 +146,7 @@ const ClassPage = (props: Props) => {
           </section>
           <Studygroups
             crn={crn}
+            uid={user?.uid}
             department={department}
             studygroups={studyGroups}
           />

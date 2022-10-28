@@ -9,7 +9,7 @@ import { StudyGroupType } from "../../database/models";
 
 type Props = {};
 
-const EMPTY_STUDYGROUP = {
+const EMPTY_STUDYGROUP: StudyGroupType = {
   id: "",
   name: "",
   author: "",
@@ -18,6 +18,8 @@ const EMPTY_STUDYGROUP = {
   dislikes: {},
   workhardVotes: {},
   socializeVotes: {},
+  people: {},
+  welcomeMessage: "",
 };
 
 const ChatroomPage = (props: Props) => {
