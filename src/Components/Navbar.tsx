@@ -1,3 +1,4 @@
+import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -12,7 +13,7 @@ type Props = {
 
 const NavigationBar = (props: Props) => {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
   const goBack = () => {
     if (props.goBack) {
@@ -49,6 +50,10 @@ const NavigationBar = (props: Props) => {
               <NavDropdown.Item>Separated link</NavDropdown.Item> */}
             </NavDropdown>
           </Nav>
+          <Navbar.Text>
+            Signed in as {user?.firstName} {user?.lastName}
+            {/* <Button disabled={true}>Notifs</Button> */}
+          </Navbar.Text>
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -5,7 +5,7 @@ import {
   onAuthStateChanged,
   User as FirebaseUser,
 } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, onValue, ref, set } from "firebase/database";
 import {
   createContext,
   ReactNode,
@@ -22,6 +22,8 @@ import app from "../database/firebase";
 type User = {
   uid: string;
   refreshToken: string;
+  firstName: string;
+  lastName: string;
 };
 
 interface AuthContextType {
@@ -82,6 +84,14 @@ export const AuthProvider = ({
         setUser({
           uid: user.uid,
           refreshToken: user.refreshToken,
+          firstName: "",
+          lastName: "",
+        });
+        const db = getDatabase(app);
+        const userRef = ref(db, `/users/${user.uid}`);
+        onValue(userRef, (snapshot) => {
+          const data: User = snapshot.val();
+          setUser({ ...user, ...data });
         });
       }
     });
@@ -99,6 +109,14 @@ export const AuthProvider = ({
         setUser({
           uid: user.uid,
           refreshToken: user.refreshToken,
+          firstName: "",
+          lastName: "",
+        });
+        const db = getDatabase(app);
+        const userRef = ref(db, `/users/${user.uid}`);
+        onValue(userRef, (snapshot) => {
+          const data: User = snapshot.val();
+          setUser({ ...user, ...data });
         });
         navigate("/app");
         setLoading(false);
@@ -137,7 +155,11 @@ export const AuthProvider = ({
     const auth = getAuth(app);
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        const user: User = userCredential.user;
+        const user: User = {
+          ...userCredential.user,
+          firstName,
+          lastName,
+        };
         setUser(user);
         const db = getDatabase(app);
         const userRef = ref(db, `/users/${user.uid}`);

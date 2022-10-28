@@ -14,7 +14,7 @@ export type StudyGroupVote = {
   [crn: string]: true;
 };
 
-export type PeopleType = {
+export type StudygroupPeopleType = {
   [uid: string]: true;
 };
 
@@ -28,5 +28,17 @@ export type StudyGroupType = {
   workhardVotes: StudyGroupVote;
   socializeVotes: StudyGroupVote;
   welcomeMessage?: string;
-  people: PeopleType;
+  people: StudygroupPeopleType;
+};
+
+type JoinStudygroupGroupNotification = {
+  message: string;
+  department: string;
+  crn: string;
+  studygroupID: string;
+};
+
+// Notifacations from other users who want to join your studygroup
+export type UserNotification = {
+  [uid: string]: JoinStudygroupGroupNotification;
 };
