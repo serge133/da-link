@@ -1,6 +1,7 @@
-import { MouseEventHandler, ReactNode, useCallback } from "react";
+import { ReactNode } from "react";
 import { ListGroup } from "react-bootstrap";
 import { useNavigate } from "react-router";
+import "./StudygroupDashboardContainer.css";
 
 type Pages =
   | "welcome"
@@ -32,7 +33,7 @@ const StudygroupDashboardContainer = (props: Props) => {
   };
   return (
     <>
-      <section className="side-bar">
+      <section className="studygroup-dashboard-side-bar">
         <ListGroup as="ul">
           <ListGroup.Item
             as="li"
@@ -86,7 +87,7 @@ const StudygroupDashboardContainer = (props: Props) => {
           )}
         </ListGroup>
       </section>
-      <section className="main">{props.children}</section>
+      <section className="studygroup-dashboard_main">{props.children}</section>
     </>
   );
 };

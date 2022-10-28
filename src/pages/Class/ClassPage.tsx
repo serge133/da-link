@@ -56,7 +56,6 @@ const ClassPage = (props: Props) => {
       const data = snapshot.val();
       if (data) {
         const response: StudyGroupType[] = Object.values(data);
-        console.log("rendered");
         setStudyGroups(response);
       }
     });

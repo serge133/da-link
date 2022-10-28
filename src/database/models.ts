@@ -23,4 +23,5 @@ export type StudyGroupType = {
   dislikes: StudyGroupVote;
   workhardVotes: StudyGroupVote;
   socializeVotes: StudyGroupVote;
+  welcomeMessage?: string;
 };

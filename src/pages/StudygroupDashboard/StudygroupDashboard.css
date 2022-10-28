@@ -15,24 +15,6 @@
   text-align: left;
 }
 
-.studygroup-dashboard .main {
-  height: 100%;
-  flex-grow: 1;
-  padding-top: 10px;
-  flex-direction: row;
-  margin-right: 10px;
-  overflow-y: auto;
-  /* overflow-x: hidden; */
-}
-
-.studygroup-dashboard .side-bar li {
-  cursor: pointer;
-}
-
-.studygroup-dashboard .side-bar li:hover {
-  /* background-color: aliceblue; */
-}
-
 .studygroup-dashboard .card {
   /* width: 300px; */
   margin-bottom: 10px;
@@ -49,4 +31,20 @@
   cursor: pointer;
   display: flex;
   justify-content: space-around;
+}
+
+.studygroup-dashboard .settings-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.studygroup-dashboard .settings-page .main {
+  flex-grow: 1;
+}
+
+.studygroup-dashboard .settings-page .button-container {
+  width: 100%;
+  text-align: right;
+  padding-bottom: 10px;
 }
