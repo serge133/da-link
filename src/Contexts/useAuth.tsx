@@ -18,12 +18,14 @@ import {
 import { Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import app from "../database/firebase";
+import { UserNotification } from "../database/models";
 
 type User = {
   uid: string;
   refreshToken: string;
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
+  notifications?: UserNotification;
 };
 
 interface AuthContextType {
@@ -84,8 +86,6 @@ export const AuthProvider = ({
         setUser({
           uid: user.uid,
           refreshToken: user.refreshToken,
-          firstName: "",
-          lastName: "",
         });
         const db = getDatabase(app);
         const userRef = ref(db, `/users/${user.uid}`);
@@ -109,8 +109,6 @@ export const AuthProvider = ({
         setUser({
           uid: user.uid,
           refreshToken: user.refreshToken,
-          firstName: "",
-          lastName: "",
         });
         const db = getDatabase(app);
         const userRef = ref(db, `/users/${user.uid}`);

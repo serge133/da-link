@@ -49,6 +49,24 @@ const NavigationBar = (props: Props) => {
               <NavDropdown.Divider />
               <NavDropdown.Item>Separated link</NavDropdown.Item> */}
             </NavDropdown>
+            <NavDropdown
+              title={
+                user?.notifications
+                  ? `${Object.values(user.notifications).length} Notifications`
+                  : "No Notifications"
+              }
+              id="notification-dropdown"
+            >
+              {user?.notifications ? (
+                Object.values(user.notifications).map((n) => (
+                  <NavDropdown.Item key={n.studygroupID}>
+                    {n.message}
+                  </NavDropdown.Item>
+                ))
+              ) : (
+                <NavDropdown.Item>No Notifications</NavDropdown.Item>
+              )}
+            </NavDropdown>
           </Nav>
           <Navbar.Text>
             Signed in as {user?.firstName} {user?.lastName}
