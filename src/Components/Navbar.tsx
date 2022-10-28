@@ -59,9 +59,7 @@ const NavigationBar = (props: Props) => {
             >
               {user?.notifications ? (
                 Object.values(user.notifications).map((n) => (
-                  <NavDropdown.Item key={n.studygroupID}>
-                    {n.message}
-                  </NavDropdown.Item>
+                  <NavDropdown.Item key={n.uid}>{n.message}</NavDropdown.Item>
                 ))
               ) : (
                 <NavDropdown.Item>No Notifications</NavDropdown.Item>

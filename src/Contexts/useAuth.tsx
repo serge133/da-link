@@ -18,15 +18,7 @@ import {
 import { Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import app from "../database/firebase";
-import { UserNotification } from "../database/models";
-
-type User = {
-  uid: string;
-  refreshToken: string;
-  firstName?: string;
-  lastName?: string;
-  notifications?: UserNotification;
-};
+import { User } from "../database/models";
 
 interface AuthContextType {
   user?: User;

@@ -1,49 +1,48 @@
 import { Accordion, Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
+import useAuth from "../../Contexts/useAuth";
 import { StudygroupPeopleType, StudyGroupType } from "../../database/models";
 
 type Props = {
   studygroups: StudyGroupType[];
   crn?: string;
   department?: string;
-  uid?: string;
+  handleClick: (belongsInGroup: boolean, studygroup: StudyGroupType) => void;
 };
 
 type StudygroupProps = {
-  uid: string;
-  id: string;
-  name: string;
+  studygroup: StudyGroupType;
   index: number;
-  description?: string;
-  goToDashboard: (studygroupID: string) => void;
-  handleClick: (studygroupID: string, belongsInGroup: boolean) => void;
+  uid: string;
+  handleClick: (belongsInGroup: boolean, studygroup: StudyGroupType) => void;
   isOwner: boolean;
-  people: StudygroupPeopleType;
+  pendingInvite: boolean;
 };
 
-const Studygroup = ({
-  uid,
-  id,
-  name,
-  index,
-  description,
-  goToDashboard,
-  isOwner,
-  handleClick,
-  people,
-}: StudygroupProps) => {
-  const belongsInGroup: boolean = uid in people;
+const Studygroup = (props: StudygroupProps) => {
+  const belongsInGroup: boolean = props.uid in props.studygroup.people;
+
+  const buttonMessage = (): string => {
+    if (belongsInGroup) {
+      return "Open";
+    } else if (props.pendingInvite) {
+      return "Pending Invite";
+    }
+
+    return "Ask To Join";
+  };
   return (
-    <Accordion.Item eventKey={index.toString()}>
-      <Accordion.Header>{name}</Accordion.Header>
+    <Accordion.Item eventKey={props.index.toString()}>
+      <Accordion.Header>{props.studygroup.name}</Accordion.Header>
       <Accordion.Body>
-        {description}
+        {props.studygroup.welcomeMessage}
         <div className="button-container">
           <Button
             variant="primary"
-            onClick={() => handleClick(id, belongsInGroup)}
+            onClick={() => props.handleClick(belongsInGroup, props.studygroup)}
+            disabled={props.pendingInvite}
           >
-            {belongsInGroup ? "Open" : "Ask To Join"}
+            {buttonMessage()}
           </Button>
         </div>
       </Accordion.Body>
@@ -52,43 +51,30 @@ const Studygroup = ({
 };
 
 const Studygroups = (props: Props) => {
-  const navigate = useNavigate();
+  const { user } = useAuth();
 
-  const goToStudygroupDashboard = (studygroupID: string) =>
-    navigate(
-      `/studygroups/${props.crn}/${props.department}/${studygroupID}/welcome`
-    );
-
-  const handleClick = (studygroupID: string, belongsInGroup: boolean) => {
-    if (!props.uid) return;
-    // If you are the owner you are allowed to open
-    if (belongsInGroup) {
-      navigate(
-        `/studygroups/${props.crn}/${props.department}/${studygroupID}/welcome`
-      );
-      return;
-    }
-
-    console.log(
-      "You do not belong in the group will send the owner a notification"
-    );
-  };
+  // const goToStudygroupDashboard = (studygroupID: string) =>
+  //   navigate(
+  //     `/studygroups/${props.crn}/${props.department}/${studygroupID}/welcome`
+  //   );
 
   return (
     <div className="accordion-container">
       <Accordion defaultActiveKey="0">
         {props.studygroups.map((sg, i) => (
           <Studygroup
-            uid={props.uid ? props.uid : ""}
+            uid={user?.uid ? user.uid : ""}
             index={i}
-            isOwner={props.uid === sg.author}
-            id={sg.id}
+            isOwner={user?.uid === sg.author}
+            pendingInvite={
+              sg.pendingInvites && user?.uid
+                ? user.uid in sg.pendingInvites
+                : false
+            }
             key={sg.id}
-            name={sg.name}
-            people={sg.people}
-            description={sg.welcomeMessage}
-            goToDashboard={goToStudygroupDashboard}
-            handleClick={handleClick}
+            // goToDashboard={goToStudygroupDashboard}
+            studygroup={sg}
+            handleClick={props.handleClick}
           />
         ))}
       </Accordion>

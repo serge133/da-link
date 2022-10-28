@@ -1,18 +1,22 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Accordion, Button, Dropdown } from "react-bootstrap";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import NavigationBar from "../../Components/Navbar";
 import { Class } from "../../Containers/ClassesDisplay/ClassesDisplay";
 import classes from "../../database/raw/classes.json";
 import useAuth, { AuthWrapper } from "../../Contexts/useAuth";
 import CreateStudyGroupForm from "../../Containers/CreateStudyGroupForm";
 import "./ClassPage.css";
-import { getDatabase, onValue, ref, set } from "firebase/database";
+import { getDatabase, onValue, ref, set, update } from "firebase/database";
 import app from "../../database/firebase";
 import { uuidv4 } from "@firebase/util";
 import Studygroups from "../../Containers/Studygroups/Studygroups";
 import ErrorHandler from "../../Containers/ErrorHandler/ErrorHandler";
-import { StudyGroupType } from "../../database/models";
+import {
+  JoinStudygroupGroupNotification,
+  MyStudyGroups,
+  StudyGroupType,
+} from "../../database/models";
 
 type Props = {};
 
@@ -31,6 +35,7 @@ const ClassPage = (props: Props) => {
   const [loading, setLoading] = useState(true);
 
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   // Finds the class based on the crn given through the route params, then finds the class and renders the class
   useEffect(() => {
@@ -101,6 +106,50 @@ const ClassPage = (props: Props) => {
     }));
   };
 
+  // Handles joining the study group and openning it
+  const handleClickStudygroup = (
+    belongsInGroup: boolean,
+    studygroup: StudyGroupType
+  ) => {
+    // If you are the owner you are allowed to open always
+    if (belongsInGroup) {
+      navigate(`/studygroups/${crn}/${department}/${studygroup.id}/welcome`);
+      return;
+    }
+
+    console.log(
+      "You do not belong in the group will send the owner a notification"
+    );
+    if (!user || !department || !crn) return;
+
+    const db = getDatabase(app);
+    const notificationRef = ref(
+      db,
+      `/users/${studygroup.author}/notifications/${user.uid}`
+    );
+    const notification: JoinStudygroupGroupNotification = {
+      uid: user.uid,
+      message: `${user.firstName} ${user.lastName} Would like to join your Studygroup ${studygroup.name}`,
+      department,
+      crn,
+      studygroupID: studygroup.id,
+    };
+    set(notificationRef, notification);
+    const userStudygroupRef = ref(db, `/users/${user.uid}/studygroups`);
+    const newStudyGroup: MyStudyGroups = {
+      [studygroup.id]: true,
+    };
+    update(userStudygroupRef, newStudyGroup);
+
+    const pendingInviteStudygroupRef = ref(
+      db,
+      `/studygroups/${crn}/${studygroup.id}/pendingInvites`
+    );
+    update(pendingInviteStudygroupRef, {
+      [user.uid]: true,
+    });
+    console.log("Sent Notification");
+  };
   return (
     <AuthWrapper>
       <div className="App class-page">
@@ -146,9 +195,9 @@ const ClassPage = (props: Props) => {
           </section>
           <Studygroups
             crn={crn}
-            uid={user?.uid}
             department={department}
             studygroups={studyGroups}
+            handleClick={handleClickStudygroup}
           />
         </ErrorHandler>
         {/* {!loading && classData ? <></> : <h1>Sorry Class does not exist</h1>} */}
