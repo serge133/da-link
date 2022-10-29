@@ -18,7 +18,11 @@ import {
 import { Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import app from "../database/firebase";
-import { User } from "../database/models";
+import {
+  JoinStudygroupGroupNotification,
+  User,
+  UserNotification,
+} from "../database/models";
 
 interface AuthContextType {
   user?: User;
@@ -82,7 +86,16 @@ export const AuthProvider = ({
         const db = getDatabase(app);
         const userRef = ref(db, `/users/${user.uid}`);
         onValue(userRef, (snapshot) => {
-          const data: User = snapshot.val();
+          let data = snapshot.val();
+          let reformattedNotifications: JoinStudygroupGroupNotification[] = [];
+          if (data && "notifications" in data) {
+            console.log(Object.values(data.notifications));
+            for (const notification of Object.values(data.notifications)) {
+              reformattedNotifications = Object.values(notification);
+            }
+          }
+          console.log(reformattedNotifications);
+          data.notifications = reformattedNotifications;
           setUser({ ...user, ...data });
         });
       }

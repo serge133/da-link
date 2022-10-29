@@ -125,7 +125,7 @@ const ClassPage = (props: Props) => {
     const db = getDatabase(app);
     const notificationRef = ref(
       db,
-      `/users/${studygroup.author}/notifications/${user.uid}`
+      `/users/${studygroup.author}/notifications/${user.uid}/${studygroup.id}`
     );
     const notification: JoinStudygroupGroupNotification = {
       uid: user.uid,
@@ -150,6 +150,7 @@ const ClassPage = (props: Props) => {
     });
     console.log("Sent Notification");
   };
+
   return (
     <AuthWrapper>
       <div className="App class-page">

@@ -15,6 +15,7 @@ import DiscordPage from "./pages/StudygroupDashboard/DiscordPage";
 import CalendarPage from "./pages/StudygroupDashboard/CalendarPage";
 import PeoplePage from "./pages/StudygroupDashboard/PeoplePage";
 import SettingsPage from "./pages/StudygroupDashboard/SettingsPage";
+import NotificationPage from "./pages/NotificationPage/NotificationPage";
 
 function App() {
   return (
@@ -43,6 +44,8 @@ function App() {
             <Route path="people" element={<PeoplePage />} />
             <Route path="settings" element={<SettingsPage />} />
           </Route>
+
+          <Route path="/notifications" element={<NotificationPage />} />
           {/* Auth not required for paths below */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />

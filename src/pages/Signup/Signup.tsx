@@ -35,7 +35,6 @@ const SignupPage = (props: SignupProps) => {
   };
 
   const handleSubmit = () => {
-    if (form.confirmPassword !== form.password) return;
     signUp(
       form.email,
       form.password,

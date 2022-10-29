@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -5,6 +6,7 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useNavigate } from "react-router";
 import useAuth from "../Contexts/useAuth";
+import { JoinStudygroupGroupNotification } from "../database/models";
 import Logo from "./Logo";
 
 type Props = {
@@ -20,6 +22,12 @@ const NavigationBar = (props: Props) => {
       navigate(props.goBack);
     }
   };
+
+  const handleNotificationClick = () => {
+    navigate(`/notifications`);
+  };
+
+  // console.log(Object.values(user?.notifications));
 
   return (
     <Navbar
@@ -51,19 +59,24 @@ const NavigationBar = (props: Props) => {
             </NavDropdown>
             <NavDropdown
               title={
-                user?.notifications
-                  ? `${Object.values(user.notifications).length} Notifications`
+                user?.notifications && user.notifications.length > 0
+                  ? `${user.notifications.length} Notifications`
                   : "No Notifications"
               }
               id="notification-dropdown"
             >
-              {user?.notifications ? (
-                Object.values(user.notifications).map((n) => (
-                  <NavDropdown.Item key={n.uid}>{n.message}</NavDropdown.Item>
-                ))
-              ) : (
-                <NavDropdown.Item>No Notifications</NavDropdown.Item>
-              )}
+              {user?.notifications &&
+                user.notifications.map((n) => (
+                  <NavDropdown.Item
+                    onClick={handleNotificationClick}
+                    key={`${n.studygroupID}-${n.uid}`}
+                  >
+                    {n.message}
+                  </NavDropdown.Item>
+                ))}
+              <NavDropdown.Item onClick={handleNotificationClick}>
+                Go To Notifications
+              </NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Navbar.Text>

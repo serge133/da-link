@@ -11,9 +11,7 @@ export interface Student {
 }
 
 // Notifacations from other users who want to join your studygroup
-export type UserNotification = {
-  [uid: string]: JoinStudygroupGroupNotification;
-};
+export type UserNotification = JoinStudygroupGroupNotification[];
 
 export type MyClasses = { [crn: string]: boolean };
 
