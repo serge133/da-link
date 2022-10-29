@@ -1,5 +1,7 @@
-import { ChangeEvent, RefObject } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { RefObject } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
 
 type Props = {
   show: boolean;

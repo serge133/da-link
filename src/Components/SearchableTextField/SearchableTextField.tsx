@@ -1,7 +1,7 @@
 import List from "./List";
 import { useState, ChangeEvent } from "react";
 import "./style.css";
-import { Form, FormControlProps } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
 
 interface Props {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;

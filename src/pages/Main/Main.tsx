@@ -1,17 +1,14 @@
 import "./Main.css";
 import { ChangeEvent, useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Image } from "react-bootstrap";
-import DALogo from "../../assets/DAC_Logo_Black.png";
-import LINKlogo from "../../assets/link-logo.png";
 import useAuth, { AuthWrapper } from "../../Contexts/useAuth";
 import ClassSearch from "../../Containers/ClassSearch/ClassSearch";
 import ClassesDisplay from "../../Containers/ClassesDisplay/ClassesDisplay";
 import { useParams } from "react-router";
 import NavigationBar from "../../Components/Navbar";
 import { get_student } from "../../database/actions";
-import { getDatabase, onValue, ref, set } from "firebase/database";
-import app from "../../database/firebase";
+import { onValue, ref, set } from "firebase/database";
+import database from "../../database/firebase";
 
 const Main = () => {
   const { department, search } = useParams();
@@ -52,7 +49,6 @@ const Main = () => {
   }, [user]);
 
   const toggleMyClass = (crn: string) => {
-    const db = getDatabase(app);
     const copyMyClasses = { ...me.myClasses };
     if (crn in copyMyClasses) {
       delete copyMyClasses[crn];
@@ -67,7 +63,7 @@ const Main = () => {
         myClasses: copyMyClasses,
       }));
     }
-    set(ref(db, `users/${user?.uid}/myClasses`), copyMyClasses);
+    set(ref(database, `users/${user?.uid}/myClasses`), copyMyClasses);
   };
 
   return (

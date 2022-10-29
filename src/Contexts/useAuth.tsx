@@ -5,7 +5,7 @@ import {
   onAuthStateChanged,
   User as FirebaseUser,
 } from "firebase/auth";
-import { getDatabase, onValue, ref, set } from "firebase/database";
+import { onValue, ref, set } from "firebase/database";
 import {
   createContext,
   ReactNode,
@@ -15,14 +15,10 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Spinner } from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
 import { useNavigate } from "react-router";
-import app from "../database/firebase";
-import {
-  JoinStudygroupGroupNotification,
-  User,
-  UserNotification,
-} from "../database/models";
+import database, { app } from "../database/firebase";
+import { JoinStudygroupGroupNotification, User } from "../database/models";
 
 interface AuthContextType {
   user?: User;
@@ -83,13 +79,13 @@ export const AuthProvider = ({
           uid: user.uid,
           refreshToken: user.refreshToken,
         });
-        const db = getDatabase(app);
-        const userRef = ref(db, `/users/${user.uid}`);
+        const userRef = ref(database, `/users/${user.uid}`);
         onValue(userRef, (snapshot) => {
           let data = snapshot.val();
           let reformattedNotifications: JoinStudygroupGroupNotification[] = [];
           if (data && "notifications" in data) {
             for (const notification of Object.values(data.notifications)) {
+              // @ts-ignore
               reformattedNotifications = Object.values(notification);
             }
           }
@@ -113,8 +109,7 @@ export const AuthProvider = ({
           uid: user.uid,
           refreshToken: user.refreshToken,
         });
-        const db = getDatabase(app);
-        const userRef = ref(db, `/users/${user.uid}`);
+        const userRef = ref(database, `/users/${user.uid}`);
         onValue(userRef, (snapshot) => {
           const data: User = snapshot.val();
           setUser({ ...user, ...data });
@@ -162,8 +157,7 @@ export const AuthProvider = ({
           lastName,
         };
         setUser(user);
-        const db = getDatabase(app);
-        const userRef = ref(db, `/users/${user.uid}`);
+        const userRef = ref(database, `/users/${user.uid}`);
         const userDetails = {
           firstName,
           lastName,

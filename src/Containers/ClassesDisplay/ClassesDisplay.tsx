@@ -1,7 +1,7 @@
 import "./ClassesDisplay.css";
 import classes from "../../database/raw/classes.json";
-import { useEffect, useState } from "react";
-import { Button, Card } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 import { relevancy } from "../../functions/sorter";
 import { useNavigate } from "react-router";
 

@@ -1,12 +1,14 @@
-import { getDatabase, onValue, ref, update } from "firebase/database";
+import { onValue, ref, update } from "firebase/database";
 import { ChangeEvent, useEffect, useState } from "react";
-import { Button, Form, InputGroup } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 import { useParams } from "react-router";
 import NavigationBar from "../../Components/Navbar";
 import ErrorHandler from "../../Containers/ErrorHandler/ErrorHandler";
 import StudygroupDashboardContainer from "../../Containers/StudygroupDashboardContainer/StudygroupDashboardContainer";
 import useAuth, { AuthWrapper } from "../../Contexts/useAuth";
-import app from "../../database/firebase";
+import database from "../../database/firebase";
 import { StudyGroupType } from "../../database/models";
 
 type Props = {};
@@ -35,8 +37,7 @@ const SettingsPage = (props: Props) => {
 
   // Fetches once
   useEffect(() => {
-    const db = getDatabase(app);
-    const studygroupRef = ref(db, `/studygroups/${crn}/${studygroupID}`);
+    const studygroupRef = ref(database, `/studygroups/${crn}/${studygroupID}`);
 
     onValue(studygroupRef, (snapshot) => {
       const data: StudyGroupType = snapshot.val();
@@ -58,8 +59,7 @@ const SettingsPage = (props: Props) => {
   };
 
   const handleSave = () => {
-    const db = getDatabase(app);
-    const studygroupRef = ref(db, `/studygroups/${crn}/${studygroupID}`);
+    const studygroupRef = ref(database, `/studygroups/${crn}/${studygroupID}`);
     update(studygroupRef, studygroup);
 
     setSaved(true);

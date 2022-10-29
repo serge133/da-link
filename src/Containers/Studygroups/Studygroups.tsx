@@ -1,7 +1,7 @@
-import { Accordion, Button } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import Accordion from "react-bootstrap/Accordion";
+import Button from "react-bootstrap/Button";
 import useAuth from "../../Contexts/useAuth";
-import { StudygroupPeopleType, StudyGroupType } from "../../database/models";
+import { StudyGroupType } from "../../database/models";
 
 type Props = {
   studygroups: StudyGroupType[];

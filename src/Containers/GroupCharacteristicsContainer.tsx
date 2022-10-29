@@ -1,7 +1,7 @@
-import { getDatabase, ref, remove, set } from "firebase/database";
+import { ref, remove, set } from "firebase/database";
 import GroupCharacteristics from "../Components/GroupCharacteristics";
 import useAuth from "../Contexts/useAuth";
-import app from "../database/firebase";
+import database from "../database/firebase";
 import { StudyGroupVote } from "../database/models";
 
 type Props = {
@@ -28,11 +28,10 @@ const GroupCharacteristicsContainer = (props: Props) => {
 
   const setDislike = () => {
     if (!user) return;
-    const db = getDatabase(app);
-    // const [userStudyGroupRef, studygroupRef] = getRef(db);
-    // const likeRef = ref(db, `/studygroups/${crn}/${studygroupID}/likes/${user?.uid}`);
+    // const [userStudyGroupRef, studygroupRef] = getRef(database);
+    // const likeRef = ref(database, `/studygroups/${crn}/${studygroupID}/likes/${user?.uid}`);
     const dislikeRef = ref(
-      db,
+      database,
       `/studygroups/${crn}/${studygroupID}/dislikes/${user.uid}`
     );
 
@@ -56,10 +55,9 @@ const GroupCharacteristicsContainer = (props: Props) => {
   };
   const setLike = () => {
     if (!user) return;
-    const db = getDatabase(app);
-    // const [userStudyGroupRef, studygroupRef] = getRef(db);
+    // const [userStudyGroupRef, studygroupRef] = getRef(database);
     const likeRef = ref(
-      db,
+      database,
       `/studygroups/${crn}/${studygroupID}/likes/${user.uid}`
     );
 
@@ -90,10 +88,9 @@ const GroupCharacteristicsContainer = (props: Props) => {
   };
   const setWorkhard = () => {
     if (!user) return;
-    const db = getDatabase(app);
-    // const [userStudyGroupRef, studygroupRef] = getRef(db);
+    // const [userStudyGroupRef, studygroupRef] = getRef(database);
     const workhardRef = ref(
-      db,
+      database,
       `/studygroups/${crn}/${studygroupID}/workhardVotes/${user.uid}`
     );
 
@@ -110,10 +107,9 @@ const GroupCharacteristicsContainer = (props: Props) => {
 
   const setSocialize = () => {
     if (!user) return;
-    const db = getDatabase(app);
-    // const [userStudyGroupRef, studygroupRef] = getRef(db);
+    // const [userStudyGroupRef, studygroupRef] = getRef(database);
     const socializeRef = ref(
-      db,
+      database,
       `/studygroups/${crn}/${studygroupID}/socializeVotes/${user.uid}`
     );
 

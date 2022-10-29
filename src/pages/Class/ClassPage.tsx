@@ -1,5 +1,5 @@
-import { ChangeEvent, createRef, useEffect, useState } from "react";
-import { Accordion, Button, Dropdown } from "react-bootstrap";
+import { createRef, useEffect, useState } from "react";
+import Dropdown from "react-bootstrap/Dropdown";
 import { useNavigate, useParams } from "react-router";
 import NavigationBar from "../../Components/Navbar";
 import { Class } from "../../Containers/ClassesDisplay/ClassesDisplay";
@@ -7,8 +7,7 @@ import classes from "../../database/raw/classes.json";
 import useAuth, { AuthWrapper } from "../../Contexts/useAuth";
 import CreateStudyGroupForm from "../../Containers/CreateStudyGroupForm";
 import "./ClassPage.css";
-import { getDatabase, onValue, ref, set, update } from "firebase/database";
-import app from "../../database/firebase";
+import { onValue, ref, set, update } from "firebase/database";
 import { uuidv4 } from "@firebase/util";
 import Studygroups from "../../Containers/Studygroups/Studygroups";
 import ErrorHandler from "../../Containers/ErrorHandler/ErrorHandler";
@@ -17,6 +16,7 @@ import {
   MyStudyGroups,
   StudyGroupType,
 } from "../../database/models";
+import database from "../../database/firebase";
 
 type Props = {};
 
@@ -53,8 +53,7 @@ const ClassPage = (props: Props) => {
 
   // Fetches the studygroups
   useEffect(() => {
-    const db = getDatabase(app);
-    const studygroupRef = ref(db, `/studygroups/${crn}`);
+    const studygroupRef = ref(database, `/studygroups/${crn}`);
 
     // This is an observer so it activates when data is being written to the data base
     // that is why i do not need to put a set state to createStudyGroup()
@@ -75,9 +74,8 @@ const ClassPage = (props: Props) => {
       return;
     }
 
-    const db = getDatabase(app);
     const studyGroupID = uuidv4();
-    const studyGroupRef = ref(db, `/studygroups/${crn}/${studyGroupID}`);
+    const studyGroupRef = ref(database, `/studygroups/${crn}/${studyGroupID}`);
 
     const studygroup: StudyGroupType = {
       id: studyGroupID,
@@ -118,9 +116,8 @@ const ClassPage = (props: Props) => {
     );
     if (!user || !department || !crn) return;
 
-    const db = getDatabase(app);
     const notificationRef = ref(
-      db,
+      database,
       `/users/${studygroup.author}/notifications/${user.uid}/${studygroup.id}`
     );
     const notification: JoinStudygroupGroupNotification = {
@@ -131,14 +128,14 @@ const ClassPage = (props: Props) => {
       studygroupID: studygroup.id,
     };
     set(notificationRef, notification);
-    const userStudygroupRef = ref(db, `/users/${user.uid}/studygroups`);
+    const userStudygroupRef = ref(database, `/users/${user.uid}/studygroups`);
     const newStudyGroup: MyStudyGroups = {
       [studygroup.id]: true,
     };
     update(userStudygroupRef, newStudyGroup);
 
     const pendingInviteStudygroupRef = ref(
-      db,
+      database,
       `/studygroups/${crn}/${studygroup.id}/pendingInvites`
     );
     update(pendingInviteStudygroupRef, {

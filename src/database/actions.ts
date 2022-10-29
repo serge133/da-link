@@ -1,7 +1,6 @@
-import { child, getDatabase, push, ref, set, update } from "firebase/database";
-import app from "./firebase";
+import { ref, set } from "firebase/database";
 import { uuidv4 } from "@firebase/util";
-import useAuth from "../Contexts/useAuth";
+import database from "./firebase";
 
 export const save_student = (
   id: string,
@@ -14,8 +13,7 @@ export const save_student = (
   phoneNumber: number,
   discord: string
 ) => {
-  const db = getDatabase(app);
-  set(ref(db, `groups/${department}/students/${id}`), {
+  set(ref(database, `groups/${department}/students/${id}`), {
     id,
     userName,
     description,
@@ -29,20 +27,17 @@ export const save_student = (
 };
 
 export const get_students = (department: string) => {
-  const db = getDatabase(app);
-  const users = ref(db, `groups/${department}/students/`);
+  const users = ref(database, `groups/${department}/students/`);
   return users; // User Reference
 };
 
 export const get_student = (uid: string) => {
-  const db = getDatabase(app);
-  const studentRef = ref(db, `users/${uid}`);
+  const studentRef = ref(database, `users/${uid}`);
   return studentRef;
 };
 
 export const save_professor = (professor_name: string, department: string) => {
-  const db = getDatabase(app);
-  set(ref(db, department + "/professors/" + professor_name), {
+  set(ref(database, department + "/professors/" + professor_name), {
     id: uuidv4(),
   });
 };

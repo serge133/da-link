@@ -1,5 +1,6 @@
-import { ChangeEvent, useState } from "react";
-import { Button, Card, Form } from "react-bootstrap";
+import { ChangeEvent } from "react";
+import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
 import SearchableTextField from "../../Components/SearchableTextField/SearchableTextField";
 import "./ClassSearch.css";
 import { DEPARTMENTS } from "../../database/schoolData";

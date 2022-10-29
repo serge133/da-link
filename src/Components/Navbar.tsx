@@ -1,13 +1,9 @@
-import { useState } from "react";
-import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useNavigate } from "react-router";
 import useAuth from "../Contexts/useAuth";
-import { JoinStudygroupGroupNotification } from "../database/models";
-import Logo from "./Logo";
 
 type Props = {
   goBack?: string;

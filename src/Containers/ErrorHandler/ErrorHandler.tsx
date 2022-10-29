@@ -1,5 +1,4 @@
-import { ReactNode } from "react";
-import { Alert } from "react-bootstrap";
+import Alert from "react-bootstrap/Alert";
 import "./ErrorHandler.css";
 
 type Props = {

@@ -1,14 +1,14 @@
-import { getDatabase, onValue, ref } from "firebase/database";
+import { onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
+import Card from "react-bootstrap/Card";
 import { useParams } from "react-router";
 import NavigationBar from "../../Components/Navbar";
-import app from "../../database/firebase";
 import { StudyGroupType, StudyGroupVote } from "../../database/models";
 import useAuth, { AuthWrapper } from "../../Contexts/useAuth";
 import "./StudygroupDashboard.css";
 import GroupCharacteristicsContainer from "../../Containers/GroupCharacteristicsContainer";
 import StudygroupDashboardContainer from "../../Containers/StudygroupDashboardContainer/StudygroupDashboardContainer";
+import database from "../../database/firebase";
 
 type Props = {};
 
@@ -23,7 +23,6 @@ const EMPTY_STUDYGROUP: StudyGroupType = {
   id: "",
   name: "",
   author: "",
-  private: false,
   likes: {},
   dislikes: {},
   workhardVotes: {},
@@ -43,8 +42,7 @@ const WelcomePage = (props: Props) => {
 
   // Fetches once
   useEffect(() => {
-    const db = getDatabase(app);
-    const studygroupRef = ref(db, `/studygroups/${crn}/${studygroupID}`);
+    const studygroupRef = ref(database, `/studygroups/${crn}/${studygroupID}`);
 
     onValue(studygroupRef, (snapshot) => {
       const data: StudyGroupType = snapshot.val();

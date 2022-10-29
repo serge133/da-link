@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { ListGroup } from "react-bootstrap";
+import ListGroup from "react-bootstrap/ListGroup";
 import { useNavigate } from "react-router";
 import "./StudygroupDashboardContainer.css";
 

@@ -1,53 +1,31 @@
-import { getDatabase, onValue, ref, remove, update } from "firebase/database";
-import { useEffect, useState } from "react";
+import { ref, remove, update } from "firebase/database";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import NavigationBar from "../../Components/Navbar";
 import useAuth, { AuthWrapper } from "../../Contexts/useAuth";
-import app from "../../database/firebase";
+import database from "../../database/firebase";
 import {
   JoinStudygroupGroupNotification,
   StudygroupPeopleType,
 } from "../../database/models";
 import "./NotificationPage.css";
-type Props = {};
 
-type Notifications = JoinStudygroupGroupNotification[];
-
-const NotificationPage = (props: Props) => {
+const NotificationPage = () => {
   const { user } = useAuth();
-  //   const [notifications, setNotifications] = useState<Notifications>([]);
-
-  //   useEffect(() => {
-  //     const db = getDatabase(app);
-  //     const notificationRef = ref(db, `/users/${user?.uid}/notifications`);
-  //     onValue(notificationRef, (snapshot) => {
-  //       const data = snapshot.val();
-  //       if (data) {
-  //         setNotifications(Object.values(data));
-  //       }
-  //     });
-  //   }, [user]);
-
-  //   const removeNotifState = (uid: string) => {
-  //     setNotifications((prevState) => prevState.filter((n) => n.uid !== uid));
-  //   };
-
   const onAcceptPerson = (n: JoinStudygroupGroupNotification) => {
-    const db = getDatabase(app);
     const notificationRef = ref(
-      db,
+      database,
       `/users/${user?.uid}/notifications/${n.uid}/${n.studygroupID}`
     );
     remove(notificationRef);
     // removeNotifState(n.uid);
 
     const studygroupPeopleRef = ref(
-      db,
+      database,
       `/studygroups/${n.crn}/${n.studygroupID}/people`
     );
     const studygroupPendingInviteRef = ref(
-      db,
+      database,
       `/studygroups/${n.crn}/${n.studygroupID}/pendingInvites/${n.uid}`
     );
 
@@ -59,16 +37,15 @@ const NotificationPage = (props: Props) => {
   };
 
   const onDeclinePerson = (n: JoinStudygroupGroupNotification) => {
-    const db = getDatabase(app);
     const notificationRef = ref(
-      db,
+      database,
       `/users/${user?.uid}/notifications/${n.uid}/${n.studygroupID}`
     );
     remove(notificationRef);
     // removeNotifState(n.uid);
 
     const studygroupPendingInviteRef = ref(
-      db,
+      database,
       `/studygroups/${n.crn}/${n.studygroupID}/pendingInvites/${n.uid}`
     );
 
