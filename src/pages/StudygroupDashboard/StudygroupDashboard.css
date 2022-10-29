@@ -48,3 +48,55 @@
   text-align: right;
   padding-bottom: 10px;
 }
+
+.chatroom {
+  /* background-color: red; */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+  overflow: hidden;
+}
+
+.chatroom .message-area {
+  flex-grow: 1;
+  padding: 10px;
+  position: relative;
+  overflow-y: auto;
+}
+
+.chatroom .message-area .message-not-you {
+  text-align: left;
+  padding: 10px 0;
+}
+
+.chatroom .message-area .message-you {
+  text-align: right;
+  padding: 10px 0;
+}
+
+.chatroom .message-area .text {
+  padding: 10px;
+  border-radius: 10px;
+}
+.chatroom .message-area .message-not-you .text {
+  color: white;
+  background-color: #6c757d;
+}
+
+.chatroom .message-area .message-you .text {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.chatroom .message-box-container {
+  width: 100%;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.chatroom .message-box-container input {
+  margin-right: 10px;
+}

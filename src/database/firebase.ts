@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
+// import { getMessaging } from "firebase/messaging";
+
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
   authDomain: import.meta.env.VITE_AUTH_DOMAIN,
@@ -13,5 +15,6 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
+// export const messaging = getMessaging(app);
 
 export default database;
