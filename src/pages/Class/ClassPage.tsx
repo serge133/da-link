@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, createRef, useEffect, useState } from "react";
 import { Accordion, Button, Dropdown } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router";
 import NavigationBar from "../../Components/Navbar";
@@ -30,9 +30,10 @@ const ClassPage = (props: Props) => {
   const { crn, department, search } = useParams();
   const [classData, setClassData] = useState<Class>();
   const [showStudyGroupModal, setShowStudyGroupModal] = useState(false);
-  const [studyGroupForm, setStudyGroupForm] = useState(defaultStudyGroupForm);
-  const [studyGroups, setStudyGroups] = useState<StudyGroupType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [studyGroups, setStudyGroups] = useState<StudyGroupType[]>([]);
+
+  const studygroupNameRef = createRef<HTMLInputElement>();
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -67,7 +68,7 @@ const ClassPage = (props: Props) => {
   }, []);
 
   const createStudyGroup = () => {
-    if (!user) return;
+    if (!user || !studygroupNameRef?.current) return;
     // One study group per user
     if (studyGroups.findIndex((el) => el.author === user.uid) >= 0) {
       console.log("already one study group");
@@ -79,32 +80,27 @@ const ClassPage = (props: Props) => {
     const studyGroupRef = ref(db, `/studygroups/${crn}/${studyGroupID}`);
 
     const studygroup: StudyGroupType = {
-      ...studyGroupForm,
       id: studyGroupID,
       author: user.uid,
-      likes: {},
-      dislikes: {},
-      workhardVotes: {},
-      socializeVotes: {},
+      name: studygroupNameRef.current.value,
       people: { [user.uid]: true },
     };
-    console.log(studygroup);
     // An author is added
     set(studyGroupRef, studygroup);
-    setStudyGroupForm(defaultStudyGroupForm);
+    // setStudyGroupForm(defaultStudyGroupForm);
     setShowStudyGroupModal(false);
   };
 
   const showCreateStudyGroupModal = () => setShowStudyGroupModal(true);
   const closeCreateStudyGroupModal = () => setShowStudyGroupModal(false);
 
-  const handleChangeStudyGroupForm = (e: ChangeEvent<HTMLInputElement>) => {
-    setStudyGroupForm((prevState) => ({
-      ...prevState,
-      [e.target.name]:
-        e.target.type === "checkbox" ? e.target.checked : e.target.value,
-    }));
-  };
+  // const handleChangeStudyGroupForm = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setStudyGroupForm((prevState) => ({
+  //     ...prevState,
+  //     [e.target.name]:
+  //       e.target.type === "checkbox" ? e.target.checked : e.target.value,
+  //   }));
+  // };
 
   // Handles joining the study group and openning it
   const handleClickStudygroup = (
@@ -161,8 +157,7 @@ const ClassPage = (props: Props) => {
           <CreateStudyGroupForm
             show={showStudyGroupModal}
             close={closeCreateStudyGroupModal}
-            form={studyGroupForm}
-            handleChange={handleChangeStudyGroupForm}
+            studygroupNameRef={studygroupNameRef}
             onSubmit={createStudyGroup}
           />
         )}

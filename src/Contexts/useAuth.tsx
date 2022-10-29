@@ -29,7 +29,7 @@ interface AuthContextType {
   loading: boolean;
   loadingInitial: boolean;
   authenticated: boolean;
-  error?: any;
+  error: AuthError;
   login: (email: string, password: string) => void;
   signUp: (
     email: string,
@@ -39,7 +39,7 @@ interface AuthContextType {
     lastName: string
   ) => void;
   logout: () => void;
-  getLoginState: () => boolean;
+  getLoginState: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -96,7 +96,7 @@ export const AuthProvider = ({
           }
           console.log(reformattedNotifications);
           data.notifications = reformattedNotifications;
-          setUser({ ...user, ...data });
+          setUser((prevState) => ({ ...prevState, ...data }));
         });
       }
     });
