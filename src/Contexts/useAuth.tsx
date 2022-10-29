@@ -89,12 +89,10 @@ export const AuthProvider = ({
           let data = snapshot.val();
           let reformattedNotifications: JoinStudygroupGroupNotification[] = [];
           if (data && "notifications" in data) {
-            console.log(Object.values(data.notifications));
             for (const notification of Object.values(data.notifications)) {
               reformattedNotifications = Object.values(notification);
             }
           }
-          console.log(reformattedNotifications);
           data.notifications = reformattedNotifications;
           setUser((prevState) => ({ ...prevState, ...data }));
         });

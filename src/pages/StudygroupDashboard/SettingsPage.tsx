@@ -15,11 +15,11 @@ const EMPTY_STUDYGROUP = {
   id: "",
   name: "",
   author: "",
-  private: false,
   likes: {},
   dislikes: {},
   workhardVotes: {},
   socializeVotes: {},
+  people: {},
 };
 
 const SettingsPage = (props: Props) => {
