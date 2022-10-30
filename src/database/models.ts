@@ -15,6 +15,14 @@ export type UserNotification = JoinStudygroupGroupNotification[];
 
 export type MyClasses = { [crn: string]: boolean };
 
+// Display name is {firstName} {lastName}
+export type Message = {
+  timestamp: number; // Unix TIMESTAMP
+  text: string;
+  displayName: string;
+  uid: string;
+};
+
 export type MyStudyGroups = {
   [studygroupID: string]: true;
 };

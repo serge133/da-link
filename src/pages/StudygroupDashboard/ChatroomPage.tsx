@@ -1,11 +1,19 @@
-import { onValue, ref, serverTimestamp } from "firebase/database";
-import { createRef, useEffect, useRef, useState } from "react";
+import {
+  limitToFirst,
+  limitToLast,
+  onValue,
+  orderByChild,
+  query,
+  ref,
+  set,
+} from "firebase/database";
+import { createRef, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import NavigationBar from "../../Components/Navbar";
 import StudygroupDashboardContainer from "../../Containers/StudygroupDashboardContainer/StudygroupDashboardContainer";
 import useAuth, { AuthWrapper } from "../../Contexts/useAuth";
 import database from "../../database/firebase";
-import { StudyGroupType } from "../../database/models";
+import { Message, StudyGroupType } from "../../database/models";
 import Form from "react-bootstrap/Form";
 import { Button } from "react-bootstrap";
 
@@ -21,52 +29,7 @@ const EMPTY_STUDYGROUP: StudyGroupType = {
   welcomeMessage: "",
 };
 
-// Display name is {firstName} {lastName}
-type Message = {
-  timestamp: number; // Unix TIMESTAMP
-  text: string;
-  displayName: string;
-  uid: string;
-};
-
-const testMessages: Message[] = [
-  {
-    timestamp: 1667083248593,
-    text: "Hello There",
-    uid: "0",
-    displayName: "Michael B",
-  },
-  {
-    timestamp: 1667083249999,
-    text: "My Name is Michael",
-    uid: "0",
-    displayName: "Michael B",
-  },
-  {
-    timestamp: 166778882,
-    text: "Hi There",
-    uid: "1",
-    displayName: "Alessia C",
-  },
-  {
-    timestamp: 16673239992,
-    text: "How are You?",
-    uid: "0",
-    displayName: "Michael B",
-  },
-  {
-    timestamp: 16093248593,
-    text: "I'm good, wbu?",
-    uid: "1",
-    displayName: "Alessia C",
-  },
-  {
-    timestamp: 1660903248593,
-    text: "fine;..",
-    uid: "0",
-    displayName: "Michael B",
-  },
-];
+const MAX_MESSAGES: number = 100;
 
 const ChatroomPage = () => {
   const { crn, department, studygroupID } = useParams();
@@ -74,39 +37,59 @@ const ChatroomPage = () => {
 
   const [studygroup, setStudygroup] =
     useState<StudyGroupType>(EMPTY_STUDYGROUP);
-  const [messages, setMessages] = useState<Message[]>(testMessages);
-  const messageRef = createRef();
-  const bottomRef = useRef();
+
+  const [messageText, setMessageText] = useState<string>("");
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  const bottomRef = createRef<HTMLDivElement>();
 
   const isOwner = user?.uid === studygroup.author;
-
   // Fetches once
   useEffect(() => {
     const studygroupRef = ref(database, `/studygroups/${crn}/${studygroupID}`);
+    const messageRef = query(
+      ref(database, `/messages/${studygroupID}`),
+      limitToLast(MAX_MESSAGES)
+    );
 
     onValue(studygroupRef, (snapshot) => {
-      const data: StudyGroupType = snapshot.val();
+      let data: StudyGroupType = snapshot.val();
 
       if (data) {
         setStudygroup((prevState) => ({ ...prevState, ...data }));
       }
     });
+
+    onValue(messageRef, (snapshot) => {
+      const data = snapshot.val();
+
+      if (data) {
+        setMessages(Object.values(data));
+      }
+    });
   }, []);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (!bottomRef?.current) return;
+    bottomRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const onSendMessage = (e: Event) => {
     e.preventDefault();
+    if (!user) return;
+    // const tempId = uuidv4();
+    const databaseMessageRef = ref(database, `/messages/${studygroupID}`);
+
     const newMessage: Message = {
-      uid: "1",
+      uid: user?.uid,
       displayName: "Michael B",
-      text: messageRef.current.value,
-      timestamp: Math.random(),
+      text: messageText,
+      timestamp: Date.now(),
     };
 
-    setMessages((prevState) => [...prevState, newMessage]);
+    set(databaseMessageRef, [...messages, newMessage]);
+    setMessageText("");
+    // setMessages((prevState) => [...prevState, newMessage]);
   };
 
   return (
@@ -126,11 +109,12 @@ const ChatroomPage = () => {
                 <div
                   key={Math.random()}
                   className={
-                    message.uid === "0" ? "message-not-you" : "message-you"
+                    message.uid === user?.uid
+                      ? "message-you"
+                      : "message-not-you"
                   }
                 >
                   <span className="text">{message.text}</span>
-                  {/* {message.text} */}
                 </div>
               ))}
               <div ref={bottomRef} />
@@ -140,7 +124,8 @@ const ChatroomPage = () => {
                 type="text"
                 id="messageBox"
                 placeholder="Message"
-                ref={messageRef}
+                onChange={(e) => setMessageText(e.target.value)}
+                value={messageText}
               />
               <Button type="submit" onClick={onSendMessage}>
                 Send
