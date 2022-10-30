@@ -90,6 +90,11 @@
   color: white;
 }
 
+.chatroom .message-area .timestamp {
+  margin-top: 5px;
+  color: lightgrey;
+}
+
 .chatroom .message-box-container {
   width: 100%;
   padding: 0 10px;

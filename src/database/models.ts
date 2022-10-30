@@ -17,7 +17,7 @@ export type MyClasses = { [crn: string]: boolean };
 
 // Display name is {firstName} {lastName}
 export type Message = {
-  timestamp: number; // Unix TIMESTAMP
+  timestamp: number; // Unix time
   text: string;
   displayName: string;
   uid: string;

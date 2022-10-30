@@ -21,6 +21,8 @@ const EMPTY_STUDYGROUP: StudyGroupType = {
   welcomeMessage: "",
 };
 
+const MINUTE = 60000;
+
 const MAX_MESSAGES: number = 100;
 
 const ChatroomPage = () => {
@@ -40,7 +42,8 @@ const ChatroomPage = () => {
   useEffect(() => {
     const studygroupRef = ref(database, `/studygroups/${crn}/${studygroupID}`);
     const messageRef = query(
-      ref(database, `/messages/${crn}/${studygroupID}`),
+      ref(database, `/messages/studygroups/${crn}/${studygroupID}`),
+      // MAX_MESSAGES should be stateful to implement loading more messages
       limitToLast(MAX_MESSAGES)
     );
 
@@ -69,22 +72,38 @@ const ChatroomPage = () => {
   const onSendMessage = (e: Event) => {
     e.preventDefault();
     if (!user) return;
+    if (!messageText) return;
+    const timestamp = Date.now();
     // const tempId = uuidv4();
     const databaseMessageRef = ref(
       database,
-      `/messages/${crn}/${studygroupID}`
+      `/messages/studygroups/${crn}/${studygroupID}/${timestamp}`
     );
+
+    const displayName: string = user?.firstName
+      ? `${user.firstName} ${user.lastName}`
+      : "Annonymous";
 
     const newMessage: Message = {
       uid: user?.uid,
-      displayName: "Michael B",
       text: messageText,
-      timestamp: Date.now(),
+      timestamp: timestamp,
+      displayName,
     };
 
-    set(databaseMessageRef, [...messages, newMessage]);
+    set(databaseMessageRef, newMessage);
     setMessageText("");
-    // setMessages((prevState) => [...prevState, newMessage]);
+  };
+
+  const showTimestampAndName = (index: number): boolean => {
+    // if (index === 0 && messages.length <= 1) return true;
+    // if (index === messages.length - 1) return true;
+    if (
+      index !== messages.length - 1 &&
+      messages[index + 1].uid === messages[index].uid
+    )
+      return false;
+    return true;
   };
 
   return (
@@ -100,7 +119,7 @@ const ChatroomPage = () => {
         >
           <div className="chatroom">
             <div className="message-area">
-              {messages.map((message) => (
+              {messages.map((message, i) => (
                 <div
                   key={Math.random()}
                   className={
@@ -110,6 +129,12 @@ const ChatroomPage = () => {
                   }
                 >
                   <span className="text">{message.text}</span>
+                  {showTimestampAndName(i) && (
+                    <div className="timestamp">
+                      {new Date(message.timestamp).toLocaleString()}{" "}
+                      {message.displayName}
+                    </div>
+                  )}
                 </div>
               ))}
               <div ref={bottomRef} />
