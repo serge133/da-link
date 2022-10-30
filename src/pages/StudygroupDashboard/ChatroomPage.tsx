@@ -1,12 +1,4 @@
-import {
-  limitToFirst,
-  limitToLast,
-  onValue,
-  orderByChild,
-  query,
-  ref,
-  set,
-} from "firebase/database";
+import { limitToLast, onValue, query, ref, set } from "firebase/database";
 import { createRef, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import NavigationBar from "../../Components/Navbar";
@@ -48,7 +40,7 @@ const ChatroomPage = () => {
   useEffect(() => {
     const studygroupRef = ref(database, `/studygroups/${crn}/${studygroupID}`);
     const messageRef = query(
-      ref(database, `/messages/${studygroupID}`),
+      ref(database, `/messages/${crn}/${studygroupID}`),
       limitToLast(MAX_MESSAGES)
     );
 
@@ -78,7 +70,10 @@ const ChatroomPage = () => {
     e.preventDefault();
     if (!user) return;
     // const tempId = uuidv4();
-    const databaseMessageRef = ref(database, `/messages/${studygroupID}`);
+    const databaseMessageRef = ref(
+      database,
+      `/messages/${crn}/${studygroupID}`
+    );
 
     const newMessage: Message = {
       uid: user?.uid,
