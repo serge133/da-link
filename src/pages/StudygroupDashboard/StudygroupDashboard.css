@@ -51,7 +51,7 @@
 
 .chatroom {
   /* background-color: red; */
-  width: 100%;
+  width: 500px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -64,44 +64,99 @@
   padding: 10px;
   position: relative;
   overflow-y: auto;
+  border: solid 1px #eee;
+  margin-bottom: 10px;
 }
 
-.chatroom .message-area .message-not-you {
-  text-align: left;
-  padding: 10px 0;
-}
-
-.chatroom .message-area .message-you {
-  text-align: right;
-  padding: 10px 0;
-}
-
-.chatroom .message-area .text {
-  padding: 10px;
-  border-radius: 10px;
-}
-.chatroom .message-area .message-not-you .text {
-  color: white;
-  background-color: #6c757d;
-}
-
-.chatroom .message-area .message-you .text {
-  background-color: #0d6efd;
-  color: white;
-}
-
-.chatroom .message-area .timestamp {
+.chatroom .message-area .message {
+  border-radius: 20px;
+  padding: 8px 15px;
   margin-top: 5px;
-  color: lightgrey;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+.chatroom .message-area .yours {
+  align-items: flex-start;
+  text-align: left;
+}
+.chatroom .message-area .mine {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.chatroom .message-area .yours .message {
+  /* margin-right: 25%; */
+  background-color: #eee;
+  position: relative;
+}
+
+.chatroom .message-area .mine .message {
+  color: white;
+  background-color: #0d6efd;
+  background-attachment: fixed;
+  position: relative;
+}
+
+.chatroom .message-area .yours .message:before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  left: -7px;
+  height: 20px;
+  width: 20px;
+  background: #eee;
+  border-bottom-right-radius: 15px;
+}
+
+.chatroom .message-area .yours .message:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: -10px;
+  width: 10px;
+  height: 20px;
+  background: white;
+  border-bottom-right-radius: 10px;
+}
+
+.chatroom .message-area .mine .message:before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  right: -8px;
+  height: 20px;
+  width: 20px;
+  background-color: #0d6efd;
+  background-attachment: fixed;
+  border-bottom-left-radius: 15px;
+}
+
+.chatroom .message-area .mine .message:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  right: -10px;
+  width: 10px;
+  height: 20px;
+  background: white;
+  border-bottom-left-radius: 10px;
 }
 
 .chatroom .message-box-container {
-  width: 100%;
-  padding: 0 10px;
   display: flex;
   flex-direction: row;
+  padding: 0 5px;
 }
 
 .chatroom .message-box-container input {
   margin-right: 10px;
+}
+
+.chatroom .message-area .timestamp {
+  color: #ddd;
 }

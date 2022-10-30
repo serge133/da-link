@@ -124,14 +124,11 @@ const ChatroomPage = () => {
             <div className="message-area">
               {messages.map((message, i) => (
                 <div
-                  key={Math.random()}
-                  className={
-                    message.uid === user?.uid
-                      ? "message-you"
-                      : "message-not-you"
-                  }
+                  key={message.timestamp}
+                  className={message.uid === user?.uid ? "mine" : "yours"}
                 >
-                  <span className="text">{message.text}</span>
+                  {/* <span className="text">{message.text}</span> */}
+                  <div className="message">{message.text}</div>
                   {showTimestampAndName(i) && (
                     <div className="timestamp">
                       {new Date(message.timestamp).toLocaleString()}{" "}
