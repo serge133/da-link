@@ -34,6 +34,7 @@ const SettingsPage = (props: Props) => {
   const [saved, setSaved] = useState(true);
 
   const isOwner = user?.uid === studygroup.author;
+  const belongsInStudyGroup = user?.uid ? user.uid in studygroup.people : false;
 
   // Fetches once
   useEffect(() => {
@@ -76,6 +77,8 @@ const SettingsPage = (props: Props) => {
           studygroupID={studygroupID}
           department={department}
           isOwner={isOwner}
+          // false because only the owner can access this page
+          allowedAccessToPage={false}
         >
           <ErrorHandler
             allHasToBeTrueOrElseFail={[isOwner]}

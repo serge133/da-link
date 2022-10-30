@@ -18,3 +18,7 @@
   overflow-y: auto;
   /* overflow-x: hidden; */
 }
+
+.studygroup-dashboard_main .loading-text {
+  color: #e3e3e3;
+}

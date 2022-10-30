@@ -9,6 +9,7 @@ import "./StudygroupDashboard.css";
 import GroupCharacteristicsContainer from "../../Containers/GroupCharacteristicsContainer";
 import StudygroupDashboardContainer from "../../Containers/StudygroupDashboardContainer/StudygroupDashboardContainer";
 import database from "../../database/firebase";
+import ErrorHandler from "../../Containers/ErrorHandler/ErrorHandler";
 
 type Props = {};
 
@@ -39,6 +40,7 @@ const WelcomePage = (props: Props) => {
     useState<StudyGroupType>(EMPTY_STUDYGROUP);
 
   const isOwner = user?.uid === studygroup.author;
+  const belongsInStudyGroup = user?.uid ? user.uid in studygroup.people : false;
 
   // Fetches once
   useEffect(() => {
@@ -72,6 +74,7 @@ const WelcomePage = (props: Props) => {
           studygroupID={studygroupID}
           department={department}
           isOwner={isOwner}
+          allowedAccessToPage={isOwner || belongsInStudyGroup}
         >
           {studygroup.welcomeMessage && (
             <Description name={studygroup.name}>
@@ -79,7 +82,12 @@ const WelcomePage = (props: Props) => {
             </Description>
           )}
           <GroupCharacteristicsContainer
-            voteState={studygroup}
+            voteState={{
+              likes: studygroup.likes,
+              dislikes: studygroup.dislikes,
+              workhardVotes: studygroup.workhardVotes,
+              socializeVotes: studygroup.socializeVotes,
+            }}
             setVoteState={setVoteState}
             studygroupID={studygroupID ? studygroupID : ""}
             crn={crn ? crn : ""}

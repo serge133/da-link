@@ -52,10 +52,10 @@ export type StudyGroupType = {
   id: string;
   name: string;
   author: string;
-  likes?: StudyGroupVote;
-  dislikes?: StudyGroupVote;
-  workhardVotes?: StudyGroupVote;
-  socializeVotes?: StudyGroupVote;
+  likes: StudyGroupVote;
+  dislikes: StudyGroupVote;
+  workhardVotes: StudyGroupVote;
+  socializeVotes: StudyGroupVote;
   welcomeMessage?: string;
   people: StudygroupPeopleType;
   pendingInvites?: StudygroupPendingInvites;

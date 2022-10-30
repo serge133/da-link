@@ -7,6 +7,7 @@ type Props = {};
 
 const CalendarPage = (props: Props) => {
   const { crn, department, studygroupID } = useParams();
+  // const belongsInStudyGroup = user?.uid ? user.uid in studygroup.people : false;
 
   return (
     <AuthWrapper>
@@ -17,7 +18,8 @@ const CalendarPage = (props: Props) => {
           crn={crn}
           studygroupID={studygroupID}
           department={department}
-          isOwner={true}
+          isOwner={false}
+          allowedAccessToPage={false}
         >
           <h1>Hi this is the calendar page! </h1>
         </StudygroupDashboardContainer>

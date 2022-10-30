@@ -17,7 +17,8 @@ const DiscordPage = (props: Props) => {
           crn={crn}
           studygroupID={studygroupID}
           department={department}
-          isOwner={true}
+          isOwner={false}
+          allowedAccessToPage={false}
         >
           <h1>Hi this is the discord page! </h1>
         </StudygroupDashboardContainer>

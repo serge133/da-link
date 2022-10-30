@@ -1,6 +1,10 @@
 import { ReactNode } from "react";
+import { Spinner } from "react-bootstrap";
 import ListGroup from "react-bootstrap/ListGroup";
 import { useNavigate } from "react-router";
+import useAuth from "../../Contexts/useAuth";
+import { StudygroupPeopleType } from "../../database/models";
+import ErrorHandler from "../ErrorHandler/ErrorHandler";
 import "./StudygroupDashboardContainer.css";
 
 type Pages =
@@ -19,10 +23,12 @@ type Props = {
   studygroupID?: string;
   department?: string;
   isOwner: boolean;
+  allowedAccessToPage: boolean;
 };
 
 const StudygroupDashboardContainer = (props: Props) => {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   // ! FUCK up
   const handleNav = (e: any) => {
@@ -87,7 +93,19 @@ const StudygroupDashboardContainer = (props: Props) => {
           )}
         </ListGroup>
       </section>
-      <section className="studygroup-dashboard_main">{props.children}</section>
+      <section className="studygroup-dashboard_main">
+        {props.isOwner || props.allowedAccessToPage ? (
+          props.children
+        ) : (
+          <>
+            <Spinner animation="grow" />
+            <p className="loading-text">
+              If you are seeing this for more than 5 seconds you do not belong
+              in this studygroup
+            </p>
+          </>
+        )}
+      </section>
     </>
   );
 };

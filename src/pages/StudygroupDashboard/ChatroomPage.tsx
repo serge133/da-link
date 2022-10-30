@@ -38,6 +38,8 @@ const ChatroomPage = () => {
   const bottomRef = createRef<HTMLDivElement>();
 
   const isOwner = user?.uid === studygroup.author;
+  const belongsInStudyGroup = user?.uid ? user.uid in studygroup.people : false;
+
   // Fetches once
   useEffect(() => {
     const studygroupRef = ref(database, `/studygroups/${crn}/${studygroupID}`);
@@ -116,6 +118,7 @@ const ChatroomPage = () => {
           studygroupID={studygroupID}
           department={department}
           isOwner={isOwner}
+          allowedAccessToPage={belongsInStudyGroup}
         >
           <div className="chatroom">
             <div className="message-area">

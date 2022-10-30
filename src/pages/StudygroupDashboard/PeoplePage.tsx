@@ -30,6 +30,7 @@ const PeoplePage = (props: Props) => {
     useState<StudyGroupType>(EMPTY_STUDYGROUP);
 
   const isOwner = user?.uid === studygroup.author;
+  const belongsInStudyGroup = user?.uid ? user.uid in studygroup.people : false;
 
   // Fetches once
   useEffect(() => {
@@ -53,7 +54,8 @@ const PeoplePage = (props: Props) => {
           crn={crn}
           studygroupID={studygroupID}
           department={department}
-          isOwner={true}
+          isOwner={isOwner}
+          allowedAccessToPage={belongsInStudyGroup}
         >
           <h1>Hi this is the People page! </h1>
           {Object.keys(studygroup.people).map((person) => (
