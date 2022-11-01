@@ -54,6 +54,7 @@ const MyClassesPage = (props: Props) => {
             <ClassCard
               crn={c.crn}
               key={c.crn}
+              classCode={c.id}
               className={c.className}
               classStatus={c.classStatus}
               isMyClass={true}

@@ -31,6 +31,7 @@ const ClassesDisplay = (props: ClassesDisplayProps) => {
         <ClassCard
           crn={c.crn}
           key={c.crn}
+          classCode={c.id}
           className={c.className}
           classStatus={c.classStatus}
           isMyClass={c.crn in props.me.myClasses}

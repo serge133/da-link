@@ -5,6 +5,7 @@ type Props = {
   crn: string;
   isMyClass: boolean;
   className: string;
+  classCode: string;
   professor: string;
   classStatus: string;
   handleDetailsClick: () => void;
@@ -26,7 +27,9 @@ const ClassCard = (props: Props) => {
     >
       {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
       <Card.Body>
-        <Card.Title>{props.className}</Card.Title>
+        <Card.Title>
+          {props.className} {props.classCode}
+        </Card.Title>
         <Card.Subtitle style={{ marginBottom: 5 }}>
           {props.crn} |{"   "}
           <span style={{ color: "#171717", fontWeight: 200 }}>
