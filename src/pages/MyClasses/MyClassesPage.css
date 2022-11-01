@@ -1,0 +1,9 @@
+.my-classes-page {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.my-classes-page .card {
+  margin-right: 10px;
+}

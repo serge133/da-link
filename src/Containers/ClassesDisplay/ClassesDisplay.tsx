@@ -4,23 +4,14 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { relevancy } from "../../functions/sorter";
 import { useNavigate } from "react-router";
+import { Class, MyClasses } from "../../database/models";
+import ClassCard from "../../Components/ClassCard";
 
 type ClassesDisplayProps = {
   department: string;
   search: string;
-  toggleMyClass: (crn: string) => void;
-  me: { myClasses: { [crn: string]: boolean } };
-};
-
-export type Class = {
-  crn: string;
-  id: string;
-  section: string;
-  classStatus: string;
-  className: string;
-  times: string;
-  professor: string;
-  type: string;
+  toggleMyClass: (c: Class) => void;
+  me: { myClasses: MyClasses };
 };
 
 const ClassesDisplay = (props: ClassesDisplayProps) => {
@@ -32,8 +23,6 @@ const ClassesDisplay = (props: ClassesDisplayProps) => {
     navigate(url);
   };
 
-  const isMyClass = (c: Class) => c.crn in props.me.myClasses;
-
   const rawdata: Class[] =
     // @ts-ignore
     classes && department in classes ? classes[department] : [];
@@ -41,40 +30,16 @@ const ClassesDisplay = (props: ClassesDisplayProps) => {
   return (
     <div className="class-carousel">
       {filteredData.map((c) => (
-        <Card
-          style={{
-            width: "18rem",
-            height: 300,
-            textAlign: "left",
-
-            border: c.crn in props.me.myClasses ? "2px solid gold" : "",
-          }}
+        <ClassCard
+          crn={c.crn}
           key={c.crn}
-        >
-          {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
-          <Card.Body>
-            <Card.Title>{c.className}</Card.Title>
-            <Card.Subtitle style={{ marginBottom: 5 }}>
-              {c.crn} |{"   "}
-              <span style={{ color: "#171717", fontWeight: 200 }}>
-                {c.professor}
-              </span>
-            </Card.Subtitle>
-            <Card.Text>{c.classStatus}</Card.Text>
-          </Card.Body>
-          <div className="button-container">
-            <Button variant="primary" onClick={() => openClass(c)}>
-              Details
-            </Button>
-            <Button
-              variant={isMyClass(c) ? "warning" : "secondary"}
-              onClick={() => props.toggleMyClass(c.crn)}
-            >
-              {isMyClass(c) ? "Joined" : "Join"}
-            </Button>
-          </div>
-          <Card.Footer>20 Students 4 Groups</Card.Footer>
-        </Card>
+          className={c.className}
+          classStatus={c.classStatus}
+          isMyClass={c.crn in props.me.myClasses}
+          professor={c.professor}
+          handleClickJoin={() => props.toggleMyClass(c)}
+          handleDetailsClick={() => openClass(c)}
+        />
       ))}
     </div>
   );

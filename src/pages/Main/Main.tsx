@@ -7,8 +7,9 @@ import ClassesDisplay from "../../Containers/ClassesDisplay/ClassesDisplay";
 import { useParams } from "react-router";
 import NavigationBar from "../../Components/Navbar";
 import { get_student } from "../../database/actions";
-import { onValue, ref, set } from "firebase/database";
+import { onValue, ref, remove, set } from "firebase/database";
 import database from "../../database/firebase";
+import { Class, MyClass, MyClasses } from "../../database/models";
 
 const Main = () => {
   const { department, search } = useParams();
@@ -19,7 +20,7 @@ const Main = () => {
   });
 
   const [me, setMe] = useState({
-    myClasses: {} as { [crn: string]: boolean },
+    myClasses: {} as MyClasses,
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,22 +49,25 @@ const Main = () => {
     }
   }, [user]);
 
-  const toggleMyClass = (crn: string) => {
-    const copyMyClasses = { ...me.myClasses };
-    if (crn in copyMyClasses) {
-      delete copyMyClasses[crn];
+  const toggleMyClass = (c: Class) => {
+    if (!form.department) return;
+    const myClassesRef = ref(
+      database,
+      `/users/${user?.uid}/myClasses/${c.crn}`
+    );
+
+    if (c.crn in me.myClasses) {
+      const copyMyClasses = { ...me.myClasses };
+      delete copyMyClasses[c.crn];
       setMe((prevState) => ({
         ...prevState,
         myClasses: copyMyClasses,
       }));
-    } else {
-      copyMyClasses[crn] = true;
-      setMe((prevState) => ({
-        ...prevState,
-        myClasses: copyMyClasses,
-      }));
+      remove(myClassesRef);
+      return;
     }
-    set(ref(database, `users/${user?.uid}/myClasses`), copyMyClasses);
+
+    set(myClassesRef, { ...c, department: form.department });
   };
 
   return (

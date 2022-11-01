@@ -13,7 +13,22 @@ export interface Student {
 // Notifacations from other users who want to join your studygroup
 export type UserNotification = JoinStudygroupGroupNotification[];
 
-export type MyClasses = { [crn: string]: boolean };
+export type MyClass = {
+  crn: string;
+  department: string;
+};
+export type MyClasses = { [crn: string]: MyClass };
+
+export type Class = {
+  crn: string;
+  id: string;
+  section: string;
+  classStatus: string;
+  className: string;
+  times: string;
+  professor: string;
+  type: string;
+};
 
 // Display name is {firstName} {lastName}
 export type Message = {

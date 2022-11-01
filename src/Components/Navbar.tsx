@@ -1,3 +1,4 @@
+import { Badge } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -19,12 +20,11 @@ const NavigationBar = (props: Props) => {
     }
   };
 
-  const handleNotificationClick = () => {
+  const goToNotificationPage = () => {
     navigate(`/notifications`);
   };
 
-  // console.log(Object.values(user?.notifications));
-
+  const numNotifications = user?.notifications ? user.notifications.length : 0;
   return (
     <Navbar
       bg="light"
@@ -49,31 +49,14 @@ const NavigationBar = (props: Props) => {
             {props.goBack && <Nav.Link onClick={goBack}>Back</Nav.Link>}
             <NavDropdown title="Account" id="basic-nav-dropdown">
               <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
-              {/* <NavDropdown.Item>Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item>Separated link</NavDropdown.Item> */}
             </NavDropdown>
-            <NavDropdown
-              title={
-                user?.notifications && user.notifications.length > 0
-                  ? `${user.notifications.length} Notifications`
-                  : "No Notifications"
-              }
-              id="notification-dropdown"
-            >
-              {user?.notifications &&
-                user.notifications.map((n) => (
-                  <NavDropdown.Item
-                    onClick={handleNotificationClick}
-                    key={`${n.studygroupID}-${n.uid}`}
-                  >
-                    {n.message}
-                  </NavDropdown.Item>
-                ))}
-              <NavDropdown.Item onClick={handleNotificationClick}>
-                Go To Notifications
-              </NavDropdown.Item>
-            </NavDropdown>
+            <Nav.Link onClick={() => navigate("/my-classes")}>
+              My Classes
+            </Nav.Link>
+            <Nav.Link id="notification-dropdown" onClick={goToNotificationPage}>
+              Notifications{" "}
+              {numNotifications > 0 && <Badge bg="primary">NEW</Badge>}
+            </Nav.Link>
           </Nav>
           <Navbar.Text>
             Signed in as {user?.firstName} {user?.lastName}

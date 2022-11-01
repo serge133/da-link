@@ -1,4 +1,5 @@
 import { ref, remove, update } from "firebase/database";
+import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import NavigationBar from "../../Components/Navbar";
@@ -56,20 +57,24 @@ const NotificationPage = () => {
     <AuthWrapper>
       <div className="App notification-page">
         <NavigationBar goBack="/app" />
-        <ListGroup className="notification">
-          {user?.notifications &&
-            user.notifications.map((noti) => (
-              <ListGroup.Item key={`${noti.studygroupID}-${noti.uid}`}>
+        {user?.notifications &&
+          user.notifications.map((noti) => (
+            <div className="notification-container">
+              <Alert
+                className="notification"
+                key={`${noti.studygroupID}-${noti.uid}`}
+                variant="primary"
+              >
                 {noti.message}
-                <Button variant="primary" onClick={() => onAcceptPerson(noti)}>
+                <Button variant="link" onClick={() => onAcceptPerson(noti)}>
                   Accept
                 </Button>
-                <Button variant="danger" onClick={() => onDeclinePerson(noti)}>
+                <Button variant="link" onClick={() => onDeclinePerson(noti)}>
                   Decline
                 </Button>
-              </ListGroup.Item>
-            ))}
-        </ListGroup>
+              </Alert>
+            </div>
+          ))}
       </div>
     </AuthWrapper>
   );

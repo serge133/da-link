@@ -16,6 +16,7 @@ import CalendarPage from "./pages/StudygroupDashboard/CalendarPage";
 import PeoplePage from "./pages/StudygroupDashboard/PeoplePage";
 import SettingsPage from "./pages/StudygroupDashboard/SettingsPage";
 import NotificationPage from "./pages/NotificationPage/NotificationPage";
+import MyClassesPage from "./pages/MyClasses/MyClassesPage";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
             <Route path="settings" element={<SettingsPage />} />
           </Route>
 
+          <Route path="/my-classes" element={<MyClassesPage />} />
           <Route path="/notifications" element={<NotificationPage />} />
           {/* Auth not required for paths below */}
           <Route path="/login" element={<LoginPage />} />
