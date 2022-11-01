@@ -1,7 +1,5 @@
 import "./ClassesDisplay.css";
 import classes from "../../database/raw/classes.json";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
 import { relevancy } from "../../functions/sorter";
 import { useNavigate } from "react-router";
 import { Class, MyClasses } from "../../database/models";

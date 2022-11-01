@@ -1,6 +1,5 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import { Class } from "../database/models";
 
 type Props = {
   crn: string;
@@ -22,6 +21,7 @@ const ClassCard = (props: Props) => {
 
         border: props.isMyClass ? "2px solid gold" : "",
       }}
+      className="class-card"
       key={props.crn}
     >
       {/* <Card.Img variant="top" src="holder.js/100px180" /> */}

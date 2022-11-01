@@ -29,3 +29,11 @@
   display: flex;
   justify-content: space-around;
 }
+
+.class-card .button-container {
+  width: 100%;
+  text-align: center;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: space-around;
+}

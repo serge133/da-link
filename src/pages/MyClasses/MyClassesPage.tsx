@@ -1,4 +1,4 @@
-import { onValue, ref } from "firebase/database";
+import { onValue, ref, remove } from "firebase/database";
 import { useEffect, useState } from "react";
 import ClassCard from "../../Components/ClassCard";
 import NavigationBar from "../../Components/Navbar";
@@ -12,7 +12,7 @@ import { useNavigate } from "react-router";
 type Props = {};
 
 const MyClassesPage = (props: Props) => {
-  const [myClasses, setMyClasses] = useState<Class[]>();
+  const [myClasses, setMyClasses] = useState<MyClasses>({});
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ const MyClassesPage = (props: Props) => {
       const data: { [crn: string]: Class } = snapshot.val();
 
       if (data) {
-        setMyClasses(Object.values(data));
+        setMyClasses(data);
       }
     });
   }, [user]);
@@ -33,12 +33,24 @@ const MyClassesPage = (props: Props) => {
     navigate(url);
   };
 
+  const removeMyClass = (c: Class) => {
+    const myClassesRef = ref(
+      database,
+      `/users/${user?.uid}/myClasses/${c.crn}`
+    );
+
+    const copyMyClasses = { ...myClasses };
+    delete copyMyClasses[c.crn];
+    setMyClasses((prevState) => copyMyClasses);
+    remove(myClassesRef);
+  };
+
   return (
     <AuthWrapper>
       <div className="App my-classes-page">
         <NavigationBar />
         {myClasses &&
-          myClasses.map((c) => (
+          Object.values(myClasses).map((c) => (
             <ClassCard
               crn={c.crn}
               key={c.crn}
@@ -46,7 +58,7 @@ const MyClassesPage = (props: Props) => {
               classStatus={c.classStatus}
               isMyClass={true}
               professor={c.professor}
-              handleClickJoin={() => {}}
+              handleClickJoin={() => removeMyClass(c)}
               handleDetailsClick={() => openClass(c)}
             />
           ))}

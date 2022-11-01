@@ -17,7 +17,7 @@ export type MyClass = {
   crn: string;
   department: string;
 };
-export type MyClasses = { [crn: string]: MyClass };
+export type MyClasses = { [crn: string]: Class };
 
 export type Class = {
   crn: string;
@@ -28,6 +28,7 @@ export type Class = {
   times: string;
   professor: string;
   type: string;
+  department?: string;
 };
 
 // Display name is {firstName} {lastName}
