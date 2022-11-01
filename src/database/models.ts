@@ -57,8 +57,12 @@ export type StudyGroupVote = {
   [crn: string]: true;
 };
 
+export type StudygroupPerson = {
+  uid: string;
+  displayName: string;
+};
 export type StudygroupPeopleType = {
-  [uid: string]: true;
+  [uid: string]: StudygroupPerson;
 };
 
 export type StudygroupPendingInvites = {
@@ -80,6 +84,7 @@ export type StudyGroupType = {
 
 export type JoinStudygroupGroupNotification = {
   uid: string;
+  displayName: string;
   message: string;
   department: string;
   crn: string;

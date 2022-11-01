@@ -8,6 +8,7 @@ import database from "../../database/firebase";
 import {
   JoinStudygroupGroupNotification,
   StudygroupPeopleType,
+  StudygroupPerson,
 } from "../../database/models";
 import "./NotificationPage.css";
 
@@ -21,19 +22,20 @@ const NotificationPage = () => {
     remove(notificationRef);
     // removeNotifState(n.uid);
 
-    const studygroupPeopleRef = ref(
+    const inviteRef = ref(
       database,
-      `/studygroups/${n.crn}/${n.studygroupID}/people`
+      `/studygroups/${n.crn}/${n.studygroupID}/people/${n.uid}`
     );
     const studygroupPendingInviteRef = ref(
       database,
       `/studygroups/${n.crn}/${n.studygroupID}/pendingInvites/${n.uid}`
     );
 
-    const newPerson: StudygroupPeopleType = {
-      [n.uid]: true,
+    const newPerson: StudygroupPerson = {
+      uid: n.uid,
+      displayName: n.displayName,
     };
-    update(studygroupPeopleRef, newPerson);
+    update(inviteRef, newPerson);
     remove(studygroupPendingInviteRef);
   };
 
@@ -59,12 +61,11 @@ const NotificationPage = () => {
         <NavigationBar goBack="/app" />
         {user?.notifications &&
           user.notifications.map((noti) => (
-            <div className="notification-container">
-              <Alert
-                className="notification"
-                key={`${noti.studygroupID}-${noti.uid}`}
-                variant="primary"
-              >
+            <div
+              className="notification-container"
+              key={`${noti.studygroupID}-${noti.uid}`}
+            >
+              <Alert className="notification" variant="primary">
                 {noti.message}
                 <Button variant="link" onClick={() => onAcceptPerson(noti)}>
                   Accept

@@ -2,7 +2,6 @@ import { createRef, useEffect, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useNavigate, useParams } from "react-router";
 import NavigationBar from "../../Components/Navbar";
-import { Class } from "../../Containers/ClassesDisplay/ClassesDisplay";
 import classes from "../../database/raw/classes.json";
 import useAuth, { AuthWrapper } from "../../Contexts/useAuth";
 import CreateStudyGroupForm from "../../Containers/CreateStudyGroupForm";
@@ -12,6 +11,7 @@ import { uuidv4 } from "@firebase/util";
 import Studygroups from "../../Containers/Studygroups/Studygroups";
 import ErrorHandler from "../../Containers/ErrorHandler/ErrorHandler";
 import {
+  Class,
   JoinStudygroupGroupNotification,
   MyStudyGroups,
   StudyGroupType,
@@ -81,7 +81,16 @@ const ClassPage = (props: Props) => {
       id: studyGroupID,
       author: user.uid,
       name: studygroupNameRef.current.value,
-      people: { [user.uid]: true },
+      likes: {},
+      dislikes: {},
+      workhardVotes: {},
+      socializeVotes: {},
+      people: {
+        [user.uid]: {
+          displayName: `${user.firstName} ${user.lastName}`,
+          uid: user.uid,
+        },
+      },
     };
     // An author is added
     set(studyGroupRef, studygroup);
@@ -122,6 +131,7 @@ const ClassPage = (props: Props) => {
     );
     const notification: JoinStudygroupGroupNotification = {
       uid: user.uid,
+      displayName: `${user?.firstName} ${user?.lastName}`,
       message: `${user.firstName} ${user.lastName} Would like to join your Studygroup ${studygroup.name}`,
       department,
       crn,

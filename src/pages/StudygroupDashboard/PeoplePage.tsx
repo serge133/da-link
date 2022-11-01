@@ -58,8 +58,8 @@ const PeoplePage = (props: Props) => {
           allowedAccessToPage={belongsInStudyGroup}
         >
           <h1>Hi this is the People page! </h1>
-          {Object.keys(studygroup.people).map((person) => (
-            <h1 key={person}>{person}</h1>
+          {Object.values(studygroup.people).map((person) => (
+            <h1 key={person.uid}>{person.displayName}</h1>
           ))}
         </StudygroupDashboardContainer>
       </div>
