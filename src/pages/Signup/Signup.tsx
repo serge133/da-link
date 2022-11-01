@@ -9,7 +9,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 // import app from "../../database/firebase";
 import { Navigate, useNavigate } from "react-router-dom";
 import useAuth from "../../Contexts/useAuth";
-import Logo from "../../Components/Logo";
+import Logo from "../../Components/Logo/Logo";
 
 type SignupProps = {};
 
@@ -49,10 +49,11 @@ const SignupPage = (props: SignupProps) => {
   return (
     <div className="signup-page">
       <Card className="login-card">
-        <div className="logo-container">
+        {/* <div className="logo-container">
           <img src={DALogo} />
           <Logo height={50} />
-        </div>
+        </div> */}
+        <Logo height={40} />
         <Form>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email Address</Form.Label>

@@ -43,10 +43,10 @@ const ClassCard = (props: Props) => {
           variant={props.isMyClass ? "warning" : "secondary"}
           onClick={props.handleClickJoin}
         >
-          {props.isMyClass ? "Joined" : "Join"}
+          {props.isMyClass ? "Remove" : "Join"}
         </Button>
       </div>
-      <Card.Footer>20 Students 4 Groups</Card.Footer>
+      {/* <Card.Footer>20 Students 4 Groups</Card.Footer> */}
     </Card>
   );
 };

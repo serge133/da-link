@@ -73,6 +73,7 @@ export type StudyGroupType = {
   workhardVotes: StudyGroupVote;
   socializeVotes: StudyGroupVote;
   welcomeMessage?: string;
+  discord?: string;
   people: StudygroupPeopleType;
   pendingInvites?: StudygroupPendingInvites;
 };

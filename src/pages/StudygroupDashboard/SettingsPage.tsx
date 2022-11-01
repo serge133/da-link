@@ -22,6 +22,8 @@ const EMPTY_STUDYGROUP = {
   workhardVotes: {},
   socializeVotes: {},
   people: {},
+  department: "",
+  discord: "",
 };
 
 const SettingsPage = (props: Props) => {
@@ -34,7 +36,7 @@ const SettingsPage = (props: Props) => {
   const [saved, setSaved] = useState(true);
 
   const isOwner = user?.uid === studygroup.author;
-  const belongsInStudyGroup = user?.uid ? user.uid in studygroup.people : false;
+  // const belongsInStudyGroup = user?.uid ? user.uid in studygroup.people : false;
 
   // Fetches once
   useEffect(() => {
@@ -100,7 +102,7 @@ const SettingsPage = (props: Props) => {
                     onChange={handleChange}
                   />
                 </InputGroup>
-                <InputGroup>
+                <InputGroup className="mb-3">
                   <InputGroup.Text>
                     <div className="textarea-control">Welcome Message</div>
                   </InputGroup.Text>
@@ -110,6 +112,19 @@ const SettingsPage = (props: Props) => {
                     onChange={handleChange}
                     value={studygroup.welcomeMessage}
                     aria-label="With textarea"
+                  />
+                </InputGroup>
+                <InputGroup className="mb-3">
+                  <InputGroup.Text id="sg-discord-link">
+                    Discord Link (optional)
+                  </InputGroup.Text>
+                  <Form.Control
+                    placeholder="Discord Link"
+                    aria-label="Discord Link"
+                    aria-describedby="sg-discord"
+                    name="discord"
+                    value={studygroup.discord}
+                    onChange={handleChange}
                   />
                 </InputGroup>
               </div>

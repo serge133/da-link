@@ -6,10 +6,10 @@ import ClassSearch from "../../Containers/ClassSearch/ClassSearch";
 import ClassesDisplay from "../../Containers/ClassesDisplay/ClassesDisplay";
 import { useParams } from "react-router";
 import NavigationBar from "../../Components/Navbar";
-import { get_student } from "../../database/actions";
 import { onValue, ref, remove, set } from "firebase/database";
 import database from "../../database/firebase";
-import { Class, MyClass, MyClasses } from "../../database/models";
+import { Class, MyClasses } from "../../database/models";
+import Logo from "../../Components/Logo/Logo";
 
 const Main = () => {
   const { department, search } = useParams();
@@ -39,7 +39,7 @@ const Main = () => {
 
   useEffect(() => {
     if (user) {
-      const studentRef = get_student(user?.uid);
+      const studentRef = ref(database, `/users/${user.uid}`);
       onValue(studentRef, (snapshot) => {
         const data = snapshot.val();
         if (data) {

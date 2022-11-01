@@ -12,13 +12,15 @@
   border: 1px solid lightgrey;
 }
 .searchable-text-container ul {
-  margin: 0;
+  margin: 10px 0 0 0;
   padding-inline-start: 0;
   list-style: none;
   border: 0.5px solid lightgrey;
   border-radius: 7px;
-  padding: 3px;
+  /* padding: 3px; */
   text-align: center;
+  max-height: 150px;
+  overflow-y: auto;
 }
 
 .searchable-text-container ul li {

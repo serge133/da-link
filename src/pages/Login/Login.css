@@ -7,18 +7,3 @@
   padding: 30px;
   text-align: left;
 }
-
-.login-card .logo-container {
-  width: 100%;
-  text-align: center;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-.login-card .logo-container img {
-  height: 70px;
-
-  /* margin: 0 auto; */
-}

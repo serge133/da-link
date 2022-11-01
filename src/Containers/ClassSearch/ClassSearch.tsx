@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import SearchableTextField from "../../Components/SearchableTextField/SearchableTextField";
 import "./ClassSearch.css";
 import { DEPARTMENTS } from "../../database/schoolData";
+import Logo from "../../Components/Logo/Logo";
 
 type ClassSearchProps = {
   department: string;
@@ -15,6 +16,7 @@ type ClassSearchProps = {
 const ClassSearch = (props: ClassSearchProps) => {
   return (
     <Card className="class-search-card">
+      <Logo height={40} />
       <Form>
         <Form.Group className="mb-3">
           <Form.Label>Department (Required)</Form.Label>
