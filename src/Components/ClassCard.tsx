@@ -37,7 +37,7 @@ const ClassCard = (props: Props) => {
       </Card.Body>
       <div className="button-container">
         <Button variant="primary" onClick={props.handleDetailsClick}>
-          Details
+          Open
         </Button>
         <Button
           variant={props.isMyClass ? "warning" : "secondary"}
