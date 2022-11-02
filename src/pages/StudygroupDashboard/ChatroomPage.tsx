@@ -37,8 +37,8 @@ const ChatroomPage = () => {
 
   const bottomRef = createRef<HTMLDivElement>();
 
-  const isOwner = user?.uid === studygroup.author;
-  const belongsInStudyGroup = user?.uid ? user.uid in studygroup.people : false;
+  const isOwner = user.uid === studygroup.author;
+  const belongsInStudyGroup = user.uid in studygroup.people;
 
   // Fetches once
   useEffect(() => {
@@ -73,7 +73,6 @@ const ChatroomPage = () => {
 
   const onSendMessage = (e: Event) => {
     e.preventDefault();
-    if (!user) return;
     if (!messageText) return;
     const timestamp = Date.now();
     // const tempId = uuidv4();
@@ -82,12 +81,12 @@ const ChatroomPage = () => {
       `/messages/studygroups/${crn}/${studygroupID}/${timestamp}`
     );
 
-    const displayName: string = user?.firstName
+    const displayName: string = user.firstName
       ? `${user.firstName} ${user.lastName}`
       : "Annonymous";
 
     const newMessage: Message = {
-      uid: user?.uid,
+      uid: user.uid,
       text: messageText,
       timestamp: timestamp,
       displayName,
@@ -111,7 +110,7 @@ const ChatroomPage = () => {
   return (
     <AuthWrapper>
       <div className="App studygroup-dashboard">
-        <NavigationBar goBack={`/class/${crn}/${department}`} />
+        <NavigationBar />
         <StudygroupDashboardContainer
           currentPage="chatroom"
           crn={crn}
@@ -125,7 +124,7 @@ const ChatroomPage = () => {
               {messages.map((message, i) => (
                 <div
                   key={message.timestamp}
-                  className={message.uid === user?.uid ? "mine" : "yours"}
+                  className={message.uid === user.uid ? "mine" : "yours"}
                 >
                   {/* <span className="text">{message.text}</span> */}
                   <div className="message">{message.text}</div>

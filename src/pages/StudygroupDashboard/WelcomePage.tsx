@@ -39,8 +39,8 @@ const WelcomePage = (props: Props) => {
   const [studygroup, setStudygroup] =
     useState<StudyGroupType>(EMPTY_STUDYGROUP);
 
-  const isOwner = user?.uid === studygroup.author;
-  const belongsInStudyGroup = user?.uid ? user.uid in studygroup.people : false;
+  const isOwner = user.uid === studygroup.author;
+  const belongsInStudyGroup = user.uid in studygroup.people;
 
   // Fetches once
   useEffect(() => {
@@ -67,7 +67,7 @@ const WelcomePage = (props: Props) => {
   return (
     <AuthWrapper>
       <div className="App studygroup-dashboard">
-        <NavigationBar goBack={`/class/${crn}/${department}`} />
+        <NavigationBar />
         <StudygroupDashboardContainer
           currentPage="welcome"
           crn={crn}

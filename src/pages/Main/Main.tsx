@@ -51,10 +51,7 @@ const Main = () => {
 
   const toggleMyClass = (c: Class) => {
     if (!form.department) return;
-    const myClassesRef = ref(
-      database,
-      `/users/${user?.uid}/myClasses/${c.crn}`
-    );
+    const myClassesRef = ref(database, `/users/${user.uid}/myClasses/${c.crn}`);
 
     if (c.crn in me.myClasses) {
       const copyMyClasses = { ...me.myClasses };

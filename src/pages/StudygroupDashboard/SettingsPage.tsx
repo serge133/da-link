@@ -35,8 +35,7 @@ const SettingsPage = (props: Props) => {
 
   const [saved, setSaved] = useState(true);
 
-  const isOwner = user?.uid === studygroup.author;
-  // const belongsInStudyGroup = user?.uid ? user.uid in studygroup.people : false;
+  const isOwner = user.uid === studygroup.author;
 
   // Fetches once
   useEffect(() => {
@@ -72,7 +71,7 @@ const SettingsPage = (props: Props) => {
   return (
     <AuthWrapper>
       <div className="App studygroup-dashboard">
-        <NavigationBar goBack={`/class/${crn}/${department}`} />
+        <NavigationBar />
         <StudygroupDashboardContainer
           currentPage="settings"
           crn={crn}

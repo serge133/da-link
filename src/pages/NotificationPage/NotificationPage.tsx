@@ -1,13 +1,11 @@
 import { ref, remove, update } from "firebase/database";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
-import ListGroup from "react-bootstrap/ListGroup";
 import NavigationBar from "../../Components/Navbar";
 import useAuth, { AuthWrapper } from "../../Contexts/useAuth";
 import database from "../../database/firebase";
 import {
   JoinStudygroupGroupNotification,
-  StudygroupPeopleType,
   StudygroupPerson,
 } from "../../database/models";
 import "./NotificationPage.css";
@@ -17,7 +15,7 @@ const NotificationPage = () => {
   const onAcceptPerson = (n: JoinStudygroupGroupNotification) => {
     const notificationRef = ref(
       database,
-      `/users/${user?.uid}/notifications/${n.uid}/${n.studygroupID}`
+      `/users/${user.uid}/notifications/${n.uid}/${n.studygroupID}`
     );
     remove(notificationRef);
     // removeNotifState(n.uid);
@@ -42,7 +40,7 @@ const NotificationPage = () => {
   const onDeclinePerson = (n: JoinStudygroupGroupNotification) => {
     const notificationRef = ref(
       database,
-      `/users/${user?.uid}/notifications/${n.uid}/${n.studygroupID}`
+      `/users/${user.uid}/notifications/${n.uid}/${n.studygroupID}`
     );
     remove(notificationRef);
     // removeNotifState(n.uid);
@@ -58,8 +56,8 @@ const NotificationPage = () => {
   return (
     <AuthWrapper>
       <div className="App notification-page">
-        <NavigationBar goBack="/app" />
-        {user?.notifications &&
+        <NavigationBar />
+        {user.notifications.length > 0 ? (
           user.notifications.map((noti) => (
             <div
               className="notification-container"
@@ -75,7 +73,14 @@ const NotificationPage = () => {
                 </Button>
               </Alert>
             </div>
-          ))}
+          ))
+        ) : (
+          <h1
+            style={{ marginTop: 10, color: "lightgrey", fontFamily: "serif" }}
+          >
+            You have 0 Notifications
+          </h1>
+        )}
       </div>
     </AuthWrapper>
   );

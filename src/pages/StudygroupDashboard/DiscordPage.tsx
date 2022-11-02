@@ -24,8 +24,8 @@ const DiscordPage = () => {
     useState<StudyGroupType>(EMPTY_STUDYGROUP);
   const { user } = useAuth();
 
-  const isOwner = user?.uid === studygroup.author;
-  const belongsInStudyGroup = user?.uid ? user.uid in studygroup.people : false;
+  const isOwner = user.uid === studygroup.author;
+  const belongsInStudyGroup = user.uid in studygroup.people;
 
   useEffect(() => {
     const studygroupRef = ref(database, `/studygroups/${crn}/${studygroupID}`);
@@ -42,7 +42,7 @@ const DiscordPage = () => {
   return (
     <AuthWrapper>
       <div className="App studygroup-dashboard">
-        <NavigationBar goBack={`/class/${crn}/${department}`} />
+        <NavigationBar />
         <StudygroupDashboardContainer
           currentPage="discord"
           crn={crn}

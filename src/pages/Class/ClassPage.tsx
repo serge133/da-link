@@ -123,7 +123,7 @@ const ClassPage = (props: Props) => {
     console.log(
       "You do not belong in the group will send the owner a notification"
     );
-    if (!user || !department || !crn) return;
+    if (!department || !crn) return;
 
     const notificationRef = ref(
       database,
@@ -131,7 +131,7 @@ const ClassPage = (props: Props) => {
     );
     const notification: JoinStudygroupGroupNotification = {
       uid: user.uid,
-      displayName: `${user?.firstName} ${user?.lastName}`,
+      displayName: `${user.firstName} ${user.lastName}`,
       message: `${user.firstName} ${user.lastName} Would like to join your Studygroup ${studygroup.name}`,
       department,
       crn,
@@ -157,9 +157,7 @@ const ClassPage = (props: Props) => {
   return (
     <AuthWrapper>
       <div className="App class-page">
-        <NavigationBar
-          goBack={`/app/${department}${search ? "/" + search : ""}`}
-        />
+        <NavigationBar />
         {showStudyGroupModal && (
           <CreateStudyGroupForm
             show={showStudyGroupModal}

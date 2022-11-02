@@ -1,4 +1,4 @@
-import { Class } from "../Containers/ClassesDisplay/ClassesDisplay";
+import { Class } from "../database/models";
 
 export const relevancy = (
   arr: Class[],

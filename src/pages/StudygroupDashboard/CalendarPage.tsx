@@ -7,12 +7,11 @@ type Props = {};
 
 const CalendarPage = (props: Props) => {
   const { crn, department, studygroupID } = useParams();
-  // const belongsInStudyGroup = user?.uid ? user.uid in studygroup.people : false;
 
   return (
     <AuthWrapper>
       <div className="App studygroup-dashboard">
-        <NavigationBar goBack={`/class/${crn}/${department}`} />
+        <NavigationBar />
         <StudygroupDashboardContainer
           currentPage="calendar"
           crn={crn}

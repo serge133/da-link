@@ -46,11 +46,11 @@ export type MyStudyGroups = {
 export type User = {
   uid: string;
   refreshToken: string;
-  firstName?: string;
-  lastName?: string;
-  notifications?: UserNotification;
-  myClasses?: MyClasses;
-  studygroups?: MyStudyGroups;
+  firstName: string;
+  lastName: string;
+  notifications: UserNotification;
+  myClasses: MyClasses;
+  studygroups: MyStudyGroups;
 };
 
 export type StudyGroupVote = {

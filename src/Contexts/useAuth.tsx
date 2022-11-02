@@ -21,7 +21,7 @@ import database, { app } from "../database/firebase";
 import { JoinStudygroupGroupNotification, User } from "../database/models";
 
 interface AuthContextType {
-  user?: User;
+  user: User;
   loading: boolean;
   loadingInitial: boolean;
   authenticated: boolean;
@@ -46,12 +46,22 @@ type AuthError = {
   error: boolean;
 };
 
+const EMPTY_USER = {
+  uid: "",
+  refreshToken: "",
+  firstName: "",
+  lastName: "",
+  notifications: [],
+  myClasses: {},
+  studygroups: {},
+};
+
 export const AuthProvider = ({
   children,
 }: {
   children: ReactNode;
 }): JSX.Element => {
-  const [user, setUser] = useState<User | undefined>();
+  const [user, setUser] = useState<User>(EMPTY_USER);
   const [error, setError] = useState<AuthError>({
     message: "",
     code: "",
@@ -71,14 +81,15 @@ export const AuthProvider = ({
       if (!user) {
         setAuthenticated(false);
         setLoadingInitial(false);
-        setUser(undefined);
+        setUser(EMPTY_USER);
       } else {
         setAuthenticated(true);
         setLoadingInitial(false);
-        setUser({
+        setUser((prevState) => ({
+          ...prevState,
           uid: user.uid,
           refreshToken: user.refreshToken,
-        });
+        }));
         const userRef = ref(database, `/users/${user.uid}`);
         onValue(userRef, (snapshot) => {
           let data = snapshot.val();
@@ -105,10 +116,11 @@ export const AuthProvider = ({
       .then((userCredential) => {
         const user: FirebaseUser = userCredential.user;
         setAuthenticated(true);
-        setUser({
+        setUser((prevState) => ({
+          ...prevState,
           uid: user.uid,
           refreshToken: user.refreshToken,
-        });
+        }));
         const userRef = ref(database, `/users/${user.uid}`);
         onValue(userRef, (snapshot) => {
           const data: User = snapshot.val();
@@ -153,6 +165,7 @@ export const AuthProvider = ({
       .then((userCredential) => {
         const user: User = {
           ...userCredential.user,
+          ...EMPTY_USER,
           firstName,
           lastName,
         };
@@ -184,7 +197,7 @@ export const AuthProvider = ({
     const auth = getAuth();
     auth.signOut();
     setAuthenticated(false);
-    setUser(undefined);
+    setUser(EMPTY_USER);
   }
 
   // Make the provider update only when it should.

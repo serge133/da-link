@@ -28,8 +28,6 @@ const GroupCharacteristicsContainer = (props: Props) => {
 
   const setDislike = () => {
     if (!user) return;
-    // const [userStudyGroupRef, studygroupRef] = getRef(database);
-    // const likeRef = ref(database, `/studygroups/${crn}/${studygroupID}/likes/${user?.uid}`);
     const dislikeRef = ref(
       database,
       `/studygroups/${crn}/${studygroupID}/dislikes/${user.uid}`

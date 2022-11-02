@@ -1,4 +1,4 @@
-import rawClasses from "./raw/classes.json";
+// import rawClasses from "./raw/classes.json";
 
 export const DEPARTMENTS = [
   "ITAL",
@@ -85,4 +85,4 @@ export const DEPARTMENTS = [
   "READ",
 ];
 
-export const classes = rawClasses;
+// export const classes = rawClasses;

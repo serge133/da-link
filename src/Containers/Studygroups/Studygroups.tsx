@@ -63,16 +63,13 @@ const Studygroups = (props: Props) => {
       <Accordion defaultActiveKey="0">
         {props.studygroups.map((sg, i) => (
           <Studygroup
-            uid={user?.uid ? user.uid : ""}
+            uid={user.uid}
             index={i}
             isOwner={user?.uid === sg.author}
             pendingInvite={
-              sg.pendingInvites && user?.uid
-                ? user.uid in sg.pendingInvites
-                : false
+              sg.pendingInvites ? user.uid in sg.pendingInvites : false
             }
             key={sg.id}
-            // goToDashboard={goToStudygroupDashboard}
             studygroup={sg}
             handleClick={props.handleClick}
           />
