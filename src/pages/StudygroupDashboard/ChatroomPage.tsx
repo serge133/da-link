@@ -1,5 +1,5 @@
 import { limitToLast, onValue, query, ref, set } from "firebase/database";
-import { createRef, useEffect, useState } from "react";
+import { createRef, MouseEventHandler, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import NavigationBar from "../../Components/Navbar";
 import StudygroupDashboardContainer from "../../Containers/StudygroupDashboardContainer/StudygroupDashboardContainer";
@@ -71,7 +71,9 @@ const ChatroomPage = () => {
     bottomRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const onSendMessage = (e: Event) => {
+  const onSendMessage = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     if (!messageText) return;
     const timestamp = Date.now();
