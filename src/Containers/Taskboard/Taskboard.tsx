@@ -83,13 +83,21 @@ function Taskboard(props: Props) {
     status,
     itemToDelete,
   }) =>
-    setItemsByStatus((current) =>
-      produce(current, (draft) => {
+    setItemsByStatus((current) => {
+      const newItems = produce(current, (draft) => {
         draft[status] = draft[status].filter(
           (item) => item.id !== itemToDelete.id
         );
-      })
-    );
+      });
+      const taskboardRef = ref(
+        database,
+        `/studygroups/${props.crn}/${props.studygroupID}/taskboard`
+      );
+
+      update(taskboardRef, newItems);
+
+      return newItems;
+    });
 
   const initialValues = useMemo<TaskboardItemFormValues>(
     () => ({
