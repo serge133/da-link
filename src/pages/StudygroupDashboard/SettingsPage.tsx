@@ -65,7 +65,6 @@ const SettingsPage = (props: Props) => {
     update(studygroupRef, studygroup);
 
     setSaved(true);
-    console.log("saved", studygroup.welcomeMessage);
   };
 
   return (

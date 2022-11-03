@@ -11,7 +11,7 @@ type Pages =
   | "welcome"
   | "chatroom"
   | "discord"
-  | "calendar"
+  | "taskboard"
   | "people"
   | "settings"
   | "none";
@@ -67,11 +67,11 @@ const StudygroupDashboardContainer = (props: Props) => {
           </ListGroup.Item>
           <ListGroup.Item
             as="li"
-            active={props.currentPage === "calendar"}
-            id="calendar"
+            active={props.currentPage === "taskboard"}
+            id="taskboard"
             onClick={handleNav}
           >
-            Calendar
+            Taskboard
           </ListGroup.Item>
           <ListGroup.Item
             as="li"

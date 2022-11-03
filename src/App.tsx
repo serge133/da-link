@@ -17,6 +17,7 @@ import PeoplePage from "./pages/StudygroupDashboard/PeoplePage";
 import SettingsPage from "./pages/StudygroupDashboard/SettingsPage";
 import NotificationPage from "./pages/NotificationPage/NotificationPage";
 import MyClassesPage from "./pages/MyClasses/MyClassesPage";
+import TaskboardPage from "./pages/StudygroupDashboard/TaskboardPage";
 
 function App() {
   return (
@@ -41,7 +42,7 @@ function App() {
             <Route path="welcome" element={<WelcomePage />} />
             <Route path="chatroom" element={<ChatroomPage />} />
             <Route path="discord" element={<DiscordPage />} />
-            <Route path="calendar" element={<CalendarPage />} />
+            <Route path="taskboard" element={<TaskboardPage />} />
             <Route path="people" element={<PeoplePage />} />
             <Route path="settings" element={<SettingsPage />} />
           </Route>
